@@ -12,9 +12,14 @@
         <input type="submit">
     </form>
 	<form class="toDoList" method="post" action="complete">
-		<?php foreach($data as $task){
-		    echo '<div class="task"><input type="checkbox" name="task' . $task['id'] . '">' . '<p>' . $task['text'] . '</p><p>' . $task['createdAt'] . '</p></div>';
-			} ?>
+		<?php
+        if ($data === []){
+            echo 'There are no incomplete tasks';
+        } else {
+	        foreach($data as $task) {
+		        echo '<div class="task"><input type="checkbox" name="task' . $task['id'] . '">' . '<p>' . $task['text'] . '</p><p>' . $task['createdAt'] . '</p></div>';
+	        }
+        } ?>
         <input type="submit">
 	</form>
 </main>

@@ -17,4 +17,6 @@ return function (App $app) {
 
 	$app->get('/complete', 'completedTasksController');
 	$app->post('/complete', 'markTaskCompleteController');
+
+	$app->post('/delete', 'markTaskDeletedController');
 };

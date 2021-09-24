@@ -13,12 +13,22 @@ class TaskModel
 
 	public function getCompletedTasks(): array
 	{
-		return $this->db->query('SELECT `id`, `text`, `createdAt`, `completedAt` FROM `tasks` WHERE `complete` = 1;')->fetchAll();
+		try {
+			$query = $this->db->query('SELECT `id`, `text`, `createdAt`, `completedAt` FROM `tasks` WHERE `complete` = 1 AND `deleted` = 0;');
+		} catch (\Exception $exception){
+			return [];
+		}
+		return $query->fetchAll();
 	}
 
 	public function getIncompleteTasks(): array
 	{
-		return $this->db->query('SELECT `id`, `text`, `createdAt` FROM `tasks` WHERE `complete` = 0;')->fetchAll();
+		try {
+			$query = $this->db->query('SELECT `id`, `text`, `createdAt` FROM `tasks` WHERE `complete` = 0 AND `deleted` = 0;');
+		} catch (\Exception $exception){
+			return [];
+		}
+		return $query->fetchAll();
 	}
 
 	public function insertNewTask(string $text)
@@ -30,6 +40,10 @@ class TaskModel
 
 	public function markTaskComplete(int $taskID)
 	{
-		$this->db->query('UPDATE tasks SET complete = 1 WHERE `id` = '. $taskID. ';');
+		$this->db->query('UPDATE tasks SET complete = 1, completedAt = CURRENT_TIMESTAMP WHERE `id` = '. $taskID. ';');
+	}
+
+	public function markTaskDeleted(int $taskID){
+		$this->db->query('UPDATE tasks SET deleted = 1, deletedAt = CURRENT_TIMESTAMP WHERE `id` = '. $taskID. ';');
 	}
 }
