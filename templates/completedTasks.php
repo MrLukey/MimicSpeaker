@@ -8,8 +8,13 @@
 <body>
 <main>
 	<div class="toDoList">
-		<?php foreach($data as $task){
-			echo '<div class="task"><p>' . $task['text'] . '</p><p>' . $task['createdAt'] . '</p></div>';
+		<?php
+        if ($data === []){
+            echo 'There are no completed tasks';
+        } else {
+            foreach($data as $task) {
+	            echo '<div class="task"><p>' . $task['text'] . '</p><p>' . $task['createdAt'] . '</p></div>';
+            }
 		} ?>
 	</div>
 </main>
