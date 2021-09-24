@@ -13,5 +13,6 @@ return function (App $app) {
     });
 
 	$app->get('/incomplete', 'incompleteTaskController');
+	$app->post('/incomplete', 'insertTaskController');
 
 };

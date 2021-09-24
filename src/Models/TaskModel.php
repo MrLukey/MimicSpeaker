@@ -20,4 +20,11 @@ class TaskModel
 	{
 		return $this->db->query('SELECT `id`, `text`, `createdAt` FROM `tasks` WHERE `complete` = 0;')->fetchAll();
 	}
+
+	public function insertNewTask(string $text)
+	{
+		$query = $this->db->prepare('INSERT INTO `tasks` (`text`) VALUES (:text);');
+		$query->bindParam(':text', $text);
+		$query->execute();
+	}
 }
