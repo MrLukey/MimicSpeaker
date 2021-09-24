@@ -34,8 +34,11 @@ return function (ContainerBuilder $containerBuilder) {
     };
 
 	$container['taskModel'] = DI\factory('App\Factories\TaskModelFactory');
-	$container['incompleteTaskController'] = DI\factory('App\Factories\IncompleteTaskControllerFactory');
+	$container['incompleteTasksController'] = DI\factory('App\Factories\IncompleteTasksControllerFactory');
+	$container['completedTasksController'] = DI\factory('App\Factories\CompletedTasksControllerFactory');
+
 	$container['insertTaskController'] = DI\factory('App\Factories\InsertTaskControllerFactory');
+	$container['markTaskCompleteController'] = DI\factory('App\Factories\MarkTaskCompleteControllerFactory');
 
     $containerBuilder->addDefinitions($container);
 };

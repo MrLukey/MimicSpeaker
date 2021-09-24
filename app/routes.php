@@ -12,7 +12,9 @@ return function (App $app) {
         return $renderer->render($response, "index.php", $args);
     });
 
-	$app->get('/incomplete', 'incompleteTaskController');
+	$app->get('/incomplete', 'incompleteTasksController');
 	$app->post('/incomplete', 'insertTaskController');
 
+	$app->get('/complete', 'completedTasksController');
+	$app->post('/complete', 'markTaskCompleteController');
 };

@@ -3,7 +3,7 @@
 namespace App\Controllers;
 use Psr\Container\ContainerInterface;
 
-class IncompleteTaskController
+class IncompleteTasksController
 {
 	private ContainerInterface $container;
 

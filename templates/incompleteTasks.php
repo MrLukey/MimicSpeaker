@@ -11,11 +11,12 @@
         <input type="text" name="taskText" placeholder="Enter new task...">
         <input type="submit">
     </form>
-	<div class="taskContainer">
+	<form class="toDoList" method="post" action="complete">
 		<?php foreach($data as $task){
 		    echo '<div class="task"><input type="checkbox" name="task' . $task['id'] . '">' . '<p>' . $task['text'] . '</p><p>' . $task['createdAt'] . '</p></div>';
 			} ?>
-	</div>
+        <input type="submit">
+	</form>
 </main>
 </body>
 </html>

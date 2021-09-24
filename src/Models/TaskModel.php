@@ -27,4 +27,9 @@ class TaskModel
 		$query->bindParam(':text', $text);
 		$query->execute();
 	}
+
+	public function markTaskComplete(int $taskID)
+	{
+		$this->db->query('UPDATE tasks SET complete = 1 WHERE `id` = '. $taskID. ';');
+	}
 }
