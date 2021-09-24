@@ -7,16 +7,18 @@
 </head>
 <body>
 <main>
-	<div class="toDoList">
+	<form class="toDoList" method="post" action="delete">
 		<?php
         if ($data === []){
             echo 'There are no completed tasks';
         } else {
             foreach($data as $task) {
-	            echo '<div class="task"><p>' . $task['text'] . '</p><p>' . $task['createdAt'] . '</p></div>';
+	            echo '<div class="task"><input type="checkbox" name="task' . $task['id'] . '"><p>' . $task['text']
+                    . '</p><p>' . $task['createdAt'] . '</p><p>' . $task['completedAt'] . '</p></div>';
             }
 		} ?>
-	</div>
+        <input type="submit" value="Delete Selected Tasks">
+	</form>
 </main>
 </body>
 </html>
