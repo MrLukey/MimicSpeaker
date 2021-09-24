@@ -33,5 +33,7 @@ return function (ContainerBuilder $containerBuilder) {
         return $renderer;
     };
 
+	$container['taskModel'] = DI\factory('App\Factories\TaskModelFactory');
+
     $containerBuilder->addDefinitions($container);
 };
