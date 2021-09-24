@@ -15,8 +15,11 @@ class TaskModel
 	{
 		try {
 			$query = $this->db->query('SELECT `id`, `text`, `createdAt`, `completedAt` FROM `tasks` WHERE `complete` = 1 AND `deleted` = 0;');
+			if ($query === false){
+				throw new \Exception('Unexpected error when accessing completed task data');
+			}
 		} catch (\Exception $exception){
-			return [];
+			return ['errorMessage' => $exception->getMessage()];
 		}
 		return $query->fetchAll();
 	}
@@ -25,8 +28,11 @@ class TaskModel
 	{
 		try {
 			$query = $this->db->query('SELECT `id`, `text`, `createdAt` FROM `tasks` WHERE `complete` = 0 AND `deleted` = 0;');
+			if ($query === false){
+				throw new \Exception('Unexpected error when accessing incomplete task data');
+			}
 		} catch (\Exception $exception){
-			return [];
+			return ['errorMessage' => $exception->getMessage()];
 		}
 		return $query->fetchAll();
 	}

@@ -15,6 +15,8 @@
 		<?php
         if ($data === []){
             echo 'There are no incomplete tasks';
+        } elseif (isset($data['errorMessage'])){
+	        echo $data['errorMessage'];
         } else {
 	        foreach($data as $task) {
 		        echo '<div class="task"><input type="checkbox" name="task' . $task['id'] . '">' . '<p>' . $task['text'] . '</p><p>' . $task['createdAt'] . '</p></div>';
