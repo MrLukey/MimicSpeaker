@@ -1,0 +1,12 @@
+.task {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: baseline;
+    font-size: 20px;
+}
+
+.taskContainer {
+    display: flex;
+    flex-flow: column nowrap;
+}
