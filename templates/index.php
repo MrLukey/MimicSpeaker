@@ -7,7 +7,7 @@
 </head>
 <body>
 <main>
-    <form class="toDoList" method="post" action="delete">
+    <form class="toDoList" method="post" action="edit">
 		<?php
 		if ($data === []){
 			echo 'You have no tasks on your todo list.';
@@ -17,7 +17,9 @@
 					. '</p><p>' . $task['createdAt'] . '</p><p>' . $task['completedAt'] . '</p></div>';
 			}
 		} ?>
-        <input type="submit" value="Delete">
+        <input type="submit" name="editTask" value="Complete">
+        <input type="submit" name="editTask" value="Delete">
+        <input type="submit" name="editTask" value="Recover">
     </form>
 </main>
 </body>

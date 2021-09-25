@@ -36,6 +36,8 @@ return function (ContainerBuilder $containerBuilder) {
 	$container['errorLoggerModel'] = DI\factory('App\Factories\ErrorLoggerModelFactory');
 
 	$container['allTasksController'] = DI\factory('App\Factories\AllTasksControllerFactory');
+	$container['editTasksController'] = DI\factory('App\Factories\EditTasksControllerFactory');
+
 	$container['incompleteTasksController'] = DI\factory('App\Factories\IncompleteTasksControllerFactory');
 	$container['completedTasksController'] = DI\factory('App\Factories\CompletedTasksControllerFactory');
 	$container['deletedTasksController'] = DI\factory('App\Factories\DeletedTasksControllerFactory');
