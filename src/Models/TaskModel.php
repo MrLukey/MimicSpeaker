@@ -26,7 +26,7 @@ class TaskModel
 
 	public function insertTask(string $text): ?array
 	{
-		$query = $this->db->prepare('INSERT INTO `tasks` (`text`) VALUES (:text);');
+		$query = $this->db->prepare('INSERT INTO `tasks` (`text`, `creationTime`) VALUES (:text, CURRENT_TIMESTAMP);');
 		$query->bindParam(':text', $text);
 		try {
 			$query->execute();
@@ -38,7 +38,7 @@ class TaskModel
 
 	public function markTaskComplete(int $taskID): ?array
 	{
-		$query = $this->db->prepare('UPDATE tasks SET complete = 1, creationTime = CURRENT_TIMESTAMP WHERE `id` = :taskID;');
+		$query = $this->db->prepare('UPDATE tasks SET complete = 1, completionTime = CURRENT_TIMESTAMP WHERE `id` = :taskID;');
 		$query->bindParam(':taskID', $taskID);
 		try {
 			$query->execute();
@@ -80,7 +80,7 @@ class TaskModel
 			$query->execute();
 			return null;
 		} catch (\PDOException $exception) {
-			return ['cause' => 'TaskModel->recoverDeletedTask()', 'exception' => $exception];
+			return ['cause' => 'TaskModel->markTaskNotDeleted()', 'exception' => $exception];
 		}
 	}
 
