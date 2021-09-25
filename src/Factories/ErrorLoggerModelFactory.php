@@ -6,7 +6,8 @@ class ErrorLoggerModelFactory
 {
 	public function __invoke(): ErrorLoggerModel
 	{
-		$logfile = 'testFile.txt';
-		return new ErrorLoggerModel($logfile);
+		$logfile = 'errorLogs.txt';
+		$dateTime = new \DateTime();
+		return new ErrorLoggerModel($logfile, $dateTime);
 	}
 }

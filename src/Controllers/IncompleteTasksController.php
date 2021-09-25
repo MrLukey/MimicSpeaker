@@ -19,7 +19,7 @@ class IncompleteTasksController
 		$taskData = $taskModel->getIncompleteTasks();
 		if (isset($taskData['exception'])){
 			$errorLogger = $this->container->get('errorLoggerModel');
-			$errorLogger->logDatabaseError($taskData['cause'], $taskData['exception'], new \DateTime());
+			$errorLogger->logDatabaseError($taskData['cause'], $taskData['exception']);
 		}
 		return $renderer->render($response, 'incompleteTasks.php', $taskData);
 	}

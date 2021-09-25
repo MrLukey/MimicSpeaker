@@ -24,7 +24,7 @@ class TaskModel
 
 	public function getIncompleteTasks(): array
 	{
-		$query = $this->db->query('SELECT `id`, `text`, `createdAt` FROM `tasks` WHERE `complete` = 0 AND `deleted` = 0;');
+		$query = $this->db->prepare('SELECT `id`, `text`, `createdAt` FROM `tasks` WHERE `complete` = 0 AND `deleted` = 0;');
 		try {
 			$query->execute();
 			return $query->fetchAll();

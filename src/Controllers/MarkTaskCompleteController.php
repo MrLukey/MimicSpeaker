@@ -22,7 +22,7 @@ class MarkTaskCompleteController
 			$taskID = intval(mb_substr($key, 4)); // extract ID from task{ID}="on" checkbox inputs
 			$errorData = $taskModel->markTaskComplete($taskID);
 			if ($errorData){
-				$errorLogger->logDatabaseError($errorData['cause'], $errorData['exception'], new \DateTime());
+				$errorLogger->logDatabaseError($errorData['cause'], $errorData['exception']);
 				$error = true;
 			}
 		}
