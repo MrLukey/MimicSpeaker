@@ -1,3 +1,9 @@
+<?php
+
+use App\ViewHelpers\TaskViewHelper;
+
+?>
+
 <!DOCTYPE html>
 <html lang="en-gb">
 <head>
@@ -17,8 +23,15 @@
 			echo 'You have no tasks on your todo list.';
 		} elseif (!isset($data['exception'])){
 			foreach($data as $task) {
-				echo '<div class="task"><input type="checkbox" name="task' . $task['id'] . '"><p>' . $task['text']
-					. '</p><p>' . $task['createdAt'] . '</p><p>' . $task['completedAt'] . '</p></div>';
+				if ($task->isDeleted()){
+				    echo TaskViewHelper::createDeletedTaskListing($task);
+                } elseif ($task->getDeletedAt() !== 'N/A'){
+				    echo TaskViewHelper::createRecoveredTaskListing($task);
+                } elseif ($task->isComplete()){
+				    echo TaskViewHelper::createCompletedTaskListing($task);
+                } else {
+				    echo TaskViewHelper::createIncompleteTaskListing($task);
+                }
 			}
 		} ?>
         <input type="submit" name="editFunction" value="Complete">

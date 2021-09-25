@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+use App\Entities\TaskEntity;
 
 class TaskModel
 {
@@ -14,6 +15,7 @@ class TaskModel
 	public function getAllTasks(): array
 	{
 		$query = $this->db->prepare('SELECT `id`, `text`, `createdAt`, `complete`, `completedAt`, `deleted`, `deletedAt` FROM  `tasks`');
+		$query->setFetchMode(\PDO::FETCH_CLASS, TaskEntity::class);
 		try {
 			$query->execute();
 			return $query->fetchAll();
