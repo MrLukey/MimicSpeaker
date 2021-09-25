@@ -1,9 +1,8 @@
 <?php
-
 namespace App\Controllers;
 use Psr\Container\ContainerInterface;
 
-class CompletedTasksController
+class AllTasksController
 {
 	private ContainerInterface $container;
 
@@ -16,11 +15,11 @@ class CompletedTasksController
 	{
 		$renderer = $this->container->get('renderer');
 		$taskModel = $this->container->get('taskModel');
-		$taskData = $taskModel->getCompletedTasks();
+		$taskData = $taskModel->getAllTasks();
 		if (isset($taskData['exception'])){
 			$errorLogger = $this->container->get('errorLoggerModel');
 			$errorLogger->logDatabaseError($taskData['cause'], $taskData['exception']);
 		}
-		return $renderer->render($response, 'completedTasks.php', $taskData);
+		return $renderer->render($response, 'index.php', $taskData);
 	}
 }

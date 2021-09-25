@@ -20,9 +20,9 @@ class InsertTaskController
 		if ($errorData) {
 			$errorLogger = $this->container->get('errorLoggerModel');
 			$errorLogger->logDatabaseError($errorData['cause'], $errorData['exception']);
-			return $response->withStatus(500)->withHeader('Location', './incomplete');
+			return $response->withStatus(500)->withHeader('Location', './');
 		} else {
-			return $response->withStatus(200)->withHeader('Location', './incomplete');
+			return $response->withStatus(200)->withHeader('Location', './');
 		}
 	}
 }
