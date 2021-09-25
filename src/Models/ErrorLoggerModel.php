@@ -9,7 +9,7 @@ class ErrorLoggerModel
 
 	public function __construct(string $logfile, \DateTime $dateTime)
 	{
-		$this->logfile = '../logs/ErrorLogs/' . $logfile;
+		$this->logfile = '../logs/' . $logfile;
 		$this->dateTime = $dateTime;
 		if (!file_exists($this->logfile)){
 			file_put_contents($this->logfile, "ToDo App Error Logging\n");

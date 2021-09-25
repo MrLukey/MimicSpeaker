@@ -29,8 +29,7 @@ return function (ContainerBuilder $containerBuilder) {
 
     $container['renderer'] = function (ContainerInterface $c) {
         $settings = $c->get('settings')['renderer'];
-        $renderer = new PhpRenderer($settings['template_path']);
-        return $renderer;
+        return new PhpRenderer($settings['template_path']);
     };
 
 	$container['taskModel'] = DI\factory('App\Factories\TaskModelFactory');

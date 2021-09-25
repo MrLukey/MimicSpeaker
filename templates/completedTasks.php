@@ -17,7 +17,7 @@
                     . '</p><p>' . $task['createdAt'] . '</p><p>' . $task['completedAt'] . '</p></div>';
             }
 		} ?>
-        <input type="submit" value="Delete Selected Tasks">
+        <input type="submit" value="Delete">
 	</form>
 </main>
 </body>
