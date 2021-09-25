@@ -17,8 +17,7 @@
 			echo 'You have no tasks on your todo list.';
 		} elseif (!isset($data['exception'])){
 			foreach($data as $task) {
-				echo '<div class="task"><input type="checkbox" name="task' . $task['id'] . '"><p>' . $task['text']
-					. '</p><p>' . $task['createdAt'] . '</p><p>' . $task['completedAt'] . '</p></div>';
+				echo \App\ViewHelpers\TaskViewHelper::createTaskListing($task);
 			}
 		} ?>
         <input type="submit" name="editFunction" value="Complete">
