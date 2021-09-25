@@ -11,6 +11,17 @@ class TaskModel
 		$this->db = $db;
 	}
 
+	public function getAllTasks(): array
+	{
+		$query = $this->db->prepare('SELECT `id`, `text`, `createdAt`, `complete`, `completedAt`, `deleted`, `deletedAt` FROM  `tasks`');
+		try {
+			$query->execute();
+			return $query->fetchAll();
+		} catch (\PDOException $exception) {
+			return ['cause' => 'TaskModel->getAllTasks()', 'exception' => $exception];
+		}
+	}
+
 	public function getIncompleteTasks(): array
 	{
 		$query = $this->db->prepare('SELECT `id`, `text`, `createdAt` FROM `tasks` WHERE `complete` = 0 AND `deleted` = 0;');

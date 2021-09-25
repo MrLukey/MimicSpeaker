@@ -1,33 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-gb">
 <head>
     <meta charset="utf-8"/>
-    <title>Slim 4</title>
-    <link href='//fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
-    <style>
-        body {
-            margin: 50px 0 0 0;
-            padding: 0;
-            width: 100%;
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-            text-align: center;
-            color: #aaa;
-            font-size: 18px;
-        }
-
-        h1 {
-            color: #719e40;
-            letter-spacing: -3px;
-            font-family: 'Lato', sans-serif;
-            font-size: 100px;
-            font-weight: 200;
-            margin-bottom: 0;
-        }
-    </style>
+    <link type="text/css" rel="stylesheet" href="/css/taskStyling.css">
+    <title>Completed Tasks</title>
 </head>
 <body>
-<h1>Slim</h1>
-<div>a microframework for PHP</div>
-    <p>Try <a href="http://www.slimframework.com">SlimFramework</a></p>
+<main>
+    <form class="toDoList" method="post" action="delete">
+		<?php
+		if ($data === []){
+			echo 'You have no tasks on your todo list.';
+		} elseif (!isset($data['exception'])){
+			foreach($data as $task) {
+				echo '<div class="task"><input type="checkbox" name="task' . $task['id'] . '"><p>' . $task['text']
+					. '</p><p>' . $task['createdAt'] . '</p><p>' . $task['completedAt'] . '</p></div>';
+			}
+		} ?>
+        <input type="submit" value="Delete">
+    </form>
+</main>
 </body>
 </html>
