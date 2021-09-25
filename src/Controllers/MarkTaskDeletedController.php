@@ -17,8 +17,8 @@ class MarkTaskDeletedController
 		$taskModel = $this->container->get('taskModel');
 		$errorLogger = $this->container->get('errorLoggerModel');
 		$error = false;
-		$tasksToDelete = $request->getParsedBody();
-		foreach ($tasksToDelete as $key => $value){
+		$tasksToMarkDeleted = $request->getParsedBody();
+		foreach ($tasksToMarkDeleted as $key => $value){
 			$taskID = intval(mb_substr($key, 4)); // extract ID from task{ID}="on" checkbox inputs
 			$errorData = $taskModel->markTaskDeleted($taskID);
 			if ($errorData){

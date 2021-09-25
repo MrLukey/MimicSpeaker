@@ -17,10 +17,8 @@ class MarkTaskNotDeletedController
 		$taskModel = $this->container->get('taskModel');
 		$errorLogger = $this->container->get('errorLoggerModel');
 		$error = false;
-		$completedTasks = $request->getParsedBody();
-		$errorLogger->logJsonData($completedTasks);
-		$errorLogger->logString('test');
-		foreach ($completedTasks as $key => $value){
+		$tasksToMarkNotDeleted = $request->getParsedBody();
+		foreach ($tasksToMarkNotDeleted as $key => $value){
 			$taskID = intval(mb_substr($key, 4)); // extract ID from task{ID}="on" checkbox inputs
 			$errorData = $taskModel->markTaskNotDeleted($taskID);
 			if ($errorData){

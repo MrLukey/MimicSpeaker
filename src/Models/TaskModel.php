@@ -14,7 +14,7 @@ class TaskModel
 
 	public function getAllTasks(): array
 	{
-		$query = $this->db->prepare('SELECT `id`, `text`, `createdAt`, `complete`, `completedAt`, `deleted`, `deletedAt` FROM  `tasks`');
+		$query = $this->db->prepare('SELECT `id`, `text`, `creationTime`, `complete`, `completionTime`, `deleted`, `deletionTime` FROM  `tasks` ORDER BY complete, deleted;');
 		$query->setFetchMode(\PDO::FETCH_CLASS, TaskEntity::class);
 		try {
 			$query->execute();
@@ -38,7 +38,7 @@ class TaskModel
 
 	public function markTaskComplete(int $taskID): ?array
 	{
-		$query = $this->db->prepare('UPDATE tasks SET complete = 1, completedAt = CURRENT_TIMESTAMP WHERE `id` = :taskID;');
+		$query = $this->db->prepare('UPDATE tasks SET complete = 1, creationTime = CURRENT_TIMESTAMP WHERE `id` = :taskID;');
 		$query->bindParam(':taskID', $taskID);
 		try {
 			$query->execute();
@@ -50,7 +50,7 @@ class TaskModel
 
 	public function markTaskIncomplete(int $taskID): ?array
 	{
-		$query = $this->db->prepare("UPDATE tasks SET complete = 0, completedAt = 'N/A' WHERE `id` = :taskID;");
+		$query = $this->db->prepare("UPDATE tasks SET complete = 0, completionTime = 'N/A' WHERE `id` = :taskID;");
 		$query->bindParam(':taskID', $taskID);
 		try {
 			$query->execute();
@@ -62,7 +62,7 @@ class TaskModel
 
 	public function markTaskDeleted(int $taskID): ?array
 	{
-		$query = $this->db->prepare('UPDATE tasks SET deleted = 1, deletedAt = CURRENT_TIMESTAMP WHERE `id` = :taskID;');
+		$query = $this->db->prepare('UPDATE tasks SET deleted = 1, deletionTime = CURRENT_TIMESTAMP WHERE `id` = :taskID;');
 		$query->bindParam(':taskID', $taskID);
 		try {
 			$query->execute();

@@ -24,8 +24,6 @@ use App\ViewHelpers\TaskViewHelper;
 			foreach($data as $task) {
 				if ($task->isDeleted()){
 				    echo TaskViewHelper::createDeletedTaskListing($task);
-                } elseif ($task->getDeletedAt() !== 'N/A'){
-				    echo TaskViewHelper::createRecoveredTaskListing($task);
                 } elseif ($task->isComplete()){
 				    echo TaskViewHelper::createCompletedTaskListing($task);
                 } else {

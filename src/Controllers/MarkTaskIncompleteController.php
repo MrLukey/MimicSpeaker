@@ -17,11 +17,9 @@ class MarkTaskIncompleteController
 		$taskModel = $this->container->get('taskModel');
 		$errorLogger = $this->container->get('errorLoggerModel');
 		$error = false;
-		$completedTasks = $request->getParsedBody();
-		$errorLogger->logJsonData($completedTasks);
-		$errorLogger->logString('test');
-		foreach ($completedTasks as $key => $value){
-			$taskID = intval(mb_substr($key, 4)); // extract ID from task{ID}="on" checkbox inputs
+		$tasksToMarkIncomplete = $request->getParsedBody();
+		foreach ($tasksToMarkIncomplete as $key => $value){
+			$taskID = intval(mb_substr($key, 4)); // extract ID from task{ID}="" form input
 			$errorData = $taskModel->markTaskIncomplete($taskID);
 			if ($errorData){
 				$errorLogger->logDatabaseError($errorData['cause'], $errorData['exception']);

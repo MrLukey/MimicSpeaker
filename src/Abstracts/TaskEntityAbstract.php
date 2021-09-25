@@ -8,9 +8,9 @@ abstract class TaskEntityAbstract
 	protected string $text;
 	protected bool $complete;
 	protected bool $deleted;
-	protected string $createdAt;
-	protected string $completedAt;
-	protected string $deletedAt;
+	protected string $creationTime;
+	protected string $completionTime;
+	protected string $deletionTime;
 
 	public function getID(): int
 	{
@@ -22,19 +22,19 @@ abstract class TaskEntityAbstract
 		return $this->text;
 	}
 
-	public function getCreatedAt(): string
+	public function getCreationTime(): string
 	{
-		return $this->createdAt;
+		return $this->creationTime;
 	}
 
-	public function getCompletedAt(): string
+	public function getCompletionTime(): string
 	{
-		return $this->completedAt;
+		return $this->completionTime;
 	}
 
-	public function getDeletedAt(): string
+	public function getDeletionTime(): string
 	{
-		return $this->deletedAt;
+		return $this->deletionTime;
 	}
 
 	public function isComplete(): bool
