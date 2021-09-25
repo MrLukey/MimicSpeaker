@@ -11,4 +11,5 @@ return function (App $app) {
     $app->post('/incomplete', 'markTasksIncompleteController');
     $app->post('/delete', 'markTasksDeletedController');
     $app->post('/recover', 'markTasksNotDeletedController');
+    $app->post('/deletePermanently', 'deleteTasksPermanentlyController');
 };

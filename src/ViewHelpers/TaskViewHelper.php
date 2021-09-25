@@ -26,6 +26,7 @@ class TaskViewHelper
 	{
 		return '<div class="task deleted"><p class="taskText">' . $task->getText() .'</p>' .
 			'<p class="dateTime">Deleted: ' . $task->getDeletionTime() .'</p>' .
-			'<form action="/recover" method="post"><input type="hidden" name="task' . $task->getID() . '"><input type="submit" value="Restore"></form></div>';
+			'<form action="/recover" method="post"><input type="hidden" name="task' . $task->getID() . '"><input type="submit" value="Restore"></form>' .
+			'<form action="/deletePermanently" method="post"><input type="hidden" name="task' . $task->getID() . '"><input type="submit" value="Delete Permanently"></form></div>';
 	}
 }

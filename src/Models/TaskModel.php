@@ -83,4 +83,16 @@ class TaskModel
 			return ['cause' => 'TaskModel->recoverDeletedTask()', 'exception' => $exception];
 		}
 	}
+
+	public function deleteTaskPermanently(int $taskID): ?array
+	{
+		$query = $this->db->prepare('DELETE FROM `tasks` WHERE `id` = :taskID;');
+		$query->bindParam(':taskID', $taskID);
+		try {
+			$query->execute();
+			return null;
+		} catch (\PDOException $exception) {
+			return ['cause' => 'TaskModel->deleteTaskPermanently()', 'exception' => $exception];
+		}
+	}
 }
