@@ -9,4 +9,5 @@ return function (App $app) {
     $app->post('/edit', 'editTasksController');
     $app->post('/add', 'insertTaskController');
     $app->post('/complete', 'markTaskCompleteController');
+    $app->post('/incomplete', 'markTaskIncompleteController');
 };
