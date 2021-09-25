@@ -72,7 +72,7 @@ class TaskModel
 		}
 	}
 
-	public function recoverDeletedTask(int $taskID): ?array
+	public function markTaskNotDeleted(int $taskID): ?array
 	{
 		$query = $this->db->prepare('UPDATE tasks SET deleted = 0 WHERE `id` = :taskID;');
 		$query->bindParam(':taskID', $taskID);

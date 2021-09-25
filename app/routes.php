@@ -10,4 +10,5 @@ return function (App $app) {
     $app->post('/complete', 'markTaskCompleteController');
     $app->post('/incomplete', 'markTaskIncompleteController');
     $app->post('/delete', 'markTaskDeletedController');
+    $app->post('/recover', 'markTaskNotDeletedController');
 };

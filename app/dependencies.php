@@ -42,6 +42,7 @@ return function (ContainerBuilder $containerBuilder) {
 	$container['markTaskCompleteController'] = DI\factory('App\Factories\MarkTaskCompleteControllerFactory');
 	$container['markTaskIncompleteController'] = DI\factory('App\Factories\MarkTaskIncompleteControllerFactory');
 	$container['markTaskDeletedController'] = DI\factory('App\Factories\MarkTaskDeletedControllerFactory');
+	$container['markTaskNotDeletedController'] = DI\factory('App\Factories\MarkTaskNotDeletedControllerFactory');
 
     $containerBuilder->addDefinitions($container);
 };
