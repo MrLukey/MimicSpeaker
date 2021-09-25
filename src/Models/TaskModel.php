@@ -74,7 +74,7 @@ class TaskModel
 
 	public function markTaskNotDeleted(int $taskID): ?array
 	{
-		$query = $this->db->prepare('UPDATE tasks SET deleted = 0 WHERE `id` = :taskID;');
+		$query = $this->db->prepare("UPDATE tasks SET deleted = 0, deletionTime = 'N/A' WHERE `id` = :taskID;");
 		$query->bindParam(':taskID', $taskID);
 		try {
 			$query->execute();

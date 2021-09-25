@@ -7,8 +7,8 @@ return function (App $app) {
     $app->get('/', 'allTasksController');
     $app->post('/edit', 'editTasksController');
     $app->post('/add', 'insertTaskController');
-    $app->post('/complete', 'markTaskCompleteController');
-    $app->post('/incomplete', 'markTaskIncompleteController');
-    $app->post('/delete', 'markTaskDeletedController');
-    $app->post('/recover', 'markTaskNotDeletedController');
+    $app->post('/complete', 'markTasksCompleteController');
+    $app->post('/incomplete', 'markTasksIncompleteController');
+    $app->post('/delete', 'markTasksDeletedController');
+    $app->post('/recover', 'markTasksNotDeletedController');
 };
