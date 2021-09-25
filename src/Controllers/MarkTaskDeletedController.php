@@ -15,11 +15,21 @@ class MarkTaskDeletedController
 	public function __invoke($request, $response, $args)
 	{
 		$taskModel = $this->container->get('taskModel');
+		$errorLogger = $this->container->get('errorLoggerModel');
+		$error = false;
 		$tasksToDelete = $request->getParsedBody();
 		foreach ($tasksToDelete as $key => $value){
-			$taskID = intval(mb_substr($key, 4)); // remove "task" from "task{ID}" value of form input
-			$taskModel->markTaskDeleted($taskID);
+			$taskID = intval(mb_substr($key, 4)); // extract ID from task{ID}="on" checkbox inputs
+			$errorData = $taskModel->markTaskDeleted($taskID);
+			if ($errorData){
+				$errorLogger->logDatabaseError($errorData['cause'], $errorData['exception']);
+				$error = true;
+			}
 		}
-		return $response->withStatus(200)->withHeader('Location', './complete');
+		if ($error){
+			return $response->withStatus(500)->withHeader('Location', './complete');
+		} else {
+			return $response->withStatus(200)->withHeader('Location', './complete');
+		}
 	}
 }

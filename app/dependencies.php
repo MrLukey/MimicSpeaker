@@ -29,8 +29,7 @@ return function (ContainerBuilder $containerBuilder) {
 
     $container['renderer'] = function (ContainerInterface $c) {
         $settings = $c->get('settings')['renderer'];
-        $renderer = new PhpRenderer($settings['template_path']);
-        return $renderer;
+        return new PhpRenderer($settings['template_path']);
     };
 
 	$container['taskModel'] = DI\factory('App\Factories\TaskModelFactory');
@@ -40,6 +39,8 @@ return function (ContainerBuilder $containerBuilder) {
 	$container['insertTaskController'] = DI\factory('App\Factories\InsertTaskControllerFactory');
 	$container['markTaskCompleteController'] = DI\factory('App\Factories\MarkTaskCompleteControllerFactory');
 	$container['markTaskDeletedController'] = DI\factory('App\Factories\MarkTaskDeletedControllerFactory');
+
+	$container['errorLoggerModel'] = DI\factory('App\Factories\ErrorLoggerModelFactory');
 
     $containerBuilder->addDefinitions($container);
 };

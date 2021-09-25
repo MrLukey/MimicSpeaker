@@ -16,6 +16,11 @@ class CompletedTasksController
 	{
 		$renderer = $this->container->get('renderer');
 		$taskModel = $this->container->get('taskModel');
-		return $renderer->render($response, 'completedTasks.php', $taskModel->getCompletedTasks());
+		$taskData = $taskModel->getCompletedTasks();
+		if (isset($taskData['exception'])){
+			$errorLogger = $this->container->get('errorLoggerModel');
+			$errorLogger->logDatabaseError($taskData['cause'], $taskData['exception']);
+		}
+		return $renderer->render($response, 'completedTasks.php', $taskData);
 	}
 }

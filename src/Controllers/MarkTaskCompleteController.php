@@ -15,11 +15,21 @@ class MarkTaskCompleteController
 	public function __invoke($request, $response, $args)
 	{
 		$taskModel = $this->container->get('taskModel');
+		$errorLogger = $this->container->get('errorLoggerModel');
+		$error = false;
 		$completedTasks = $request->getParsedBody();
 		foreach ($completedTasks as $key => $value){
-			$taskID = intval(mb_substr($key, 4)); // remove "task" from "task{ID}" value of form input
-			$taskModel->markTaskComplete($taskID);
+			$taskID = intval(mb_substr($key, 4)); // extract ID from task{ID}="on" checkbox inputs
+			$errorData = $taskModel->markTaskComplete($taskID);
+			if ($errorData){
+				$errorLogger->logDatabaseError($errorData['cause'], $errorData['exception']);
+				$error = true;
+			}
 		}
-		return $response->withStatus(200)->withHeader('Location', './incomplete');
+		if ($error){
+			return $response->withStatus(500)->withHeader('Location', './incomplete');
+		} else {
+			return $response->withStatus(200)->withHeader('Location', './incomplete');
+		}
 	}
 }

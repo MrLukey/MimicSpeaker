@@ -9,18 +9,18 @@
 <main>
     <form action="incomplete" method="post">
         <input type="text" name="taskText" placeholder="Enter new task...">
-        <input type="submit">
+        <input type="submit" value="Add">
     </form>
 	<form class="toDoList" method="post" action="complete">
 		<?php
         if ($data === []){
             echo 'There are no incomplete tasks';
-        } else {
+        } elseif (!isset($data['exception'])) {
 	        foreach($data as $task) {
 		        echo '<div class="task"><input type="checkbox" name="task' . $task['id'] . '">' . '<p>' . $task['text'] . '</p><p>' . $task['createdAt'] . '</p></div>';
 	        }
         } ?>
-        <input type="submit">
+        <input type="submit" value="Complete">
 	</form>
 </main>
 </body>
