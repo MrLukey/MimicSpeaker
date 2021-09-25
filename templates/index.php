@@ -17,9 +17,9 @@
 					. '</p><p>' . $task['createdAt'] . '</p><p>' . $task['completedAt'] . '</p></div>';
 			}
 		} ?>
-        <input type="submit" name="editTask" value="Complete">
-        <input type="submit" name="editTask" value="Delete">
-        <input type="submit" name="editTask" value="Recover">
+        <input type="submit" name="editFunction" value="Complete">
+        <input type="submit" name="editFunction" value="Delete">
+        <input type="submit" name="editFunction" value="Recover">
     </form>
 </main>
 </body>
