@@ -7,6 +7,10 @@
 </head>
 <body>
 <main>
+    <form method="post" action="add">
+        <input type="text" name="taskText" placeholder="Enter new task...">
+        <input type="submit" value="Add">
+    </form>
     <form class="toDoList" method="post" action="edit">
 		<?php
 		if ($data === []){
