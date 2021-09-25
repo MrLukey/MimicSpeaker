@@ -17,7 +17,7 @@ class CompletedTasksController
 		$renderer = $this->container->get('renderer');
 		$taskModel = $this->container->get('taskModel');
 		$taskData = $taskModel->getCompletedTasks();
-		if ($taskData['exception']){
+		if (isset($taskData['exception'])){
 			$errorLogger = $this->container->get('errorLoggerModel');
 			$errorLogger->logDatabaseError($taskData['cause'], $taskData['exception'], new \DateTime());
 		}

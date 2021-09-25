@@ -16,8 +16,7 @@ class ErrorLoggerModel
 
 	public function logDatabaseError(string $cause, \PDOException $exception, \DateTime $errorTime)
 	{
-		$errorString = 'DB-' . $errorTime->getTimestamp() . ' in ' . $cause . ' at line ' . $exception->getLine() .
-			' - ' . $exception->getMessage() . "\n";
+		$errorString = 'DB-' . $errorTime->getTimestamp() . ' in ' . $cause . ' at line ' . $exception->getLine() . ' - ' . $exception->getMessage() . "\n";
 		file_put_contents($this->logfile, $errorString, FILE_APPEND | LOCK_EX);
 	}
 }

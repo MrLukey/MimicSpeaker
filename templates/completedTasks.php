@@ -11,7 +11,7 @@
 		<?php
         if ($data === []){
             echo 'There are no completed tasks';
-        } elseif (!$data['exception']){
+        } elseif (!isset($data['exception'])){
             foreach($data as $task) {
 	            echo '<div class="task"><input type="checkbox" name="task' . $task['id'] . '"><p>' . $task['text']
                     . '</p><p>' . $task['createdAt'] . '</p><p>' . $task['completedAt'] . '</p></div>';

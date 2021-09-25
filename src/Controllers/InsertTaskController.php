@@ -16,7 +16,13 @@ class InsertTaskController
 	{
 		$taskModel = $this->container->get('taskModel');
 		$taskText = $request->getParsedBody()['taskText'];
-		$taskModel->insertNewTask($taskText);
-		return $response->withStatus(200)->withHeader('Location', './incomplete');
+		$errorData = $taskModel->insertTask($taskText);
+		if ($errorData) {
+			$errorLogger = $this->container->get('errorLoggerModel');
+			$errorLogger->logDatabaseError($errorData['cause'], $errorData['exception'], new \DateTime());
+			return $response->withStatus(500)->withHeader('Location', './incomplete');
+		} else {
+			return $response->withStatus(200)->withHeader('Location', './incomplete');
+		}
 	}
 }
