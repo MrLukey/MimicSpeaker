@@ -13,35 +13,34 @@ class TaskModel
 
 	public function getCompletedTasks(): array
 	{
+		$query = $this->db->prepare('SELECT `id`, `txt`, `createdAt`, `completedAt` FROM `tass` WHERE `complete` = 1 AND `deleted` = 0;');
 		try {
-			$query = $this->db->query('SELECT `id`, `text`, `createdAt`, `completedAt` FROM `tasks` WHERE `complete` = 1 AND `deleted` = 0;');
-			if ($query === false){
-				throw new \Exception('Unexpected error when accessing completed task data');
-			}
-		} catch (\Exception $exception){
-			return ['errorMessage' => $exception->getMessage()];
+			$query->execute();
+			return $query->fetchAll();
+		} catch (\PDOException $exception){
+			return ['cause' => 'TaskModel->getCompletedTasks()', 'exception' => $exception];
 		}
-		return $query->fetchAll();
 	}
 
 	public function getIncompleteTasks(): array
 	{
-		try {
-			$query = $this->db->query('SELECT `id`, `text`, `createdAt` FROM `tasks` WHERE `complete` = 0 AND `deleted` = 0;');
-			if ($query === false){
-				throw new \Exception('Unexpected error when accessing incomplete task data');
-			}
-		} catch (\Exception $exception){
-			return ['errorMessage' => $exception->getMessage()];
+		$query = $this->db->query('SELECT `id`, `text`, `createdAt` FROM `tasks` WHERE `complete` = 0 AND `deleted` = 0;');
+		if ($query->execute()){
+			return $query->fetchAll();
+		} else {
+			return ['error' => $this->db->errorCode(), 'cause' => 'TaskModel.php->getCompletedTasks()', 'errorInfo' => $this->db->errorInfo()];
 		}
-		return $query->fetchAll();
 	}
 
-	public function insertNewTask(string $text)
+	public function insertNewTask(string $text): array
 	{
 		$query = $this->db->prepare('INSERT INTO `tasks` (`text`) VALUES (:text);');
 		$query->bindParam(':text', $text);
-		$query->execute();
+		if ($query->execute()){
+			return [];
+		} else {
+			return ['error' => $this->db->errorCode(), 'errorInfo' => 'Unexpected error when inserting a new task'];
+		}
 	}
 
 	public function markTaskComplete(int $taskID)
