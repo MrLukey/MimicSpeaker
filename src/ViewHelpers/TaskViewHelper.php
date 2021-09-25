@@ -18,7 +18,7 @@ class TaskViewHelper
 	{
 		return '<div class="task complete"><p class="taskText">' . $task->getText() .'</p>' .
 			'<p class="dateTime">Completed: ' . $task->getCreatedAt() .'</p>' .
-			'<form action="/incomplete" method="post"><input type="hidden" name="task' . $task->getID() . '"><input type="submit" value="Mark Incomplete"></form></div>' .
+			'<form action="/incomplete" method="post"><input type="hidden" name="task' . $task->getID() . '"><input type="submit" value="Mark Incomplete"></form>' .
 			'<form action="/delete" method="post"><input type="hidden" name="task' . $task->getID() . '"><input type="submit" value="Delete"></form></div>';
 	}
 

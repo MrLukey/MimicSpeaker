@@ -27,9 +27,9 @@ class MarkTaskDeletedController
 			}
 		}
 		if ($error){
-			return $response->withStatus(500)->withHeader('Location', './complete');
+			return $response->withStatus(500)->withHeader('Location', './');
 		} else {
-			return $response->withStatus(200)->withHeader('Location', './complete');
+			return $response->withStatus(200)->withHeader('Location', './');
 		}
 	}
 }
