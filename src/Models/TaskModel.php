@@ -22,39 +22,6 @@ class TaskModel
 		}
 	}
 
-	public function getIncompleteTasks(): array
-	{
-		$query = $this->db->prepare('SELECT `id`, `text`, `createdAt` FROM `tasks` WHERE `complete` = 0 AND `deleted` = 0;');
-		try {
-			$query->execute();
-			return $query->fetchAll();
-		} catch (\PDOException $exception) {
-			return ['cause' => 'TaskModel->getIncompleteTasks()', 'exception' => $exception];
-		}
-	}
-
-	public function getCompletedTasks(): array
-	{
-		$query = $this->db->prepare('SELECT `id`, `text`, `createdAt`, `completedAt` FROM `tasks` WHERE `complete` = 1 AND `deleted` = 0;');
-		try {
-			$query->execute();
-			return $query->fetchAll();
-		} catch (\PDOException $exception) {
-			return ['cause' => 'TaskModel->getCompletedTasks()', 'exception' => $exception];
-		}
-	}
-
-	public function getDeletedTasks(): array
-	{
-		$query = $this->db->prepare('SELECT `id`, `text`, `createdAt`, `completedAt`, `deletedAt` FROM `tasks` WHERE `deleted` = 1;');
-		try {
-			$query->execute();
-			return $query->fetchAll();
-		} catch (\PDOException $exception) {
-			return ['cause' => 'TaskModel->getDeletedTasks()', 'exception' => $exception];
-		}
-	}
-
 	public function insertTask(string $text): ?array
 	{
 		$query = $this->db->prepare('INSERT INTO `tasks` (`text`) VALUES (:text);');
