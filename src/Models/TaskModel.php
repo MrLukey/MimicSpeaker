@@ -14,7 +14,7 @@ class TaskModel
 
 	public function getAllTasks(): array
 	{
-		$query = $this->db->prepare('SELECT `id`, `text`, `createdAt`, `complete`, `completedAt`, `deleted`, `deletedAt` FROM  `tasks`');
+		$query = $this->db->prepare('SELECT `id`, `text`, `creationTime`, `complete`, `completionTime`, `deleted`, `deletionTime` FROM  `tasks` ORDER BY complete, deleted;');
 		$query->setFetchMode(\PDO::FETCH_CLASS, TaskEntity::class);
 		try {
 			$query->execute();
@@ -26,7 +26,7 @@ class TaskModel
 
 	public function insertTask(string $text): ?array
 	{
-		$query = $this->db->prepare('INSERT INTO `tasks` (`text`) VALUES (:text);');
+		$query = $this->db->prepare('INSERT INTO `tasks` (`text`, `creationTime`) VALUES (:text, CURRENT_TIMESTAMP);');
 		$query->bindParam(':text', $text);
 		try {
 			$query->execute();
@@ -38,7 +38,7 @@ class TaskModel
 
 	public function markTaskComplete(int $taskID): ?array
 	{
-		$query = $this->db->prepare('UPDATE tasks SET complete = 1, completedAt = CURRENT_TIMESTAMP WHERE `id` = :taskID;');
+		$query = $this->db->prepare('UPDATE tasks SET complete = 1, completionTime = CURRENT_TIMESTAMP WHERE `id` = :taskID;');
 		$query->bindParam(':taskID', $taskID);
 		try {
 			$query->execute();
@@ -48,9 +48,21 @@ class TaskModel
 		}
 	}
 
+	public function markTaskIncomplete(int $taskID): ?array
+	{
+		$query = $this->db->prepare("UPDATE tasks SET complete = 0, completionTime = 'N/A' WHERE `id` = :taskID;");
+		$query->bindParam(':taskID', $taskID);
+		try {
+			$query->execute();
+			return null;
+		} catch (\PDOException $exception) {
+			return ['cause' => 'TaskModel->markTaskIncomplete()', 'exception' => $exception];
+		}
+	}
+
 	public function markTaskDeleted(int $taskID): ?array
 	{
-		$query = $this->db->prepare('UPDATE tasks SET deleted = 1, deletedAt = CURRENT_TIMESTAMP WHERE `id` = :taskID;');
+		$query = $this->db->prepare('UPDATE tasks SET deleted = 1, deletionTime = CURRENT_TIMESTAMP WHERE `id` = :taskID;');
 		$query->bindParam(':taskID', $taskID);
 		try {
 			$query->execute();
@@ -60,15 +72,27 @@ class TaskModel
 		}
 	}
 
-	public function recoverDeletedTask(int $taskID): ?array
+	public function markTaskNotDeleted(int $taskID): ?array
 	{
-		$query = $this->db->prepare('UPDATE tasks SET deleted = 0 WHERE `id` = :taskID;');
+		$query = $this->db->prepare("UPDATE tasks SET deleted = 0, deletionTime = 'N/A' WHERE `id` = :taskID;");
 		$query->bindParam(':taskID', $taskID);
 		try {
 			$query->execute();
 			return null;
 		} catch (\PDOException $exception) {
-			return ['cause' => 'TaskModel->recoverDeletedTask()', 'exception' => $exception];
+			return ['cause' => 'TaskModel->markTaskNotDeleted()', 'exception' => $exception];
+		}
+	}
+
+	public function deleteTaskPermanently(int $taskID): ?array
+	{
+		$query = $this->db->prepare('DELETE FROM `tasks` WHERE `id` = :taskID;');
+		$query->bindParam(':taskID', $taskID);
+		try {
+			$query->execute();
+			return null;
+		} catch (\PDOException $exception) {
+			return ['cause' => 'TaskModel->deleteTaskPermanently()', 'exception' => $exception];
 		}
 	}
 }

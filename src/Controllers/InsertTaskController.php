@@ -16,13 +16,15 @@ class InsertTaskController
 	{
 		$taskModel = $this->container->get('taskModel');
 		$taskText = $request->getParsedBody()['taskText'];
+		if ($taskText === '')
+			return $response->withStatus(500)->withHeader('Location', './');
 		$errorData = $taskModel->insertTask($taskText);
 		if ($errorData) {
 			$errorLogger = $this->container->get('errorLoggerModel');
 			$errorLogger->logDatabaseError($errorData['cause'], $errorData['exception']);
-			return $response->withStatus(500)->withHeader('Location', './');
-		} else {
-			return $response->withStatus(200)->withHeader('Location', './');
-		}
+			$status = 500;
+		} else
+			$status = 200;
+		return $response->withStatus($status)->withHeader('Location', './');
 	}
 }
