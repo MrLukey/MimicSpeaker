@@ -1,12 +1,29 @@
+
+.toDoList {
+    display: flex;
+    flex-flow: column nowrap;
+}
+
 .task {
     display: flex;
     flex-flow: row nowrap;
     justify-content: flex-start;
     align-items: baseline;
-    font-size: 20px;
+
 }
 
-.taskContainer {
-    display: flex;
-    flex-flow: column nowrap;
+.complete {
+    background-color: blue;
+}
+
+.incomplete {
+    background-color: yellow;
+}
+
+.deleted {
+    background-color: red;
+}
+
+.restored {
+    background-color: green;
 }

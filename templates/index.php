@@ -17,7 +17,6 @@ use App\ViewHelpers\TaskViewHelper;
         <input type="text" name="taskText" placeholder="Enter new task...">
         <input type="submit" value="Add">
     </form>
-    <form class="toDoList" method="post" action="edit">
 		<?php
 		if ($data === []){
 			echo 'You have no tasks on your todo list.';
@@ -34,10 +33,9 @@ use App\ViewHelpers\TaskViewHelper;
                 }
 			}
 		} ?>
-        <input type="submit" name="editFunction" value="Complete">
-        <input type="submit" name="editFunction" value="Delete">
-        <input type="submit" name="editFunction" value="Recover">
-    </form>
+<!--        <input type="submit" name="editFunction" value="Complete">-->
+<!--        <input type="submit" name="editFunction" value="Delete">-->
+<!--        <input type="submit" name="editFunction" value="Recover">-->
 </main>
 </body>
 </html>

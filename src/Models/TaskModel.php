@@ -48,6 +48,18 @@ class TaskModel
 		}
 	}
 
+	public function markTaskIncomplete(int $taskID): ?array
+	{
+		$query = $this->db->prepare("UPDATE tasks SET complete = 0, completedAt = 'N/A' WHERE `id` = :taskID;");
+		$query->bindParam(':taskID', $taskID);
+		try {
+			$query->execute();
+			return null;
+		} catch (\PDOException $exception) {
+			return ['cause' => 'TaskModel->markTaskIncomplete()', 'exception' => $exception];
+		}
+	}
+
 	public function markTaskDeleted(int $taskID): ?array
 	{
 		$query = $this->db->prepare('UPDATE tasks SET deleted = 1, deletedAt = CURRENT_TIMESTAMP WHERE `id` = :taskID;');

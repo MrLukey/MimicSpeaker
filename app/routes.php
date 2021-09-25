@@ -8,4 +8,5 @@ return function (App $app) {
     $app->get('/', 'allTasksController');
     $app->post('/edit', 'editTasksController');
     $app->post('/add', 'insertTaskController');
+    $app->post('/complete', 'markTaskCompleteController');
 };

@@ -8,11 +8,10 @@ class TaskViewHelper
 {
 	public static function createIncompleteTaskListing(TaskEntityAbstract $task): string
 	{
-		return '<div class="task incomplete" id="task' . $task->getID() . '">' .
-			'<input type="checkbox" name="task' . $task->getID() .'">' .
-			'<p class="taskText">' . $task->getText() . '</p>' .
+		return '<div class="task incomplete"><p class="taskText">' . $task->getText() .'</p>' .
 			'<p class="dateTime">Created: ' . $task->getCreatedAt() .'</p>' .
-			'</div>';
+			'<form action="/complete" method="post"><input type="hidden" name="task' . $task->getID() .
+			'"><input type="submit" value="Complete"></form></div>';
 	}
 
 	public static function createCompletedTaskListing(TaskEntityAbstract $task): string
