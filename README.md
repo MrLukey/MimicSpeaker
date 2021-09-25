@@ -13,9 +13,8 @@
 - all tasks and functionality on one page
 - format tasks by state
 
-This app was built for Composer. This makes setting up the Slim Framework quick and easy.
-
 ## Install the Application
+This app was built for Composer. This makes setting up the Slim Framework quick and easy.
 
 Create a new directory with your project name, e.g:
 
