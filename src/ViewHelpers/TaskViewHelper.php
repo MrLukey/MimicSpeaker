@@ -10,6 +10,7 @@ class TaskViewHelper
 	{
 		if ($task->isArchived()) {
 			$taskTime = $task->getArchivedTime();
+			$taskBG = 'bg-danger';
 			$taskStyle = 'Archived';
 			$buttonOneName = 'Recover';
 			$buttonOneFormAction = '/recover';
@@ -19,6 +20,7 @@ class TaskViewHelper
 			$buttonTwoStyle = 'danger';
 		} elseif ($task->isComplete()) {
 			$taskTime = $task->getCompletionTime();
+			$taskBG = 'bg-success';
 			$taskStyle = 'Complete';
 			$buttonOneName = 'Incomplete';
 			$buttonOneStyle = 'warning';
@@ -28,6 +30,7 @@ class TaskViewHelper
 			$buttonTwoStyle = 'secondary';
 		} else {
 			$taskTime = $task->getCreationTime();
+			$taskBG = 'bg-warning';
 			$taskStyle = 'Incomplete';
 			$buttonOneName = 'Complete';
 			$buttonOneStyle = 'success';
@@ -40,7 +43,7 @@ class TaskViewHelper
 		$textDiv = $task->getText() !== '' ? $textDiv : '';
 		return
 			'<div class="card task w-100 mb-3">' .
-				'<div class="card-header ' . $taskStyle . '">' . $taskStyle . '</div>' .
+				'<div class="card-header ' . $taskBG . '">' . $taskStyle . '</div>' .
 				'<div class="card-body">' .
 					'<h5 class="card-title">' . $task->getTitle() .'</h5>' .
 					$textDiv .
