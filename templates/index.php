@@ -4,27 +4,25 @@ use App\ViewHelpers\TaskViewHelper;
 
 $incompleteTasks = [];
 $completeTasks = [];
-$deletedTasks = [];
+$archivedTasks = [];
 
-if ($data === []) {
+if ($data === [])
 	$errorMessage = 'You have no tasks on your todo list.';
-} elseif (isset($data['exception'])) {
+elseif (isset($data['exception'])) {
     $errorMessage = 'Unexpected error';
     $data = [];
 } else {
     $errorMessage = '';
 	foreach ($data as $task) {
-		if ($task->isDeleted()) {
-			array_push($deletedTasks, $task);
-		} elseif ($task->isComplete()) {
+		if ($task->isArchived())
+			array_push($archivedTasks, $task);
+		elseif ($task->isComplete())
 			array_push($completeTasks, $task);
-		} else {
+		else
 			array_push($incompleteTasks, $task);
-		}
 	}
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en-gb">
 <head>
@@ -45,31 +43,24 @@ if ($data === []) {
     <p class="errorMessage"><?php echo $errorMessage ?></p>
     <?php
         if(count($incompleteTasks) > 0) {
-	        echo '<section class="w-100 mb-5">';
-	        foreach ($incompleteTasks as $task) {
-		        echo TaskViewHelper::createTaskListing($task);
-	        }
-	        echo '</section>';
+            echo '<section class="w-100 mb-5">';
+            foreach ($incompleteTasks as $task)
+                echo TaskViewHelper::createTaskListing($task);
+            echo '</section>';
         }
+        if(count($completeTasks) > 0) {
+            echo '<section class="w-100 mb-5">';
+            foreach ($completeTasks as $task)
+                echo TaskViewHelper::createTaskListing($task);
+            echo '</section>';
+        }
+        if(count($archivedTasks) > 0) {
+            echo '<section class="w-100 mb-5">';
+            foreach ($archivedTasks as $task)
+                echo TaskViewHelper::createTaskListing($task);
+            echo '</section>';
+	    }
     ?>
-	<?php
-	if(count($completeTasks) > 0) {
-		echo '<section class="w-100 mb-5">';
-		foreach ($completeTasks as $task) {
-			echo TaskViewHelper::createTaskListing($task);
-		}
-		echo '</section>';
-	}
-	?>
-	<?php
-	if(count($deletedTasks) > 0) {
-		echo '<section class="w-100 mb-5">';
-		foreach ($deletedTasks as $task) {
-			echo TaskViewHelper::createTaskListing($task);
-		}
-		echo '</section>';
-	}
-	?>
 </main>
 </body>
 </html>

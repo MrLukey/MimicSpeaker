@@ -21,7 +21,7 @@ class EditTasksController
 		$errorLogger->logJsonData($taskData);
 		unset($taskData['editFunction']);
 		$errorLogger->logJsonData($taskData);
-		foreach ($taskData as $key => $value){
+		foreach ($taskData as $key => $value) {
 			$taskID = intval(mb_substr($key, 4)); // extract ID from task{ID}="on" checkbox inputs
 			switch ($editFunction) {
 				case 'Complete':
@@ -36,9 +36,8 @@ class EditTasksController
 				default:
 					$errorData = false;
 			}
-			if ($errorData){
+			if ($errorData)
 				$errorLogger->logDatabaseError($errorData['cause'], $errorData['exception']);
-			}
 		}
 		return $response->withStatus(200)->withHeader('Location', './');
 	}

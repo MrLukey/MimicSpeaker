@@ -8,37 +8,36 @@ class TaskViewHelper
 {
 	public static function createTaskListing(TaskEntityAbstract $task): string
 	{
-		if ($task->isDeleted()) {
-			$taskTime = $task->getDeletionTime();
-			$taskStyle = 'Deleted';
-			$buttonOneName = 'Restore';
+		if ($task->isArchived()) {
+			$taskTime = $task->getArchivedTime();
+			$taskStyle = 'Archived';
+			$buttonOneName = 'Recover';
 			$buttonOneFormAction = '/recover';
 			$buttonOneStyle = 'success';
-			$buttonTwoName = 'Delete Permanently';
+			$buttonTwoName = 'Delete';
 			$buttonTwoFormAction = '/deletePermanently';
 			$buttonTwoStyle = 'danger';
 		} elseif ($task->isComplete()) {
 			$taskTime = $task->getCompletionTime();
 			$taskStyle = 'Complete';
-			$buttonOneName = 'Mark Incomplete';
-			$buttonOneStyle = 'primary';
+			$buttonOneName = 'Incomplete';
+			$buttonOneStyle = 'warning';
 			$buttonOneFormAction = '/incomplete';
-			$buttonTwoName = 'Delete';
-			$buttonTwoFormAction = '/delete';
-			$buttonTwoStyle = 'warning';
+			$buttonTwoName = 'Archive';
+			$buttonTwoFormAction = '/archive';
+			$buttonTwoStyle = 'secondary';
 		} else {
 			$taskTime = $task->getCreationTime();
 			$taskStyle = 'Incomplete';
-			$buttonOneName = 'Mark Complete';
+			$buttonOneName = 'Complete';
 			$buttonOneStyle = 'success';
 			$buttonOneFormAction = '/complete';
-			$buttonTwoName = 'Delete';
-			$buttonTwoFormAction = '/delete';
-			$buttonTwoStyle = 'warning';
+			$buttonTwoName = 'Archive';
+			$buttonTwoFormAction = '/archive';
+			$buttonTwoStyle = 'secondary';
 		}
 		$textDiv = '<p class="card-text">' .$task->getText() .'</p>';
 		$textDiv = $task->getText() !== '' ? $textDiv : '';
-
 		return
 			'<div class="card task w-100 mb-3">' .
 				'<div class="card-header ' . $taskStyle . '">' . $taskStyle . '</div>' .
@@ -48,8 +47,10 @@ class TaskViewHelper
 					'<form method="post">' .
 						'<input type="hidden" name="task' . $task->getID() . '">' .
 						'<div class="btn-group" role="group">' .
-							'<button type="submit" formaction="' . $buttonOneFormAction . '" class="btn btn-sm btn-' .$buttonOneStyle . '">' . $buttonOneName . '</button>' .
-							'<button type="submit" formaction="' .$buttonTwoFormAction . '" class="btn btn-sm btn-' .$buttonTwoStyle . '">' . $buttonTwoName .'</button>' .
+							'<button type="submit" formaction="' . $buttonOneFormAction . '" class="btn btn-sm btn-' .
+								$buttonOneStyle . '">' . $buttonOneName . '</button>' .
+							'<button type="submit" formaction="' .$buttonTwoFormAction . '" class="btn btn-sm btn-' .
+								$buttonTwoStyle . '">' . $buttonTwoName .'</button>' .
 						'</div>' .
 					'</form>' .
 				'</div>' .

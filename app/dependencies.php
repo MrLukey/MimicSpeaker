@@ -35,14 +35,14 @@ return function (ContainerBuilder $containerBuilder) {
 	$container['taskModel'] = DI\factory('App\Factories\TaskModelFactory');
 	$container['errorLoggerModel'] = DI\factory('App\Factories\ErrorLoggerModelFactory');
 
-	$container['allTasksController'] = DI\factory('App\Factories\AllTasksControllerFactory');
+	$container['getAllTasksController'] = DI\factory('App\Factories\GetAllTasksControllerFactory');
 	$container['editTasksController'] = DI\factory('App\Factories\EditTasksControllerFactory');
 	$container['insertTaskController'] = DI\factory('App\Factories\InsertTaskControllerFactory');
 
 	$container['markTasksCompleteController'] = DI\factory('App\Factories\MarkTasksCompleteControllerFactory');
 	$container['markTasksIncompleteController'] = DI\factory('App\Factories\MarkTasksIncompleteControllerFactory');
-	$container['markTasksDeletedController'] = DI\factory('App\Factories\MarkTasksDeletedControllerFactory');
-	$container['markTasksNotDeletedController'] = DI\factory('App\Factories\MarkTasksNotDeletedControllerFactory');
+	$container['markTasksArchivedController'] = DI\factory('App\Factories\MarkTasksArchivedControllerFactory');
+	$container['markTasksNotArchivedController'] = DI\factory('App\Factories\MarkTasksNotArchivedControllerFactory');
 	$container['deleteTasksPermanentlyController'] = DI\factory('App\Factories\DeleteTasksPermanentlyControllerFactory');
 
     $containerBuilder->addDefinitions($container);

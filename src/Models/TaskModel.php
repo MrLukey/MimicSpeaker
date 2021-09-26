@@ -14,7 +14,7 @@ class TaskModel
 
 	public function getAllTasks(): array
 	{
-		$query = $this->db->prepare('SELECT `id`, `title`, `text`, `creationTime`, `complete`, `completionTime`, `deleted`, `deletionTime` FROM  `tasks` ORDER BY complete, deleted;');
+		$query = $this->db->prepare('SELECT `id`, `title`, `text`, `creationTime`, `complete`, `completionTime`, `archived`, `archivedTime` FROM  `tasks` ORDER BY complete, archived;');
 		$query->setFetchMode(\PDO::FETCH_CLASS, TaskEntity::class);
 		try {
 			$query->execute();
@@ -61,27 +61,27 @@ class TaskModel
 		}
 	}
 
-	public function markTaskDeleted(int $taskID): ?array
+	public function markTaskArchived(int $taskID): ?array
 	{
-		$query = $this->db->prepare('UPDATE tasks SET deleted = 1, deletionTime = CURRENT_TIMESTAMP WHERE `id` = :taskID;');
+		$query = $this->db->prepare('UPDATE tasks SET archived = 1, archivedTime = CURRENT_TIMESTAMP WHERE `id` = :taskID;');
 		$query->bindParam(':taskID', $taskID);
 		try {
 			$query->execute();
 			return null;
 		} catch (\PDOException $exception) {
-			return ['cause' => 'TaskModel->markTaskDeleted()', 'exception' => $exception];
+			return ['cause' => 'TaskModel->markTaskArchived()', 'exception' => $exception];
 		}
 	}
 
-	public function markTaskNotDeleted(int $taskID): ?array
+	public function markTaskNotArchived(int $taskID): ?array
 	{
-		$query = $this->db->prepare("UPDATE tasks SET deleted = 0, deletionTime = 'N/A' WHERE `id` = :taskID;");
+		$query = $this->db->prepare("UPDATE tasks SET archived = 0, archivedTime = 'N/A' WHERE `id` = :taskID;");
 		$query->bindParam(':taskID', $taskID);
 		try {
 			$query->execute();
 			return null;
 		} catch (\PDOException $exception) {
-			return ['cause' => 'TaskModel->markTaskNotDeleted()', 'exception' => $exception];
+			return ['cause' => 'TaskModel->markTaskNotArchived()', 'exception' => $exception];
 		}
 	}
 
