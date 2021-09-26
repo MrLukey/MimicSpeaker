@@ -15,10 +15,11 @@ class InsertTaskController
 	public function __invoke($request, $response, $args)
 	{
 		$taskModel = $this->container->get('taskModel');
-		$taskText = $request->getParsedBody()['taskText'];
-		if ($taskText === '')
+		$taskData = $request->getParsedBody();
+		if ($taskData['taskTitle'] === '')
 			return $response->withStatus(500)->withHeader('Location', './');
-		$errorData = $taskModel->insertTask($taskText);
+		$taskText = $taskData['taskText'] | '';
+		$errorData = $taskModel->insertTask($taskData['taskTitle'], $taskText);
 		if ($errorData) {
 			$errorLogger = $this->container->get('errorLoggerModel');
 			$errorLogger->logDatabaseError($errorData['cause'], $errorData['exception']);

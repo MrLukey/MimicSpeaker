@@ -11,18 +11,14 @@ class ErrorLoggerModel
 	public function __construct(\DateTime $dateTime)
 	{
 		$this->dateTime = $dateTime;
-		if (!is_dir('../logs/errors')) {
+		if (!is_dir('../logs/errors'))
 			mkdir('../logs/errors');
-		}
-		if (!is_dir('../logs/testing')) {
+		if (!is_dir('../logs/testing'))
 			mkdir('../logs/testing');
-		}
-		if (!file_exists($this->databaseErrorLogs)){
+		if (!file_exists($this->databaseErrorLogs))
 			file_put_contents($this->databaseErrorLogs, "SlimToDo App Database Error Logs\n");
-		}
-		if (!file_exists($this->testingLogs)){
+		if (!file_exists($this->testingLogs))
 			file_put_contents($this->testingLogs, "SlimToDo App Testing Logs\n");
-		}
 	}
 
 	public function logDatabaseError(string $cause, \PDOException $exception)

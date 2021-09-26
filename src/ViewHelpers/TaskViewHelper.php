@@ -6,62 +6,55 @@ use App\Abstracts\TaskEntityAbstract;
 
 class TaskViewHelper
 {
-	public static function createIncompleteTaskListing(TaskEntityAbstract $task): string
+	public static function createTaskListing(TaskEntityAbstract $task): string
 	{
+		if ($task->isArchived()) {
+			$taskTime = $task->getArchivedTime();
+			$taskStyle = 'Archived';
+			$buttonOneName = 'Recover';
+			$buttonOneFormAction = '/recover';
+			$buttonOneStyle = 'success';
+			$buttonTwoName = 'Delete';
+			$buttonTwoFormAction = '/deletePermanently';
+			$buttonTwoStyle = 'danger';
+		} elseif ($task->isComplete()) {
+			$taskTime = $task->getCompletionTime();
+			$taskStyle = 'Complete';
+			$buttonOneName = 'Incomplete';
+			$buttonOneStyle = 'warning';
+			$buttonOneFormAction = '/incomplete';
+			$buttonTwoName = 'Archive';
+			$buttonTwoFormAction = '/archive';
+			$buttonTwoStyle = 'secondary';
+		} else {
+			$taskTime = $task->getCreationTime();
+			$taskStyle = 'Incomplete';
+			$buttonOneName = 'Complete';
+			$buttonOneStyle = 'success';
+			$buttonOneFormAction = '/complete';
+			$buttonTwoName = 'Archive';
+			$buttonTwoFormAction = '/archive';
+			$buttonTwoStyle = 'secondary';
+		}
+		$textDiv = '<p class="card-text">' .$task->getText() .'</p>';
+		$textDiv = $task->getText() !== '' ? $textDiv : '';
 		return
-			'<div class="task incomplete">' .
-				'<p class="taskText">' . $task->getText() .'</p>' .
-				'<div class="controlWrapper">' .
-					'<p class="dateTime">Created: ' . $task->getCreationTime() .'</p>' .
-					'<div class="buttonWrapper">' .
-						'<form action="/complete" method="post">' .
-							'<input type="hidden" name="task' . $task->getID() . '">' .
-							'<input type="submit" value="Complete">' .
-						'</form>' .
-					'</div>' .
+			'<div class="card task w-100 mb-3">' .
+				'<div class="card-header ' . $taskStyle . '">' . $taskStyle . '</div>' .
+				'<div class="card-body">' .
+					'<h5 class="card-title">' . $task->getTitle() .'</h5>' .
+					$textDiv .
+					'<form method="post">' .
+						'<input type="hidden" name="task' . $task->getID() . '">' .
+						'<div class="btn-group" role="group">' .
+							'<button type="submit" formaction="' . $buttonOneFormAction . '" class="btn btn-sm btn-' .
+								$buttonOneStyle . '">' . $buttonOneName . '</button>' .
+							'<button type="submit" formaction="' .$buttonTwoFormAction . '" class="btn btn-sm btn-' .
+								$buttonTwoStyle . '">' . $buttonTwoName .'</button>' .
+						'</div>' .
+					'</form>' .
 				'</div>' .
-			'</div>';
-	}
-
-	public static function createCompletedTaskListing(TaskEntityAbstract $task): string
-	{
-		return
-			'<div class="task complete">' .
-				'<p class="taskText">' . $task->getText() .'</p>' .
-				'<div class="controlWrapper">' .
-					'<p class="dateTime">Completed: ' . $task->getCompletionTime() .'</p>' .
-					'<div class="buttonWrapper">' .
-						'<form action="/incomplete" method="post">' .
-							'<input type="hidden" name="task' . $task->getID() . '">' .
-							'<input type="submit" value="Mark Incomplete" class="editButton">' .
-						'</form>' .
-						'<form action="/delete" method="post">' .
-							'<input type="hidden" name="task' . $task->getID() . '">' .
-							'<input type="submit" value="Delete">' .
-						'</form>' .
-					'</div>' .
-				'</div>' .
-			'</div>';
-	}
-
-	public static function createDeletedTaskListing(TaskEntityAbstract $task): string
-	{
-		return
-			'<div class="task deleted">' .
-				'<p class="taskText">' . $task->getText() .'</p>' .
-				'<div class="controlWrapper">' .
-					'<p class="dateTime">Deleted: ' . $task->getDeletionTime() .'</p>' .
-					'<div class="buttonWrapper">' .
-						'<form action="/recover" method="post">' .
-							'<input type="hidden" name="task' . $task->getID() . '">' .
-							'<input type="submit" value="Restore">' .
-						'</form>' .
-						'<form action="/deletePermanently" method="post">' .
-							'<input type="hidden" name="task' . $task->getID() . '">' .
-							'<input type="submit" value="Delete Permanently">' .
-						'</form>' .
-					'</div>' .
-				'</div>' .
+				'<div class="card-footer">@' . $taskTime . '</div>' .
 			'</div>';
 	}
 }

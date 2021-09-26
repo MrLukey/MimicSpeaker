@@ -3,7 +3,7 @@
 namespace App\Controllers;
 use Psr\Container\ContainerInterface;
 
-class MarkTasksNotDeletedController
+class MarkTasksArchivedController
 {
 	private ContainerInterface $container;
 
@@ -17,10 +17,10 @@ class MarkTasksNotDeletedController
 		$taskModel = $this->container->get('taskModel');
 		$errorLogger = $this->container->get('errorLoggerModel');
 		$error = false;
-		$tasksToMarkNotDeleted = $request->getParsedBody();
-		foreach ($tasksToMarkNotDeleted as $key => $value){
+		$tasksToMarkDeleted = $request->getParsedBody();
+		foreach ($tasksToMarkDeleted as $key => $value){
 			$taskID = intval(mb_substr($key, 4)); // extract ID from task{ID}="on" checkbox inputs
-			$errorData = $taskModel->markTaskNotDeleted($taskID);
+			$errorData = $taskModel->markTaskArchived($taskID);
 			if ($errorData){
 				$errorLogger->logDatabaseError($errorData['cause'], $errorData['exception']);
 				$error = true;
