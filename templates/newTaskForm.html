@@ -1,20 +1,14 @@
-<form class="row col-12 w-90" method="post" action="add">
-    <div class="col-6">
-        <input type="text"
-               class="form-control"
-               name="taskTitle"
-               style="cursor: auto;"
-               maxlength="50"
-               placeholder="New task title..."
-               required>
-    </div>
-    <div class="col-5">
-        <textarea class="form-control"
-                  aria-label="With textarea"
-                  name="taskText">
-        </textarea>
-    </div>
-    <div class="col-1">
-        <button class="btn btn-primary" type="submit">Add Task</button>
-    </div>
-</form>
+<div class="newTaskForm w-100 mt-5 mb-5">
+    <form class="" id="newTaskForm" method="post" action="add">
+        <div class="input-group mb-3">
+            <label class="input-group-text">Title:</label>
+            <input type="text" maxlength="100" class="form-control" name="taskTitle" placeholder="e.g Walk the dog">
+            <!--            //aria-label="Task Title" aria-describedby="basic-addon1"-->
+        </div>
+        <div class="input-group">
+            <span class="input-group-text">Text</span>
+            <textarea class="form-control" name="taskText" aria-label="With textarea"></textarea>
+            <button class="btn btn-primary" type="submit">Add</button>
+        </div>
+    </form>
+</div>

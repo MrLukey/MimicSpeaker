@@ -10,51 +10,50 @@ class TaskViewHelper
 	{
 		if ($task->isDeleted()) {
 			$taskTime = $task->getDeletionTime();
-			$taskTimePrefix = 'Deleted:';
-			$taskStyle = 'deleted';
+			$taskStyle = 'Deleted';
 			$buttonOneName = 'Restore';
 			$buttonOneFormAction = '/recover';
 			$buttonOneStyle = 'success';
 			$buttonTwoName = 'Delete Permanently';
 			$buttonTwoFormAction = '/deletePermanently';
+			$buttonTwoStyle = 'danger';
 		} elseif ($task->isComplete()) {
 			$taskTime = $task->getCompletionTime();
-			$taskTimePrefix = 'Completed:';
-			$taskStyle = 'complete';
+			$taskStyle = 'Complete';
 			$buttonOneName = 'Mark Incomplete';
 			$buttonOneStyle = 'primary';
 			$buttonOneFormAction = '/incomplete';
 			$buttonTwoName = 'Delete';
 			$buttonTwoFormAction = '/delete';
+			$buttonTwoStyle = 'warning';
 		} else {
 			$taskTime = $task->getCreationTime();
-			$taskTimePrefix = 'Created:';
-			$taskStyle = 'incomplete';
-			$buttonOneName = 'Complete';
+			$taskStyle = 'Incomplete';
+			$buttonOneName = 'Mark Complete';
 			$buttonOneStyle = 'success';
 			$buttonOneFormAction = '/complete';
 			$buttonTwoName = 'Delete';
 			$buttonTwoFormAction = '/delete';
+			$buttonTwoStyle = 'warning';
 		}
+		$textDiv = '<p class="card-text">' .$task->getText() .'</p>';
+		$textDiv = $task->getText() !== '' ? $textDiv : '';
 
 		return
-			'<div class="card task ' . $taskStyle . ' col-10 p-2">' .
-				'<div class="card-body col-8">' .
+			'<div class="card task w-100 mb-3">' .
+				'<div class="card-header ' . $taskStyle . '">' . $taskStyle . '</div>' .
+				'<div class="card-body">' .
 					'<h5 class="card-title">' . $task->getTitle() .'</h5>' .
-				'</div>' .
-				'<div class="card-body col-12">' .
-					'<span class="card-text">' .$task->getText() .'</span>' .
-				'</div>' .
-				'<div class="card-body col-12">' .
-					'<span class="card-text text-nowrap">' . $taskTimePrefix . ' ' . $taskTime .'</span>' .
-				'</div>' .
-				'<div class="card-body d-flex justify-content-end">' .
-					'<form class="d-flex flex-row-nowrap" method="post">' .
+					$textDiv .
+					'<form method="post">' .
 						'<input type="hidden" name="task' . $task->getID() . '">' .
-						'<button type="submit" formaction="' . $buttonOneFormAction . '" class="btn btn-' .$buttonOneStyle . ' text-nowrap">' . $buttonOneName . '</button>' .
-						'<button type="submit" formaction="' .$buttonTwoFormAction . '" class="btn btn-danger">' . $buttonTwoName .'</button>' .
+						'<div class="btn-group" role="group">' .
+							'<button type="submit" formaction="' . $buttonOneFormAction . '" class="btn btn-sm btn-' .$buttonOneStyle . '">' . $buttonOneName . '</button>' .
+							'<button type="submit" formaction="' .$buttonTwoFormAction . '" class="btn btn-sm btn-' .$buttonTwoStyle . '">' . $buttonTwoName .'</button>' .
+						'</div>' .
 					'</form>' .
 				'</div>' .
+				'<div class="card-footer">@' . $taskTime . '</div>' .
 			'</div>';
 	}
 }

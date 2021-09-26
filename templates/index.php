@@ -40,24 +40,36 @@ if ($data === []) {
     <title>Slim ToDo App</title>
 </head>
 <body>
-<main class="d-flex flex-column justify-content-center align-items-center col-12">
+<main class="d-flex flex-column align-items-center w-75 m-auto">
     <?php include 'newTaskForm.html'; ?>
     <p class="errorMessage"><?php echo $errorMessage ?></p>
-    <div class="d-flex flex-column align-items-center w-100">
-        <?php foreach ($incompleteTasks as $task) {
-            echo TaskViewHelper::createTaskListing($task);
-        }?>
-    </div>
-    <div class="d-flex flex-column align-items-center w-100">
-		<?php foreach ($completeTasks as $task) {
+    <?php
+        if(count($incompleteTasks) > 0) {
+	        echo '<section class="w-100 mb-5">';
+	        foreach ($incompleteTasks as $task) {
+		        echo TaskViewHelper::createTaskListing($task);
+	        }
+	        echo '</section>';
+        }
+    ?>
+	<?php
+	if(count($completeTasks) > 0) {
+		echo '<section class="w-100 mb-5">';
+		foreach ($completeTasks as $task) {
 			echo TaskViewHelper::createTaskListing($task);
-		}?>
-    </div>
-    <div class="d-flex flex-column align-items-center w-100">
-		<?php foreach ($deletedTasks as $task) {
+		}
+		echo '</section>';
+	}
+	?>
+	<?php
+	if(count($deletedTasks) > 0) {
+		echo '<section class="w-100 mb-5">';
+		foreach ($deletedTasks as $task) {
 			echo TaskViewHelper::createTaskListing($task);
-		}?>
-    </div>
+		}
+		echo '</section>';
+	}
+	?>
 </main>
 </body>
 </html>
