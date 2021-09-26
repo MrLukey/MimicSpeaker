@@ -5,6 +5,7 @@ namespace App\Abstracts;
 abstract class TaskEntityAbstract
 {
 	protected int $id;
+	protected string $title;
 	protected string $text;
 	protected bool $complete;
 	protected bool $deleted;
@@ -15,6 +16,11 @@ abstract class TaskEntityAbstract
 	public function getID(): int
 	{
 		return $this->id;
+	}
+
+	public function getTitle(): string
+	{
+		return $this->title;
 	}
 
 	public function getText(): string

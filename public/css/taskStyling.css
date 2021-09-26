@@ -1,74 +1,84 @@
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
 
-.newTaskText, .newTaskButton {
-    font-size: 20px;
-    padding: 5px;
-}
-
-.newTaskText {
-    width: 80%;
-}
-
-.taskContainer {
-    display: flex;
-    flex-flow: column nowrap;
-    margin: 20px;
-    padding: 10px;
-}
-
-.newTaskForm {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: center;
-}
+/*.newTaskForm {*/
+/*    width: 90%;*/
+/*}*/
 
 .task {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 5px;
-    padding: 10px;
+    min-width: 400px;
 }
 
-.complete {
-    background-color: blue;
-}
 
-.incomplete {
-    background-color: yellow;
-}
+/** {*/
+/*    box-sizing: border-box;*/
+/*    margin: 0;*/
+/*    padding: 0;*/
+/*}*/
 
-.deleted {
-    background-color: red;
-}
+/*.newTaskText, .newTaskButton {*/
+/*    font-size: 20px;*/
+/*    padding: 5px;*/
+/*}*/
 
-.restored {
-    background-color: green;
-}
+/*.newTaskText {*/
+/*    width: 80%;*/
+/*}*/
 
-.controlWrapper {
-    display: flex;
-    flex-flow: column nowrap;
-    justify-content: space-around;
-    height: 100%;
-}
+/*.taskContainer {*/
+/*    display: flex;*/
+/*    flex-flow: column nowrap;*/
+/*    margin: 20px;*/
+/*    padding: 10px;*/
+/*}*/
 
-.buttonWrapper {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: flex-end;
-}
+/*.newTaskForm {*/
+/*    display: flex;*/
+/*    flex-flow: row nowrap;*/
+/*    justify-content: center;*/
+/*}*/
 
-.taskText {
-    font-size: 30px;
-}
+/*.task {*/
+/*    display: flex;*/
+/*    flex-flow: row nowrap;*/
+/*    justify-content: space-between;*/
+/*    align-items: center;*/
+/*    margin-bottom: 5px;*/
+/*    padding: 10px;*/
+/*}*/
 
-.dateTime {
-    font-size: 12px;
-    text-align: right;
-}
+/*.complete {*/
+/*    background-color: blue;*/
+/*}*/
+
+/*.incomplete {*/
+/*    background-color: yellow;*/
+/*}*/
+
+/*.deleted {*/
+/*    background-color: red;*/
+/*}*/
+
+/*.restored {*/
+/*    background-color: green;*/
+/*}*/
+
+/*.controlWrapper {*/
+/*    display: flex;*/
+/*    flex-flow: column nowrap;*/
+/*    justify-content: space-around;*/
+/*    height: 100%;*/
+/*}*/
+
+/*.buttonWrapper {*/
+/*    display: flex;*/
+/*    flex-flow: row nowrap;*/
+/*    justify-content: flex-end;*/
+/*}*/
+
+/*.taskText {*/
+/*    font-size: 30px;*/
+/*}*/
+
+/*.dateTime {*/
+/*    font-size: 12px;*/
+/*    text-align: right;*/
+/*}*/

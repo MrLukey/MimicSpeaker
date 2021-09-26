@@ -14,7 +14,7 @@ class TaskModel
 
 	public function getAllTasks(): array
 	{
-		$query = $this->db->prepare('SELECT `id`, `text`, `creationTime`, `complete`, `completionTime`, `deleted`, `deletionTime` FROM  `tasks` ORDER BY complete, deleted;');
+		$query = $this->db->prepare('SELECT `id`, `title`, `text`, `creationTime`, `complete`, `completionTime`, `deleted`, `deletionTime` FROM  `tasks` ORDER BY complete, deleted;');
 		$query->setFetchMode(\PDO::FETCH_CLASS, TaskEntity::class);
 		try {
 			$query->execute();
@@ -24,9 +24,10 @@ class TaskModel
 		}
 	}
 
-	public function insertTask(string $text): ?array
+	public function insertTask(string $title, string $text): ?array
 	{
-		$query = $this->db->prepare('INSERT INTO `tasks` (`text`, `creationTime`) VALUES (:text, CURRENT_TIMESTAMP);');
+		$query = $this->db->prepare('INSERT INTO `tasks` (`title`, `text`, `creationTime`) VALUES (:title, :text, CURRENT_TIMESTAMP);');
+		$query->bindParam(':title', $title);
 		$query->bindParam(':text', $text);
 		try {
 			$query->execute();
