@@ -2,7 +2,7 @@
 namespace App\Controllers;
 use Psr\Container\ContainerInterface;
 
-class GetAllTasksController
+class ToDoListPageController
 {
 	private ContainerInterface $container;
 

@@ -4,7 +4,9 @@ declare(strict_types=1);
 use Slim\App;
 
 return function (App $app) {
-    $app->get('/', 'getAllTasksController');
+    $app->get('/', 'toDoListPageController');
+    $app->get('/login', 'loginPageController');
+
     $app->post('/editAll', 'editAllTasksController');
     $app->post('/add', 'insertNewTaskController');
     $app->post('/complete', 'markTasksCompleteController');

@@ -32,10 +32,12 @@ return function (ContainerBuilder $containerBuilder) {
         return new PhpRenderer($settings['template_path']);
     };
 
+    $container['loginPageController'] = DI\factory('App\Factories\LoginPageControllerFactory');
+	$container['toDoListPageController'] = DI\factory('App\Factories\GetAllTasksControllerFactory');
+
 	$container['taskModel'] = DI\factory('App\Factories\TaskModelFactory');
 	$container['errorLoggerModel'] = DI\factory('App\Factories\ErrorLoggerModelFactory');
 
-	$container['getAllTasksController'] = DI\factory('App\Factories\GetAllTasksControllerFactory');
 	$container['insertNewTaskController'] = DI\factory('App\Factories\InsertNewTaskControllerFactory');
 	$container['editAllTasksController'] = DI\factory('App\Factories\EditAllTasksControllerFactory');
 
