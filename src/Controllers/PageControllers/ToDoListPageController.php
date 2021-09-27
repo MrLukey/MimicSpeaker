@@ -1,5 +1,5 @@
 <?php
-namespace App\Controllers;
+namespace App\Controllers\PageControllers;
 use Psr\Container\ContainerInterface;
 
 class ToDoListPageController

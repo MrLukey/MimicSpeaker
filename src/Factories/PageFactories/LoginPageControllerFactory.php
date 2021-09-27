@@ -1,7 +1,7 @@
 <?php
 
-namespace App\Factories;
-use App\Controllers\LoginPageController;
+namespace App\Factories\PageFactories;
+use App\Controllers\PageControllers\LoginPageController;
 use Psr\Container\ContainerInterface;
 
 class LoginPageControllerFactory

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\DatabaseControllers;
 use Psr\Container\ContainerInterface;
 
-class DeleteTasksPermanentlyController
+class MarkTasksNotArchivedController
 {
 	private ContainerInterface $container;
 
@@ -17,10 +17,10 @@ class DeleteTasksPermanentlyController
 		$taskModel = $this->container->get('taskModel');
 		$errorLogger = $this->container->get('errorLoggerModel');
 		$error = false;
-		$tasksToDeletePermanently = $request->getParsedBody();
-		foreach ($tasksToDeletePermanently as $key => $value){
+		$tasksToMarkNotDeleted = $request->getParsedBody();
+		foreach ($tasksToMarkNotDeleted as $key => $value){
 			$taskID = intval(mb_substr($key, 4)); // extract ID from task{ID}="on" checkbox inputs
-			$errorData = $taskModel->deleteTaskPermanently($taskID);
+			$errorData = $taskModel->markTaskNotArchived($taskID);
 			if ($errorData){
 				$errorLogger->logDatabaseError($errorData['cause'], $errorData['exception']);
 				$error = true;

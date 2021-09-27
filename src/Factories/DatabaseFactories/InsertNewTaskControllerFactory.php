@@ -1,7 +1,7 @@
 <?php
 
-namespace App\Factories;
-use App\Controllers\InsertNewTaskController;
+namespace App\Factories\DatabaseFactories;
+use App\Controllers\DatabaseControllers\InsertNewTaskController;
 use Psr\Container\ContainerInterface;
 
 class InsertNewTaskControllerFactory

@@ -1,7 +1,7 @@
 <?php
 
-namespace App\Factories;
-use App\Controllers\EditAllTasksController;
+namespace App\Factories\DatabaseFactories;
+use App\Controllers\DatabaseControllers\EditAllTasksController;
 use Psr\Container\ContainerInterface;
 
 class EditAllTasksControllerFactory

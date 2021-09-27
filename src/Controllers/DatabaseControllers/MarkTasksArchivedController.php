@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\DatabaseControllers;
 use Psr\Container\ContainerInterface;
 
-class MarkTasksNotArchivedController
+class MarkTasksArchivedController
 {
 	private ContainerInterface $container;
 
@@ -17,10 +17,10 @@ class MarkTasksNotArchivedController
 		$taskModel = $this->container->get('taskModel');
 		$errorLogger = $this->container->get('errorLoggerModel');
 		$error = false;
-		$tasksToMarkNotDeleted = $request->getParsedBody();
-		foreach ($tasksToMarkNotDeleted as $key => $value){
+		$tasksToMarkDeleted = $request->getParsedBody();
+		foreach ($tasksToMarkDeleted as $key => $value){
 			$taskID = intval(mb_substr($key, 4)); // extract ID from task{ID}="on" checkbox inputs
-			$errorData = $taskModel->markTaskNotArchived($taskID);
+			$errorData = $taskModel->markTaskArchived($taskID);
 			if ($errorData){
 				$errorLogger->logDatabaseError($errorData['cause'], $errorData['exception']);
 				$error = true;

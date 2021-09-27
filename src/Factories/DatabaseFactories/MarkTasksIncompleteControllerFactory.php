@@ -1,7 +1,7 @@
 <?php
 
-namespace App\Factories;
-use App\Controllers\MarkTasksIncompleteController;
+namespace App\Factories\DatabaseFactories;
+use App\Controllers\DatabaseControllers\MarkTasksIncompleteController;
 use Psr\Container\ContainerInterface;
 
 class MarkTasksIncompleteControllerFactory

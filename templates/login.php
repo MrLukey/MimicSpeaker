@@ -20,16 +20,16 @@
 <body>
     <main>
         <div class="w-100 mt-5 mb-5">
-            <form method="post">
+            <form method="post" action="login">
                 <div class="input-group mb-3">
-                    <label class="input-group-text" for="title">Title:</label>
+                    <label class="input-group-text" for="userName">Username:</label>
                     <input type="text" maxlength="100" class="form-control" name="taskTitle" id="title" placeholder="e.g Walk the dog">
                 </div>
                 <div class="input-group">
-                    <label class="input-group-text" for="text">Text</label>
-                    <textarea class="form-control" name="taskText" id="text" aria-label="With textarea"></textarea>
-                    <button class="btn btn-primary" type="submit">Add</button>
+                    <label class="input-group-text" for="rawPassword">Password:</label>
+                    <input type="password" maxlength="100" class="form-control" name="taskTitle" id="title" placeholder="e.g Walk the dog">
                 </div>
+                <input type="submit" value="Login">
             </form>
         </div>
     </main>

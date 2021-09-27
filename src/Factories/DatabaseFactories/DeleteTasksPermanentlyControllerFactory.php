@@ -1,7 +1,7 @@
 <?php
 
-namespace App\Factories;
-use App\Controllers\DeleteTasksPermanentlyController;
+namespace App\Factories\DatabaseFactories;
+use App\Controllers\DatabaseControllers\DeleteTasksPermanentlyController;
 use Psr\Container\ContainerInterface;
 
 class DeleteTasksPermanentlyControllerFactory

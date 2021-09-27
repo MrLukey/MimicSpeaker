@@ -1,7 +1,7 @@
 <?php
 
-namespace App\Factories;
-use App\Controllers\ToDoListPageController;
+namespace App\Factories\PageFactories;
+use App\Controllers\PageControllers\ToDoListPageController;
 use Psr\Container\ContainerInterface;
 
 class ToDoListPageControllerFactory

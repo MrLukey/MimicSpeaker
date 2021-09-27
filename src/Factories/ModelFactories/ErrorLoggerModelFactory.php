@@ -1,5 +1,5 @@
 <?php
-namespace App\Factories;
+namespace App\Factories\ModelFactories;
 use App\Models\ErrorLoggerModel;
 
 class ErrorLoggerModelFactory
