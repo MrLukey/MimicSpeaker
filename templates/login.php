@@ -20,16 +20,17 @@
 <body>
     <main>
         <div class="w-100 mt-5 mb-5">
-            <form method="post" action="login">
-                <div class="input-group mb-3">
+            <form method="post">
+                <div class="input-group">
                     <label class="input-group-text" for="userName">Username:</label>
-                    <input type="text" maxlength="100" class="form-control" name="taskTitle" id="title" placeholder="e.g Walk the dog">
+                    <input type="text" maxlength="100" class="form-control" name="userName" id="userName" placeholder="e.g Walk the dog">
                 </div>
                 <div class="input-group">
                     <label class="input-group-text" for="rawPassword">Password:</label>
-                    <input type="password" maxlength="100" class="form-control" name="taskTitle" id="title" placeholder="e.g Walk the dog">
+                    <input type="password" maxlength="100" class="form-control" name="rawPassword" id="rawPassword" placeholder="e.g Walk the dog">
                 </div>
-                <input type="submit" value="Login">
+                <input type="submit" value="Login" formaction="login">
+                <input type="submit" value="Sign Up" formaction="signUp">
             </form>
         </div>
     </main>

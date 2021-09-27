@@ -36,11 +36,14 @@ return function (ContainerBuilder $containerBuilder) {
 	$container['toDoListPageController'] = DI\factory('App\Factories\PageFactories\ToDoListPageControllerFactory');
 
 	$container['taskModel'] = DI\factory('App\Factories\ModelFactories\TaskModelFactory');
+	$container['userModel'] = DI\factory('App\Factories\ModelFactories\UserModelFactory');
 	$container['errorLoggerModel'] = DI\factory('App\Factories\ModelFactories\ErrorLoggerModelFactory');
 
+	$container['insertNewUserController'] = DI\factory('App\Factories\DatabaseFactories\InsertNewUserControllerFactory');
+	$container['authenticateUserController'] = DI\factory('App\Factories\DatabaseFactories\AuthenticateUserControllerFactory');
 	$container['insertNewTaskController'] = DI\factory('App\Factories\DatabaseFactories\InsertNewTaskControllerFactory');
-	$container['editAllTasksController'] = DI\factory('App\Factories\DatabaseFactories\EditAllTasksControllerFactory');
 
+	$container['editAllTasksController'] = DI\factory('App\Factories\DatabaseFactories\EditAllTasksControllerFactory');
 	$container['markTasksCompleteController'] = DI\factory('App\Factories\DatabaseFactories\MarkTasksCompleteControllerFactory');
 	$container['markTasksIncompleteController'] = DI\factory('App\Factories\DatabaseFactories\MarkTasksIncompleteControllerFactory');
 	$container['markTasksArchivedController'] = DI\factory('App\Factories\DatabaseFactories\MarkTasksArchivedControllerFactory');

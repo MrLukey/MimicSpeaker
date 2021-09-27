@@ -6,7 +6,9 @@ use Slim\App;
 return function (App $app) {
     $app->get('/', 'toDoListPageController');
     $app->get('/login', 'loginPageController');
-    $app->post('/login', 'authenticationController');
+
+    $app->post('/login', 'authenticateUserController');
+	$app->post('/signUp', 'insertNewUserController');
 
     $app->post('/add', 'insertNewTaskController');
     $app->post('/complete', 'markTasksCompleteController');

@@ -14,11 +14,10 @@ class UserModel
 
 	public function insertNewUser(string $userName, string $hashPassword): ?array
 	{
-		$query = $this->db->prepare('INSERT INTO `users` (`name`, `password`)
+		$query = $this->db->prepare('INSERT INTO `users` (`userName`, `hashPassword`)
 											VALUES  (:userName, :hashPassword );');
-		$query->bindParam(':name', $userName);
-		$query->bindParam(':password', $hashPassword);
-		$query->setFetchMode(\PDO::FETCH_CLASS, UserEntity::class);
+		$query->bindParam(':userName', $userName);
+		$query->bindParam(':hashPassword', $hashPassword);
 		try {
 			$query->execute();
 			return null;
@@ -30,7 +29,7 @@ class UserModel
 	public function authenticateUser(string $userName, string $hashPassword): ?array
 	{
 		$query = $this->db->prepare('SELECT EXISTS (
-  												SELECT `name`, `lastActive`
+  												SELECT `userName`, `lastActive`
   												FROM `users` 
   												WHERE userName = :userName 
   												  AND hashPassword = :hashPassword 
