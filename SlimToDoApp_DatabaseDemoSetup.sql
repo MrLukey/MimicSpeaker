@@ -6,8 +6,8 @@
 # https://github.com/sequelpro/sequelpro
 #
 # Host: 127.0.0.1 (MySQL 5.7.34)
-# Database: toDoApp
-# Generation Time: 2021-09-26 17:25:20 +0000
+# Database: SlimToDoApp
+# Generation Time: 2021-09-27 17:34:25 +0000
 # ************************************************************
 
 

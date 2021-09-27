@@ -3,7 +3,7 @@
 namespace App\Controllers;
 use Psr\Container\ContainerInterface;
 
-class EditTasksController
+class EditAllTasksController
 {
 	private ContainerInterface $container;
 

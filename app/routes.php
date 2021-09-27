@@ -5,8 +5,8 @@ use Slim\App;
 
 return function (App $app) {
     $app->get('/', 'getAllTasksController');
-    $app->post('/edit', 'editTasksController');
-    $app->post('/add', 'insertTaskController');
+    $app->post('/editAll', 'editAllTasksController');
+    $app->post('/add', 'insertNewTaskController');
     $app->post('/complete', 'markTasksCompleteController');
     $app->post('/incomplete', 'markTasksIncompleteController');
     $app->post('/archive', 'markTasksArchivedController');
