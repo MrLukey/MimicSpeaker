@@ -1,5 +1,12 @@
 <?php
-print_r($data);
+print_r($_SESSION);
+if ($_SESSION['error']){
+	$error = $_SESSION['errorMessage'];
+	$_SESSION['errorMessage'] = '';
+	$_SESSION['error'] = false;
+} else {
+    $error = '';
+}
 ?>
 <!DOCTYPE html>
 <html lang="en-gb">
@@ -17,6 +24,7 @@ print_r($data);
 </head>
 <body>
     <main>
+        <h2><?php echo $error ?></h2>
         <div class="w-100 mt-5 mb-5">
             <form method="post">
                 <div class="input-group">

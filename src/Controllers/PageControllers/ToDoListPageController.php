@@ -13,10 +13,13 @@ class ToDoListPageController
 
 	public function __invoke($request, $response, $args)
 	{
-		if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']) {
+		if ($_SESSION['loggedIn'] && $_SESSION['user'] !== null) {
 			$renderer = $this->container->get('renderer');
 			$taskModel = $this->container->get('taskModel');
-			$taskData = $taskModel->getAllTasks();
+			$errorLogger = $this->container->get('errorLoggerModel');
+			$errorLogger->logTestJSON(['SESSION' => $_SESSION]);
+			$taskData = $taskModel->getAllTasksForUser($_SESSION['user']->getID());
+			$errorLogger->logTestJSON($taskData);
 			if (isset($taskData['exception'])){
 				$errorLogger = $this->container->get('errorLoggerModel');
 				$errorLogger->logDatabaseError($taskData['cause'], $taskData['exception']);

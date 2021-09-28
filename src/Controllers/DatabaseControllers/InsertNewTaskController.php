@@ -14,13 +14,16 @@ class InsertNewTaskController
 
 	public function __invoke($request, $response, $args)
 	{
-		if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']) {
-			$taskModel = $this->container->get('taskModel');
+		if ($_SESSION['loggedIn'] && $_SESSION['user'] !== null) {
 			$taskData = $request->getParsedBody();
-			if ($taskData['taskTitle'] === '')
+			if ($taskData['taskTitle'] === '') {
+				$_SESSION['error'] = true;
+				$_SESSION['errorMessage'] = 'Tasks require at least a title.';
 				return $response->withStatus(500)->withHeader('Location', './');
+			}
 			$taskText = $taskData['taskText'] | '';
-			$errorData = $taskModel->insertTask($taskData['taskTitle'], $taskText);
+			$taskModel = $this->container->get('taskModel');
+			$errorData = $taskModel->insertTask($_SESSION['user']->getID(), $taskData['taskTitle'], $taskText);
 			if ($errorData) {
 				$errorLogger = $this->container->get('errorLoggerModel');
 				$errorLogger->logDatabaseError($errorData['cause'], $errorData['exception']);
@@ -28,8 +31,7 @@ class InsertNewTaskController
 			} else
 				$status = 200;
 			return $response->withStatus($status)->withHeader('Location', './');
-		} else {
-			return $response->withStatus(500)->withHeader('Location', './login');
 		}
+		return $response->withStatus(500)->withHeader('Location', './login');
 	}
 }

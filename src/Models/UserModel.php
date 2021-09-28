@@ -25,7 +25,20 @@ class UserModel
 		}
 	}
 
-	public function getHashedPassword(string $userName): ?array
+	public function getUserByName(string $userName): array
+	{
+		$query = $this->db->prepare('SELECT `id`, `userName`, `lastActive` FROM `users` WHERE `userName` = :userName;');
+		$query->bindParam(':userName', $userName);
+		$query->setFetchMode(\PDO::FETCH_CLASS, UserEntity::class);
+		try {
+			$query->execute();
+			return $query->fetchAll();
+		} catch (\PDOException $exception) {
+			return ['cause' => 'UserModel->getUserByName()', 'exception' => $exception];
+		}
+	}
+
+	public function getHashedPasswordForUser(string $userName): ?array
 	{
 		$query = $this->db->prepare('SELECT `hashPassword`
   												FROM `users` 
@@ -33,9 +46,9 @@ class UserModel
 		$query->bindParam(':userName', $userName);
 		try {
 			$query->execute();
-			return $query->fetch();
+			return $query->fetchAll();
 		} catch (\PDOException $exception) {
-			return ['cause' => 'UserModel->getHashedPassword()', 'exception' => $exception];
+			return ['cause' => 'UserModel->getHashedPasswordForUser()', 'exception' => $exception];
 		}
 	}
 }

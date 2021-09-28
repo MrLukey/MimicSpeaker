@@ -32,17 +32,18 @@ return function (ContainerBuilder $containerBuilder) {
         return new PhpRenderer($settings['template_path']);
     };
 
-    $container['loginPageController'] = DI\factory('App\Factories\PageFactories\LoginPageControllerFactory');
-	$container['toDoListPageController'] = DI\factory('App\Factories\PageFactories\ToDoListPageControllerFactory');
-
 	$container['taskModel'] = DI\factory('App\Factories\ModelFactories\TaskModelFactory');
 	$container['userModel'] = DI\factory('App\Factories\ModelFactories\UserModelFactory');
 	$container['errorLoggerModel'] = DI\factory('App\Factories\ModelFactories\ErrorLoggerModelFactory');
 
-	$container['insertNewUserController'] = DI\factory('App\Factories\DatabaseFactories\InsertNewUserControllerFactory');
-	$container['authenticateUserController'] = DI\factory('App\Factories\DatabaseFactories\AuthenticateUserControllerFactory');
-	$container['insertNewTaskController'] = DI\factory('App\Factories\DatabaseFactories\InsertNewTaskControllerFactory');
+    $container['loginPageController'] = DI\factory('App\Factories\PageFactories\LoginPageControllerFactory');
+	$container['toDoListPageController'] = DI\factory('App\Factories\PageFactories\ToDoListPageControllerFactory');
 
+	$container['insertNewUserController'] = DI\factory('App\Factories\DatabaseFactories\InsertNewUserControllerFactory');
+	$container['loginUserController'] = DI\factory('App\Factories\DatabaseFactories\LoginUserControllerFactory');
+	$container['logoutUserController'] = DI\factory('App\Factories\DatabaseFactories\LogoutUserControllerFactory');
+
+	$container['insertNewTaskController'] = DI\factory('App\Factories\DatabaseFactories\InsertNewTaskControllerFactory');
 	$container['editAllTasksController'] = DI\factory('App\Factories\DatabaseFactories\EditAllTasksControllerFactory');
 	$container['markTasksCompleteController'] = DI\factory('App\Factories\DatabaseFactories\MarkTasksCompleteControllerFactory');
 	$container['markTasksIncompleteController'] = DI\factory('App\Factories\DatabaseFactories\MarkTasksIncompleteControllerFactory');

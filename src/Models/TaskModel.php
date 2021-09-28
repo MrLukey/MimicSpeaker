@@ -12,25 +12,28 @@ class TaskModel
 		$this->db = $db;
 	}
 
-	public function getAllTasks(): array
+	public function getAllTasksForUser(int $userID): array
 	{
-		$query = $this->db->prepare('SELECT `id`, `title`, `text`, `creationTime`, `complete`, 
+		$query = $this->db->prepare('SELECT `id`, `userID`, `title`, `text`, `creationTime`, `complete`, 
        												`completionTime`, `archived`, `archivedTime` 
 											FROM  `tasks` 
+											WHERE `userID` = :userID
 											ORDER BY complete, archived;');
+		$query->bindParam(':userID', $userID);
 		$query->setFetchMode(\PDO::FETCH_CLASS, TaskEntity::class);
 		try {
 			$query->execute();
 			return $query->fetchAll();
 		} catch (\PDOException $exception) {
-			return ['cause' => 'TaskModel->getAllTasks()', 'exception' => $exception];
+			return ['cause' => 'TaskModel->getAllTasksForUser()', 'exception' => $exception];
 		}
 	}
 
-	public function insertTask(string $title, string $text): ?array
+	public function insertTask(int $userID, string $title, string $text): ?array
 	{
-		$query = $this->db->prepare('INSERT INTO `tasks` (`title`, `text`, `creationTime`) 
-											VALUES (:title, :text, CURRENT_TIMESTAMP);');
+		$query = $this->db->prepare('INSERT INTO `tasks` (`userID`, `title`, `text`, `creationTime`) 
+											VALUES (:userID, :title, :text, CURRENT_TIMESTAMP);');
+		$query->bindParam(':userID', $userID);
 		$query->bindParam(':title', $title);
 		$query->bindParam(':text', $text);
 		try {

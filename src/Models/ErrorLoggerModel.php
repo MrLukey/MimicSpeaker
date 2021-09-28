@@ -33,12 +33,12 @@ class ErrorLoggerModel
 		file_put_contents($this->testingLogs, $cause . "\n", FILE_APPEND | LOCK_EX);
 	}
 
-	public function logTestJSON(array $data)
+	public function logTestJSON($data)
 	{
 		file_put_contents($this->testingLogs, json_encode($data) . "\n", FILE_APPEND | LOCK_EX);
 	}
 
-	public function logVarDump(array $data)
+	public function logVarDump($data)
 	{
 		file_put_contents($this->testingLogs, var_dump($data) . "\n", FILE_APPEND | LOCK_EX);
 	}

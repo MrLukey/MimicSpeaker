@@ -29,8 +29,7 @@ class MarkTasksNotArchivedController
 			}
 			$status = $error ? 500 : 200;
 			return $response->withStatus($status)->withHeader('Location', './');
-		} else {
-			return $response->withStatus(500)->withHeader('Location', './login');
 		}
+		return $response->withStatus(500)->withHeader('Location', './login');
 	}
 }

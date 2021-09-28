@@ -14,7 +14,7 @@ class MarkTasksCompleteController
 
 	public function __invoke($request, $response, $args)
 	{
-		if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']) {
+		if ($_SESSION['loggedIn'] && $_SESSION['user'] !== null) {
 			$taskModel = $this->container->get('taskModel');
 			$errorLogger = $this->container->get('errorLoggerModel');
 			$error = false;
@@ -29,8 +29,7 @@ class MarkTasksCompleteController
 			}
 			$status = $error ? 500 : 200;
 			return $response->withStatus($status)->withHeader('Location', './');
-		} else {
-			return $response->withStatus(500)->withHeader('Location', './login');
 		}
+		return $response->withStatus(500)->withHeader('Location', './login');
 	}
 }

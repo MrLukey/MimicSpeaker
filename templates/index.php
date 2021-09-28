@@ -39,7 +39,9 @@ elseif (isset($data['exception'])) {
 </head>
 <body>
 <main class="d-flex flex-column align-items-center w-75 m-auto">
-    <?php include 'newTaskForm.html'; ?>
+    <?php
+        include 'newTaskForm.html';
+    ?>
     <p class="errorMessage"><?php echo $errorMessage ?></p>
     <?php
         if(count($incompleteTasks) > 0) {

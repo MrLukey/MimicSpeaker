@@ -7,7 +7,8 @@ return function (App $app) {
     $app->get('/', 'toDoListPageController');
 
     $app->get('/login', 'loginPageController');
-    $app->post('/login', 'authenticateUserController');
+    $app->post('/login', 'loginUserController');
+    $app->any('/logout', 'logoutUserController');
 
 	$app->any('/signUp', 'insertNewUserController');
     $app->any('/add', 'insertNewTaskController');

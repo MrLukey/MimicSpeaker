@@ -29,8 +29,13 @@ $repositories($containerBuilder);
 // Build PHP-DI Container instance
 $container = $containerBuilder->build();
 
-// Start a session
+// Start a session and initialise session vars
 session_start();
+$_SESSION['loggedIn'] = $_SESSION['loggedIn'] ?? false;
+$_SESSION['loginAttempts'] = $_SESSION['loginAttempts'] ?? 0;
+$_SESSION['user'] = $_SESSION['user'] ?? null;
+$_SESSION['error'] =  $_SESSION['error'] ?? false;
+$_SESSION['errorMessage'] = $_SESSION['errorMessage'] ?? '';
 
 // Instantiate the app
 AppFactory::setContainer($container);
