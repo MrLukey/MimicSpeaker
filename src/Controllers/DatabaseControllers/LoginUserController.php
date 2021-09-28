@@ -29,21 +29,27 @@ class LoginUserController
 			$errorLogger = $this->container->get('errorLoggerModel');
 			$errorLogger->logDataBaseError($hashPasswordData['cause'], $hashPasswordData['exception']);
 		} elseif (isset($hashPasswordData['hashPassword'])){
-			if (password_verify($userInputData['rawPassword'], $hashPasswordData['hashPassword'])){
-				$userData = $userModel->getUserByName($userInputData['userName']);
-				if (isset($userData['exception'])) {
-					$errorLogger = $this->container->get('errorLoggerModel');
-					$errorLogger->logDatabaseError($userData['cause'], $userData['exception']);
-					$_SESSION['error'] = 'Unexpected database error.';
-				} else {
-					$_SESSION['loggedIn'] = true;
-					$_SESSION['user'] = $userData[0];
-					$_SESSION['error'] = false;
-					$_SESSION['errorMessage'] = '';
-					return $response->withStatus(200)->withHeader('Location', './');
-				}
+			$userData = $userModel->getUserByName($userInputData['userName']);
+			if (isset($userData['exception'])) {
+				$errorLogger = $this->container->get('errorLoggerModel');
+				$errorLogger->logDatabaseError($userData['cause'], $userData['exception']);
+				$_SESSION['error'] = 'Unexpected database error.';
+			} elseif (password_verify($userInputData['rawPassword'], $hashPasswordData['hashPassword'])){
+				$_SESSION['loggedIn'] = true;
+				$_SESSION['loginAttempts'] = 0;
+				$_SESSION['user'] = $userData[0];
+				$_SESSION['error'] = false;
+				$_SESSION['errorMessage'] = '';
+				return $response->withStatus(200)->withHeader('Location', './');
 			} else {
 				$_SESSION['loginAttempts']++;
+				if ($_SESSION['loginAttempts'] > 10){
+					$errorLogger = $this->container->get('errorLoggerModel');
+					$suspectLoginData = ['type' => 'Login Attempts',
+						'# of attempts' => $_SESSION['loginAttempts'] ,
+						'onUser' => $userData[0]];
+					$errorLogger->logSuspiciousActivity($suspectLoginData);
+				}
 			}
 		}
 		return $response->withStatus(500)->withHeader('Location', './login');
