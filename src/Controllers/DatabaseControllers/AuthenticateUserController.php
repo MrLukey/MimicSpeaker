@@ -17,6 +17,8 @@ class AuthenticateUserController
 		$userModel = $this->container->get('userModel');
 		$errorLogger = $this->container->get('errorLoggerModel');
 		$userData = $request->getParsedBody();
+		if ($userData['userName'] === '' || $userData['rawPassword'] === '')
+			return $response->withStatus(500)->withHeader('Location', './login');
 		$hashPasswordData = $userModel->getHashedPassword($userData['userName']);
 		if (isset($hashPasswordData['exception'])) {
 			$errorLogger->logDataBaseError($hashPasswordData['cause'], $hashPasswordData['exception']);

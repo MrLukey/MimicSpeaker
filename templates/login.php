@@ -1,6 +1,5 @@
 <?php
-
-
+print_r($data);
 ?>
 <!DOCTYPE html>
 <html lang="en-gb">
