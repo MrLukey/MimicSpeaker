@@ -15,7 +15,7 @@ class TaskViewHelper
 			$buttonOneFormAction = '/recover';
 			$buttonOneStyle = 'success';
 			$buttonTwoName = 'Delete';
-			$buttonTwoFormAction = '/deletePermanently';
+			$buttonTwoFormAction = '/delete';
 			$buttonTwoStyle = 'danger';
 		} elseif ($task->isComplete()) {
 			$taskTime = $task->getCompletionTime();

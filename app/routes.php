@@ -8,15 +8,17 @@ return function (App $app) {
 
     $app->get('/login', 'loginPageController');
     $app->post('/login', 'loginUserController');
-    $app->any('/logout', 'logoutUserController');
 
-	$app->any('/signUp', 'insertNewUserController');
+    $app->get('/signup', 'signUpPageController');
+	$app->post('/signup', 'signUpNewUserController');
+
+    $app->any('/logout', 'logoutUserController');
     $app->any('/add', 'insertNewTaskController');
     $app->any('/complete', 'markTasksCompleteController');
     $app->any('/incomplete', 'markTasksIncompleteController');
     $app->any('/archive', 'markTasksArchivedController');
     $app->any('/recover', 'markTasksNotArchivedController');
-    $app->any('/deletePermanently', 'deleteTasksPermanentlyController');
+    $app->any('/delete', 'deleteTasksController');
 
 	$app->post('/editAll', 'editAllTasksController');
 };

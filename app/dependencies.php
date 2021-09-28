@@ -37,9 +37,10 @@ return function (ContainerBuilder $containerBuilder) {
 	$container['errorLoggerModel'] = DI\factory('App\Factories\ModelFactories\ErrorLoggerModelFactory');
 
     $container['loginPageController'] = DI\factory('App\Factories\PageFactories\LoginPageControllerFactory');
+    $container['signUpPageController'] = DI\factory('App\Factories\PageFactories\SignUpPageControllerFactory');
 	$container['toDoListPageController'] = DI\factory('App\Factories\PageFactories\ToDoListPageControllerFactory');
 
-	$container['insertNewUserController'] = DI\factory('App\Factories\DatabaseFactories\InsertNewUserControllerFactory');
+	$container['signUpNewUserController'] = DI\factory('App\Factories\DatabaseFactories\SignUpNewUserControllerFactory');
 	$container['loginUserController'] = DI\factory('App\Factories\DatabaseFactories\LoginUserControllerFactory');
 	$container['logoutUserController'] = DI\factory('App\Factories\DatabaseFactories\LogoutUserControllerFactory');
 
@@ -49,7 +50,7 @@ return function (ContainerBuilder $containerBuilder) {
 	$container['markTasksIncompleteController'] = DI\factory('App\Factories\DatabaseFactories\MarkTasksIncompleteControllerFactory');
 	$container['markTasksArchivedController'] = DI\factory('App\Factories\DatabaseFactories\MarkTasksArchivedControllerFactory');
 	$container['markTasksNotArchivedController'] = DI\factory('App\Factories\DatabaseFactories\MarkTasksNotArchivedControllerFactory');
-	$container['deleteTasksPermanentlyController'] = DI\factory('App\Factories\DatabaseFactories\DeleteTasksPermanentlyControllerFactory');
+	$container['deleteTasksController'] = DI\factory('App\Factories\DatabaseFactories\deleteTasksControllerFactory');
 
     $containerBuilder->addDefinitions($container);
 };

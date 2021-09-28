@@ -3,7 +3,7 @@
 namespace App\Controllers\DatabaseControllers;
 use Psr\Container\ContainerInterface;
 
-class InsertNewUserController
+class SignUpNewUserController
 {
 	private ContainerInterface $container;
 

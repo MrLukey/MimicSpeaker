@@ -3,7 +3,7 @@
 namespace App\Controllers\DatabaseControllers;
 use Psr\Container\ContainerInterface;
 
-class DeleteTasksPermanentlyController
+class deleteTasksController
 {
 	private ContainerInterface $container;
 
@@ -17,8 +17,8 @@ class DeleteTasksPermanentlyController
 		if ($_SESSION['loggedIn'] && $_SESSION['user'] !== null){
 			$error = false;
 			$taskModel = $this->container->get('taskModel');
-			$tasksToDeletePermanently = $request->getParsedBody();
-			foreach ($tasksToDeletePermanently as $key => $value){
+			$tasksTodelete = $request->getParsedBody();
+			foreach ($tasksTodelete as $key => $value){
 				$taskID = intval(mb_substr($key, 4)); // extract ID from task{ID}="on" checkbox inputs
 				$errorData = $taskModel->deleteTaskPermanently($taskID);
 				if ($errorData){

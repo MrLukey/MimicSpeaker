@@ -3,7 +3,7 @@
 namespace App\Controllers\PageControllers;
 use Psr\Container\ContainerInterface;
 
-class LoginPageController
+class SignUpPageController
 {
 	private ContainerInterface $container;
 
@@ -17,6 +17,6 @@ class LoginPageController
 		if ($_SESSION['loggedIn'] && $_SESSION['user'] !== null)
 			return $response->withStatus(200)->withHeader('Location', '/');
 		$renderer = $this->container->get('renderer');
-		return $renderer->render($response, 'loginPage.php', $args);
+		return $renderer->render($response, 'signUpPage.php', $args);
 	}
 }
