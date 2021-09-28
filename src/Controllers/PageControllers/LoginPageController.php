@@ -14,6 +14,8 @@ class LoginPageController
 
 	public function __invoke($request, $response, $args)
 	{
+		if ($_SESSION['loggedIn'] && $_SESSION['user'] !== null)
+			return $response->withStatus(200)->withHeader('Location', '/');
 		$renderer = $this->container->get('renderer');
 		return $renderer->render($response, 'login.php', $args);
 	}

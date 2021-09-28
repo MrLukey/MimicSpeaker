@@ -40,13 +40,11 @@ elseif (isset($data['exception'])) {
 </head>
 <body>
     <header>
-        <nav class="d-flex row-nowrap justify-content-between w-100 p-3">
-            <div class="col-1">
-                <?php echo UserViewHelper::createUserProfileCard($_SESSION['user']); ?>
-            </div>
-            <div class="col-11">
-	            <?php include 'newTaskForm.html'; ?>
-            </div>
+        <div class="row d-flex justify-content-center m-auto">
+		    <?php echo UserViewHelper::createUserProfileCard($_SESSION['user']); ?>
+        </div>
+        <nav class="row d-flex row-wrap justify-content-between align-items-baseline w-100 p-3">
+            <?php include 'newTaskForm.html'; ?>
         </nav>
     </header>
 <main class="d-flex flex-column align-items-center w-75 m-auto">

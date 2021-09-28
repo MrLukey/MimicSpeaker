@@ -2,14 +2,15 @@
 
 namespace App\ViewHelpers;
 use App\Abstracts\UserEntityAbstract;
-use App\Entities\UserEntity;
 
 class UserViewHelper
 {
 	public static function createUserProfileCard(UserEntityAbstract $user): string
 	{
 		return
-			'<h2 class="card-title">' . $user->getUserName() . '</h2>' .
-			'<form mehtod="post" action="logout"><input type="submit" value="Logout"></form>';
+			'<div class="d-flex row-nowrap align-items-baseline justify-content-between p-3">' .
+				'<span class="userName">' . $user->getUserName() . '</span>' .
+				'<form mehtod="post" action="logout"><input class="btn btn-secondary" type="submit" value="Logout"></form>' .
+			'</div>';
 	}
 }
