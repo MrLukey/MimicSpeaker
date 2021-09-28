@@ -2,6 +2,14 @@
 
 use App\ViewHelpers\TaskViewHelper;
 
+if (!isset($_SESSION['loggedIn'])) {
+    header('Location: /login');
+    exit;
+} else {
+    echo '<h1>LOGGED IN: ' . $_SESSION['loggedIn'] . '</h1>';
+	echo '<h2>PHPSESSID: ' . $_COOKIE['PHPSESSID'] . '</h2>';
+}
+
 $incompleteTasks = [];
 $completeTasks = [];
 $archivedTasks = [];

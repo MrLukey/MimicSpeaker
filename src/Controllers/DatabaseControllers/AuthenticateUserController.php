@@ -17,13 +17,19 @@ class AuthenticateUserController
 		$userModel = $this->container->get('userModel');
 		$errorLogger = $this->container->get('errorLoggerModel');
 		$userData = $request->getParsedBody();
-		$hashPassword = password_hash($userData['rawPassword'], PASSWORD_DEFAULT);
-		$errorData = $userModel->authenticateUser($userData['userName'], $hashPassword);
-		if ($errorData) {
-			$errorLogger->logDatabaseError($errorData['cause'], $errorData['exception']);
-			return $response->withStatus(500)->withHeader('Location', './login');
+		$hashPasswordData = $userModel->getHashedPassword($userData['userName']);
+		if (isset($hashPasswordData['exception'])) {
+			$errorLogger->logDataBaseError($hashPasswordData['cause'], $hashPasswordData['exception']);
 		} else {
-			return $response->withStatus(200)->withHeader('Location', './');
+			if (password_verify($userData['rawPassword'], $hashPasswordData['hashPassword'])){
+				$_SESSION['loggedIn'] = true;
+				$errorLogger->logTestString('VERIFIED');
+				return $response->withStatus(200)->withHeader('Location', './');
+			} else {
+				$errorLogger->logTestString('UNVERIFIED');
+				$_SESSION['loggedIn'] = false;
+			}
 		}
+		return $response->withStatus(200)->withHeader('Location', './login');
 	}
 }

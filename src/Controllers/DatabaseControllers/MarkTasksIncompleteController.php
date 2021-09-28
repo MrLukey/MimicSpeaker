@@ -14,6 +14,7 @@ class MarkTasksIncompleteController
 
 	public function __invoke($request, $response, $args)
 	{
+
 		$taskModel = $this->container->get('taskModel');
 		$errorLogger = $this->container->get('errorLoggerModel');
 		$error = false;

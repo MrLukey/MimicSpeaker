@@ -18,9 +18,9 @@ class EditAllTasksController
 		$errorLogger = $this->container->get('errorLoggerModel');
 		$taskData = $request->getParsedBody();
 		$editFunction = $taskData['editFunction'];
-		$errorLogger->logJsonData($taskData);
+		$errorLogger->logTestJSON($taskData);
 		unset($taskData['editFunction']);
-		$errorLogger->logJsonData($taskData);
+		$errorLogger->logTestJSON($taskData);
 		foreach ($taskData as $key => $value) {
 			$taskID = intval(mb_substr($key, 4)); // extract ID from task{ID}="on" checkbox inputs
 			switch ($editFunction) {

@@ -14,10 +14,9 @@ class UserModel
 
 	public function insertNewUser(string $userName, string $hashPassword): ?array
 	{
-		$query = $this->db->prepare('INSERT INTO `users` (`userName`, `hashPassword`)
-											VALUES  (:userName, :hashPassword );');
+		$query = $this->db->prepare("INSERT INTO `users` (`userName`, `hashPassword`)
+											VALUES  (:userName, '$hashPassword');");
 		$query->bindParam(':userName', $userName);
-		$query->bindParam(':hashPassword', $hashPassword);
 		try {
 			$query->execute();
 			return null;
@@ -26,21 +25,17 @@ class UserModel
 		}
 	}
 
-	public function authenticateUser(string $userName, string $hashPassword): ?array
+	public function getHashedPassword(string $userName): ?array
 	{
-		$query = $this->db->prepare('SELECT EXISTS (
-  												SELECT `userName`, `lastActive`
+		$query = $this->db->prepare('SELECT `hashPassword`
   												FROM `users` 
-  												WHERE userName = :userName 
-  												  AND hashPassword = :hashPassword 
-											);');
+  												WHERE userName = :userName;');
 		$query->bindParam(':userName', $userName);
-		$query->bindParam(':hashPassword', $hashPassword);
 		try {
 			$query->execute();
-			return null;
+			return $query->fetch();
 		} catch (\PDOException $exception) {
-			return ['cause' => 'UserModel->authenticateUser()', 'exception' => $exception];
+			return ['cause' => 'UserModel->getHashedPassword()', 'exception' => $exception];
 		}
 	}
 }

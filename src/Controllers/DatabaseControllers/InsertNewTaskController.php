@@ -14,18 +14,22 @@ class InsertNewTaskController
 
 	public function __invoke($request, $response, $args)
 	{
-		$taskModel = $this->container->get('taskModel');
-		$taskData = $request->getParsedBody();
-		if ($taskData['taskTitle'] === '')
-			return $response->withStatus(500)->withHeader('Location', './');
-		$taskText = $taskData['taskText'] | '';
-		$errorData = $taskModel->insertTask($taskData['taskTitle'], $taskText);
-		if ($errorData) {
-			$errorLogger = $this->container->get('errorLoggerModel');
-			$errorLogger->logDatabaseError($errorData['cause'], $errorData['exception']);
-			$status = 500;
-		} else
-			$status = 200;
-		return $response->withStatus($status)->withHeader('Location', './');
+		if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']) {
+			$taskModel = $this->container->get('taskModel');
+			$taskData = $request->getParsedBody();
+			if ($taskData['taskTitle'] === '')
+				return $response->withStatus(500)->withHeader('Location', './');
+			$taskText = $taskData['taskText'] | '';
+			$errorData = $taskModel->insertTask($taskData['taskTitle'], $taskText);
+			if ($errorData) {
+				$errorLogger = $this->container->get('errorLoggerModel');
+				$errorLogger->logDatabaseError($errorData['cause'], $errorData['exception']);
+				$status = 500;
+			} else
+				$status = 200;
+			return $response->withStatus($status)->withHeader('Location', './');
+		} else {
+			return $response->withStatus(500)->withHeader('Location', './login');
+		}
 	}
 }

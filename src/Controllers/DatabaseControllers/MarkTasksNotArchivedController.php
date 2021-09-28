@@ -14,19 +14,23 @@ class MarkTasksNotArchivedController
 
 	public function __invoke($request, $response, $args)
 	{
-		$taskModel = $this->container->get('taskModel');
-		$errorLogger = $this->container->get('errorLoggerModel');
-		$error = false;
-		$tasksToMarkNotDeleted = $request->getParsedBody();
-		foreach ($tasksToMarkNotDeleted as $key => $value){
-			$taskID = intval(mb_substr($key, 4)); // extract ID from task{ID}="on" checkbox inputs
-			$errorData = $taskModel->markTaskNotArchived($taskID);
-			if ($errorData){
-				$errorLogger->logDatabaseError($errorData['cause'], $errorData['exception']);
-				$error = true;
+		if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']) {
+			$taskModel = $this->container->get('taskModel');
+			$errorLogger = $this->container->get('errorLoggerModel');
+			$error = false;
+			$tasksToMarkNotDeleted = $request->getParsedBody();
+			foreach ($tasksToMarkNotDeleted as $key => $value) {
+				$taskID = intval(mb_substr($key, 4)); // extract ID from task{ID}="on" checkbox inputs
+				$errorData = $taskModel->markTaskNotArchived($taskID);
+				if ($errorData) {
+					$errorLogger->logDatabaseError($errorData['cause'], $errorData['exception']);
+					$error = true;
+				}
 			}
+			$status = $error ? 500 : 200;
+			return $response->withStatus($status)->withHeader('Location', './');
+		} else {
+			return $response->withStatus(500)->withHeader('Location', './login');
 		}
-		$status = $error ? 500 : 200;
-		return $response->withStatus($status)->withHeader('Location', './');
 	}
 }

@@ -5,17 +5,17 @@ use Slim\App;
 
 return function (App $app) {
     $app->get('/', 'toDoListPageController');
+
     $app->get('/login', 'loginPageController');
-
     $app->post('/login', 'authenticateUserController');
-	$app->post('/signUp', 'insertNewUserController');
 
-    $app->post('/add', 'insertNewTaskController');
-    $app->post('/complete', 'markTasksCompleteController');
-    $app->post('/incomplete', 'markTasksIncompleteController');
-    $app->post('/archive', 'markTasksArchivedController');
-    $app->post('/recover', 'markTasksNotArchivedController');
-    $app->post('/deletePermanently', 'deleteTasksPermanentlyController');
+	$app->any('/signUp', 'insertNewUserController');
+    $app->any('/add', 'insertNewTaskController');
+    $app->any('/complete', 'markTasksCompleteController');
+    $app->any('/incomplete', 'markTasksIncompleteController');
+    $app->any('/archive', 'markTasksArchivedController');
+    $app->any('/recover', 'markTasksNotArchivedController');
+    $app->any('/deletePermanently', 'deleteTasksPermanentlyController');
 
 	$app->post('/editAll', 'editAllTasksController');
 };

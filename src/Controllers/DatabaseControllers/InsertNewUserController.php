@@ -16,17 +16,18 @@ class InsertNewUserController
 	{
 		$userModel = $this->container->get('userModel');
 		$userData = $request->getParsedBody();
-		if ($userData['userName'] === '' || $userData['password'] === '')
+		if ($userData['userName'] === '' || $userData['rawPassword'] === '')
 			return $response->withStatus(500)->withHeader('Location', './login');
-
 		$hashPassword = password_hash($userData['rawPassword'], PASSWORD_DEFAULT);
 		$errorData = $userModel->insertNewUser($userData['userName'], $hashPassword);
 		if ($errorData) {
 			$errorLogger = $this->container->get('errorLoggerModel');
 			$errorLogger->logDatabaseError($errorData['cause'], $errorData['exception']);
-			$status = 500;
-		} else
-			$status = 200;
-		return $response->withStatus($status)->withHeader('Location', './');
+			return $response->withStatus(500)->withHeader('Location', './login');
+		} else {
+			$_SESSION['loggedIn'] = true;
+			return $response->withStatus(200)->withHeader('Location', './');
+		}
+
 	}
 }
