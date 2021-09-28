@@ -1,12 +1,11 @@
 <?php
 
 namespace App\ViewHelpers;
-
 use App\Abstracts\TaskEntityAbstract;
 
 class TaskViewHelper
 {
-	public static function createTaskListing(TaskEntityAbstract $task): string
+	public static function createTaskCard(TaskEntityAbstract $task): string
 	{
 		if ($task->isArchived()) {
 			$taskTime = $task->getArchivedTime();
