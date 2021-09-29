@@ -5,7 +5,7 @@ use App\Abstracts\UserEntityAbstract;
 
 class UserViewHelper
 {
-	public static function createUserProfileCard(UserEntityAbstract $user): string
+	public static function createHTMLForUserProfileCard(UserEntityAbstract $user): string
 	{
 		return
 			'<div class="d-flex row-nowrap align-items-baseline justify-content-between p-3">' .

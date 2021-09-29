@@ -41,10 +41,10 @@ elseif (isset($data['exception'])) {
 <body>
     <header>
         <div class="row d-flex justify-content-center m-auto">
-		    <?php echo UserViewHelper::createUserProfileCard($_SESSION['user']); ?>
+		    <?php echo UserViewHelper::createHTMLForUserProfileCard($_SESSION['user']); ?>
         </div>
         <nav class="row d-flex row-wrap justify-content-between align-items-baseline w-100 p-3">
-            <?php include 'newTaskForm.html'; ?>
+            <?php echo TaskViewHelper::createHTMLForNewTaskForm()  ?>
         </nav>
     </header>
 <main class="d-flex flex-column align-items-center w-75 m-auto">
@@ -53,19 +53,19 @@ elseif (isset($data['exception'])) {
         if(count($incompleteTasks) > 0) {
             echo '<section class="w-100 mb-5">';
             foreach ($incompleteTasks as $task)
-                echo TaskViewHelper::createTaskCard($task);
+                echo TaskViewHelper::createHTMLForTaskCard($task);
             echo '</section>';
         }
         if(count($completeTasks) > 0) {
             echo '<section class="w-100 mb-5">';
             foreach ($completeTasks as $task)
-                echo TaskViewHelper::createTaskCard($task);
+                echo TaskViewHelper::createHTMLForTaskCard($task);
             echo '</section>';
         }
         if(count($archivedTasks) > 0) {
             echo '<section class="w-100 mb-5">';
             foreach ($archivedTasks as $task)
-                echo TaskViewHelper::createTaskCard($task);
+                echo TaskViewHelper::createHTMLForTaskCard($task);
             echo '</section>';
 	    }
     ?>
