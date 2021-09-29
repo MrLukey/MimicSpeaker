@@ -18,7 +18,7 @@ class SignUpNewUserController
 		$userInputData = $request->getParsedBody();
 		if ($userInputData['userName'] === '' || $userInputData['rawPassword'] === '') {
 			$_SESSION['errorMessage'] ='Username and password must be provided.';
-			return $response->withStatus(500)->withHeader('Location', './login');
+			return $response->withStatus(500)->withHeader('Location', './signup');
 		}
 		$userModel = $this->container->get('userModel');
 		$hashPassword = password_hash($userInputData['rawPassword'], PASSWORD_DEFAULT);
@@ -41,6 +41,6 @@ class SignUpNewUserController
 				return $response->withStatus(200)->withHeader('Location', './');
 			}
 		}
-		return $response->withStatus(500)->withHeader('Location', './login');
+		return $response->withStatus(500)->withHeader('Location', './signup');
 	}
 }

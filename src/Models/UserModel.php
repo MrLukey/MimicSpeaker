@@ -15,8 +15,9 @@ class UserModel
 	public function insertNewUser(string $userName, string $hashPassword): ?array
 	{
 		$query = $this->db->prepare("INSERT INTO `users` (`userName`, `hashPassword`)
-											VALUES  (:userName, '$hashPassword');");
+											VALUES  (:userName, :hashPassword);");
 		$query->bindParam(':userName', $userName);
+		$query->bindParam(':hashPassword', $hashPassword);
 		try {
 			$query->execute();
 			return null;
