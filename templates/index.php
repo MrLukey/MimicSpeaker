@@ -1,6 +1,7 @@
 <?php
 
 use App\ViewHelpers\TaskViewHelper;
+use App\ViewHelpers\UserViewHelper;
 
 $incompleteTasks = [];
 $completeTasks = [];
@@ -38,26 +39,33 @@ elseif (isset($data['exception'])) {
     <title>Slim ToDo App</title>
 </head>
 <body>
+    <header>
+        <div class="row d-flex justify-content-center m-auto">
+		    <?php echo UserViewHelper::createHTMLForUserProfileCard($_SESSION['user']); ?>
+        </div>
+        <nav class="row d-flex row-wrap justify-content-between align-items-baseline w-100 p-3">
+            <?php echo TaskViewHelper::createHTMLForNewTaskForm()  ?>
+        </nav>
+    </header>
 <main class="d-flex flex-column align-items-center w-75 m-auto">
-    <?php include 'newTaskForm.html'; ?>
     <p class="errorMessage"><?php echo $errorMessage ?></p>
     <?php
         if(count($incompleteTasks) > 0) {
             echo '<section class="w-100 mb-5">';
             foreach ($incompleteTasks as $task)
-                echo TaskViewHelper::createTaskListing($task);
+                echo TaskViewHelper::createHTMLForTaskCard($task);
             echo '</section>';
         }
         if(count($completeTasks) > 0) {
             echo '<section class="w-100 mb-5">';
             foreach ($completeTasks as $task)
-                echo TaskViewHelper::createTaskListing($task);
+                echo TaskViewHelper::createHTMLForTaskCard($task);
             echo '</section>';
         }
         if(count($archivedTasks) > 0) {
             echo '<section class="w-100 mb-5">';
             foreach ($archivedTasks as $task)
-                echo TaskViewHelper::createTaskListing($task);
+                echo TaskViewHelper::createHTMLForTaskCard($task);
             echo '</section>';
 	    }
     ?>

@@ -1,12 +1,27 @@
 <?php
 
 namespace App\ViewHelpers;
-
 use App\Abstracts\TaskEntityAbstract;
 
 class TaskViewHelper
 {
-	public static function createTaskListing(TaskEntityAbstract $task): string
+	public static function createHTMLForNewTaskForm(): string
+	{
+		return
+			'<form method="post" action="add">
+				<div class="input-group mb-3">
+					<label class="input-group-text" for="title">To Do</label>
+					<input type="text" maxlength="100" class="form-control" name="taskTitle" id="title" placeholder="e.g Walk the dog">
+				</div>
+				<div class="input-group">
+					<label class="input-group-text" for="text">Extra Info</label>
+					<textarea class="form-control" name="taskText" id="text" aria-label="With textarea"></textarea>
+					<button class="btn btn-primary" type="submit">Add</button>
+				</div>
+			</form>';
+	}
+
+	public static function createHTMLForTaskCard(TaskEntityAbstract $task): string
 	{
 		if ($task->isArchived()) {
 			$taskTime = $task->getArchivedTime();
@@ -16,7 +31,7 @@ class TaskViewHelper
 			$buttonOneFormAction = '/recover';
 			$buttonOneStyle = 'success';
 			$buttonTwoName = 'Delete';
-			$buttonTwoFormAction = '/deletePermanently';
+			$buttonTwoFormAction = '/delete';
 			$buttonTwoStyle = 'danger';
 		} elseif ($task->isComplete()) {
 			$taskTime = $task->getCompletionTime();

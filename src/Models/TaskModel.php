@@ -12,25 +12,31 @@ class TaskModel
 		$this->db = $db;
 	}
 
-	public function getAllTasks(): array
+	public function getAllTasksForUser(int $userID): array
 	{
-		$query = $this->db->prepare('SELECT `id`, `title`, `text`, `creationTime`, `complete`, 
-       												`completionTime`, `archived`, `archivedTime` 
-											FROM  `tasks` 
-											ORDER BY complete, archived;');
+		$sqlQuery =
+			'SELECT `id`, `userID`, `title`, `text`, `creationTime`, `complete`, `completionTime`, `archived`, `archivedTime` 
+			FROM  `tasks` 
+			WHERE `userID` = :userID
+			ORDER BY complete, archived;';
+		$query = $this->db->prepare($sqlQuery);
+		$query->bindParam(':userID', $userID);
 		$query->setFetchMode(\PDO::FETCH_CLASS, TaskEntity::class);
 		try {
 			$query->execute();
 			return $query->fetchAll();
 		} catch (\PDOException $exception) {
-			return ['cause' => 'TaskModel->getAllTasks()', 'exception' => $exception];
+			return ['cause' => 'TaskModel->getAllTasksForUser()', 'exception' => $exception];
 		}
 	}
 
-	public function insertTask(string $title, string $text): ?array
+	public function insertTask(int $userID, string $title, string $text): ?array
 	{
-		$query = $this->db->prepare('INSERT INTO `tasks` (`title`, `text`, `creationTime`) 
-											VALUES (:title, :text, CURRENT_TIMESTAMP);');
+		$sqlQuery =
+			'INSERT INTO `tasks` (`userID`, `title`, `text`, `creationTime`) 
+			VALUES (:userID, :title, :text, CURRENT_TIMESTAMP);';
+		$query = $this->db->prepare($sqlQuery);
+		$query->bindParam(':userID', $userID);
 		$query->bindParam(':title', $title);
 		$query->bindParam(':text', $text);
 		try {
@@ -43,9 +49,11 @@ class TaskModel
 
 	public function markTaskComplete(int $taskID): ?array
 	{
-		$query = $this->db->prepare('UPDATE tasks 
-											SET complete = 1, completionTime = CURRENT_TIMESTAMP 
-											WHERE `id` = :taskID;');
+		$sqlQuery =
+			'UPDATE tasks 
+			SET complete = 1, completionTime = CURRENT_TIMESTAMP 
+			WHERE `id` = :taskID;';
+		$query = $this->db->prepare($sqlQuery);
 		$query->bindParam(':taskID', $taskID);
 		try {
 			$query->execute();
@@ -57,9 +65,11 @@ class TaskModel
 
 	public function markTaskIncomplete(int $taskID): ?array
 	{
-		$query = $this->db->prepare("UPDATE tasks 
-											SET complete = 0, completionTime = 'N/A' 
-											WHERE `id` = :taskID;");
+		$sqlQuery =
+			"UPDATE tasks 
+			SET complete = 0, completionTime = 'N/A' 
+			WHERE `id` = :taskID;";
+		$query = $this->db->prepare($sqlQuery);
 		$query->bindParam(':taskID', $taskID);
 		try {
 			$query->execute();
@@ -71,9 +81,11 @@ class TaskModel
 
 	public function markTaskArchived(int $taskID): ?array
 	{
-		$query = $this->db->prepare('UPDATE tasks 
-											SET archived = 1, archivedTime = CURRENT_TIMESTAMP 
-											WHERE `id` = :taskID;');
+		$sqlQuery =
+			'UPDATE tasks 
+			SET archived = 1, archivedTime = CURRENT_TIMESTAMP 
+			WHERE `id` = :taskID;';
+		$query = $this->db->prepare($sqlQuery);
 		$query->bindParam(':taskID', $taskID);
 		try {
 			$query->execute();
@@ -85,9 +97,11 @@ class TaskModel
 
 	public function markTaskNotArchived(int $taskID): ?array
 	{
-		$query = $this->db->prepare("UPDATE tasks 
-											SET archived = 0, archivedTime = 'N/A' 
-											WHERE `id` = :taskID;");
+		$sqlQuery =
+			"UPDATE tasks 
+			SET archived = 0, archivedTime = 'N/A' 
+			WHERE `id` = :taskID;";
+		$query = $this->db->prepare($sqlQuery);
 		$query->bindParam(':taskID', $taskID);
 		try {
 			$query->execute();
@@ -99,8 +113,10 @@ class TaskModel
 
 	public function deleteTaskPermanently(int $taskID): ?array
 	{
-		$query = $this->db->prepare('DELETE FROM `tasks` 
-											WHERE `id` = :taskID;');
+		$sqlQuery =
+			'DELETE FROM `tasks` 
+			WHERE `id` = :taskID;';
+		$query = $this->db->prepare($sqlQuery);
 		$query->bindParam(':taskID', $taskID);
 		try {
 			$query->execute();

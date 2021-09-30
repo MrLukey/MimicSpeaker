@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Factories;
+namespace App\Factories\DatabaseFactories;
 use Psr\Container\ContainerInterface;
-use App\Controllers\MarkTasksArchivedController;
+use App\Controllers\DatabaseControllers\MarkTasksArchivedController;
 
 class MarkTasksArchivedControllerFactory
 {

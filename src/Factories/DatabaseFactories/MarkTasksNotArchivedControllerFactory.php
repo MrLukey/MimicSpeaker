@@ -1,7 +1,7 @@
 <?php
 
-namespace App\Factories;
-use App\Controllers\MarkTasksNotArchivedController;
+namespace App\Factories\DatabaseFactories;
+use App\Controllers\DatabaseControllers\MarkTasksNotArchivedController;
 use Psr\Container\ContainerInterface;
 
 class MarkTasksNotArchivedControllerFactory

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Factories;
+namespace App\Factories\ModelFactories;
 use App\Models\TaskModel;
 
 class TaskModelFactory

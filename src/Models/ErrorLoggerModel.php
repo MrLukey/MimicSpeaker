@@ -5,6 +5,7 @@ namespace App\Models;
 class ErrorLoggerModel
 {
 	private string $databaseErrorLogs = '../logs/errors/database.txt';
+	private string $suspiciousActivityLogs = '../logs/suspiciousActivity/loginAttempts.txt';
 	private string $testingLogs = '../logs/testing/testing.txt';
 	private \DateTime $dateTime;
 
@@ -13,6 +14,8 @@ class ErrorLoggerModel
 		$this->dateTime = $dateTime;
 		if (!is_dir('../logs/errors'))
 			mkdir('../logs/errors');
+		if (!is_dir('../logs/suspiciousActivity'))
+			mkdir('../logs/suspiciousActivity');
 		if (!is_dir('../logs/testing'))
 			mkdir('../logs/testing');
 		if (!file_exists($this->databaseErrorLogs))
@@ -23,17 +26,28 @@ class ErrorLoggerModel
 
 	public function logDatabaseError(string $cause, \PDOException $exception)
 	{
-		$errorString = 'DB-' . $this->dateTime->getTimestamp() . ' in ' . $cause . ' at line ' . $exception->getLine() . ' - ' . $exception->getMessage() . "\n";
+		$errorString = 'DB-' . $this->dateTime->getTimestamp() . ' in ' . $cause . ' at line ' . $exception->getLine() 
+			. ' - ' . $exception->getMessage() . "\n";
 		file_put_contents($this->databaseErrorLogs, $errorString, FILE_APPEND | LOCK_EX);
 	}
 
-	public function logString(string $cause)
+	public function logSuspiciousActivity($data)
 	{
-		file_put_contents($this->testingLogs, $cause, FILE_APPEND | LOCK_EX);
+		file_put_contents($this->suspiciousActivityLogs, json_encode($data) . "\n", FILE_APPEND | LOCK_EX);
 	}
 
-	public function logJsonData(array $data)
+	public function logTestString(string $cause)
 	{
-		file_put_contents($this->testingLogs, json_encode($data), FILE_APPEND | LOCK_EX);
+		file_put_contents($this->testingLogs, $cause . "\n", FILE_APPEND | LOCK_EX);
+	}
+
+	public function logTestJSON($data)
+	{
+		file_put_contents($this->testingLogs, json_encode($data) . "\n", FILE_APPEND | LOCK_EX);
+	}
+
+	public function logVarDump($data)
+	{
+		file_put_contents($this->testingLogs, var_dump($data) . "\n", FILE_APPEND | LOCK_EX);
 	}
 }
