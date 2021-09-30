@@ -31,7 +31,7 @@ class PageViewHelper
 											</div>
 											<form method="post" action="login">
 												<div class="form-outline mb-4">
-													<input type="text" name="userName" class="form-control" placeholder="Username"/>
+													<input type="text" name="username" class="form-control" placeholder="Username"/>
 												</div>
 												<div class="form-outline mb-4">
 													<input type="password" name="rawPassword" class="form-control" placeholder="Password"/>

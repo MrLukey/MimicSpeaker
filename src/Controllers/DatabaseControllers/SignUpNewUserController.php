@@ -17,8 +17,6 @@ class SignUpNewUserController
 		$_SESSION['error'] = true;
 		$_SESSION['errorMessage'] = 'An unexpected error occurred';
 		$userInputData = $request->getParsedBody();
-		$errorLogger = $this->container->get('errorLoggerModel');
-		$errorLogger->logTestJSON($userInputData);
 		if ($userInputData['username'] === '' || $userInputData['email'] === '' || $userInputData['rawPassword'] === '') {
 			$_SESSION['errorMessage'] ='Username, email and password are required.';
 		} elseif (false) {
@@ -29,8 +27,6 @@ class SignUpNewUserController
 			$userModel = $this->container->get('userModel');
 			$hashPassword = password_hash($userInputData['rawPassword'], PASSWORD_DEFAULT);
 			$errorData = $userModel->insertNewUser($userInputData['username'], $userInputData['email'], $hashPassword);
-			$errorLogger = $this->container->get('errorLoggerModel');
-			$errorLogger->logTestJSON($errorData);
 			if ($errorData) {
 				$errorLogger = $this->container->get('errorLoggerModel');
 				$errorLogger->logDatabaseError($errorData['cause'], $errorData['exception']);

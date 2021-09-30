@@ -19,16 +19,16 @@ class LoginUserController
 		$_SESSION['error'] = true;
 		$_SESSION['errorMessage'] = 'Username and password are incorrect.';
 		$userInputData = $request->getParsedBody();
-		if ($userInputData['userName'] === '' || $userInputData['rawPassword'] === '')
+		if ($userInputData['username'] === '' || $userInputData['rawPassword'] === '')
 			$_SESSION['errorMessage'] = 'Username and password must be supplied.';
 		else {
 			$userModel = $this->container->get('userModel');
-			$hashPasswordData = $userModel->getHashedPasswordForUser($userInputData['userName'])[0];
+			$hashPasswordData = $userModel->getHashedPasswordForUser($userInputData['username'])[0];
 			if (isset($hashPasswordData['exception'])){
 				$errorLogger = $this->container->get('errorLoggerModel');
 				$errorLogger->logDataBaseError($hashPasswordData['cause'], $hashPasswordData['exception']);
 			} elseif (isset($hashPasswordData['hashPassword'])) {
-				$userData = $userModel->getUserByName($userInputData['userName']);
+				$userData = $userModel->getUserByName($userInputData['username']);
 				if (isset($userData['exception'])) {
 					$errorLogger = $this->container->get('errorLoggerModel');
 					$errorLogger->logDatabaseError($userData['cause'], $userData['exception']);
