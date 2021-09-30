@@ -2,6 +2,8 @@
 
 namespace App\Controllers\DatabaseControllers;
 use Psr\Container\ContainerInterface;
+use Slim\Psr7\Request;
+use Slim\Psr7\Response;
 
 class LoginUserController
 {
@@ -12,7 +14,7 @@ class LoginUserController
 		$this->container = $container;
 	}
 
-	public function __invoke($request, $response, $args)
+	public function __invoke(Request $request, Response $response, array $args)
 	{
 		$_SESSION['loggedIn'] = false;
 		$_SESSION['user'] = null;
@@ -23,17 +25,19 @@ class LoginUserController
 			$_SESSION['errorMessage'] = 'Username and password must be supplied.';
 		else {
 			$userModel = $this->container->get('userModel');
-			$hashPasswordData = $userModel->getHashedPasswordForUser($userInputData['username'])[0];
+			$hashPasswordData = $userModel->getHashedPasswordForUser($userInputData['username']);
 			if (isset($hashPasswordData['exception'])){
 				$errorLogger = $this->container->get('errorLoggerModel');
 				$errorLogger->logDataBaseError($hashPasswordData['cause'], $hashPasswordData['exception']);
-			} elseif (isset($hashPasswordData['password'])) {
+				$_SESSION['errorMessage'] = 'Unexpected database error.';
+			} elseif ($hashPasswordData) {
+				$hashPassword = $hashPasswordData[0]['password'];
 				$userData = $userModel->getUserByName($userInputData['username']);
 				if (isset($userData['exception'])) {
 					$errorLogger = $this->container->get('errorLoggerModel');
 					$errorLogger->logDatabaseError($userData['cause'], $userData['exception']);
 					$_SESSION['error'] = 'Unexpected database error.';
-				} elseif (password_verify($userInputData['rawPassword'], $hashPasswordData['password'])) {
+				} elseif (password_verify($userInputData['rawPassword'], $hashPassword)){
 					$_SESSION['loggedIn'] = true;
 					$_SESSION['loginAttempts'] = 0;
 					$_SESSION['user'] = $userData[0];

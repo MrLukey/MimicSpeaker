@@ -2,8 +2,10 @@
 
 namespace App\Controllers\DatabaseControllers;
 use Psr\Container\ContainerInterface;
+use Slim\Psr7\Request;
+use Slim\Psr7\Response;
 
-class deleteTasksController
+class DeleteTasksController
 {
 	private ContainerInterface $container;
 
@@ -12,22 +14,23 @@ class deleteTasksController
 		$this->container = $container;
 	}
 
-	public function __invoke($request, $response, $args)
+	public function __invoke(Request $request, Response $response, array $args)
 	{
 		if ($_SESSION['loggedIn'] && $_SESSION['user'] !== null){
-			$error = false;
+			$_SESSION['error'] = false;
 			$taskModel = $this->container->get('taskModel');
-			$tasksTodelete = $request->getParsedBody();
-			foreach ($tasksTodelete as $key => $value){
-				$taskID = intval(mb_substr($key, 4)); // extract ID from task{ID}="on" checkbox inputs
+			$tasksToDelete = $request->getParsedBody();
+			foreach ($tasksToDelete as $key => $value){
+				$taskID = intval(mb_substr($key, 4)); // extract ID from task{ID}="" form inputs
 				$errorData = $taskModel->deleteTaskPermanently($taskID);
 				if ($errorData){
 					$errorLogger = $this->container->get('errorLoggerModel');
 					$errorLogger->logDatabaseError($errorData['cause'], $errorData['exception']);
-					$error = true;
+					$_SESSION['error'] = true;
+					$_SESSION['errorMessage'] = 'A task was not deleted.';
 				}
 			}
-			$status = $error ? 500 : 200;
+			$status = $_SESSION['error'] ? 500 : 200;
 			return $response->withStatus($status)->withHeader('Location', './');
 		}
 		return $response->withStatus(500)->withHeader('Location', './login');

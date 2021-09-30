@@ -1,6 +1,8 @@
 <?php
 namespace App\Controllers\PageControllers;
 use Psr\Container\ContainerInterface;
+use Slim\Psr7\Request;
+use Slim\Psr7\Response;
 
 class ToDoListPageController
 {
@@ -11,7 +13,7 @@ class ToDoListPageController
 		$this->container = $container;
 	}
 
-	public function __invoke($request, $response, $args)
+	public function __invoke(Request $request, Response $response, array $args)
 	{
 		if ($_SESSION['loggedIn'] && $_SESSION['user'] !== null) {
 			$renderer = $this->container->get('renderer');
@@ -20,9 +22,11 @@ class ToDoListPageController
 			if (isset($taskData['exception'])){
 				$errorLogger = $this->container->get('errorLoggerModel');
 				$errorLogger->logDatabaseError($taskData['cause'], $taskData['exception']);
+				$_SESSION['error'] = true;
+				$_SESSION['errorMessage'] = 'An unexpected error occurred.';
 			}
 			return $renderer->render($response, 'index.php', $taskData);
-		} else
-			return $response->withStatus(500)->withHeader('Location', '/login');
+		}
+		return $response->withStatus(500)->withHeader('Location', '/login');
 	}
 }

@@ -2,6 +2,8 @@
 
 namespace App\Controllers\DatabaseControllers;
 use Psr\Container\ContainerInterface;
+use Slim\Psr7\Request;
+use Slim\Psr7\Response;
 
 class SignUpNewUserController
 {
@@ -12,7 +14,7 @@ class SignUpNewUserController
 		$this->container = $container;
 	}
 
-	public function __invoke($request, $response, $args)
+	public function __invoke(Request $request, Response $response, array $args)
 	{
 		$_SESSION['error'] = true;
 		$_SESSION['errorMessage'] = 'An unexpected error occurred';

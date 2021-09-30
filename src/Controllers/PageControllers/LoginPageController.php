@@ -2,6 +2,8 @@
 
 namespace App\Controllers\PageControllers;
 use Psr\Container\ContainerInterface;
+use Slim\Psr7\Request;
+use Slim\Psr7\Response;
 
 class LoginPageController
 {
@@ -12,7 +14,7 @@ class LoginPageController
 		$this->container = $container;
 	}
 
-	public function __invoke($request, $response, $args)
+	public function __invoke(Request $request, Response $response, array $args)
 	{
 		if ($_SESSION['loggedIn'] && $_SESSION['user'] !== null)
 			return $response->withStatus(200)->withHeader('Location', '/');

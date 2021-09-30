@@ -1,13 +1,13 @@
 <?php
 
 namespace App\Factories\DatabaseFactories;
-use App\Controllers\DatabaseControllers\deleteTasksController;
+use App\Controllers\DatabaseControllers\DeleteTasksController;
 use Psr\Container\ContainerInterface;
 
-class deleteTasksControllerFactory
+class DeleteTasksControllerFactory
 {
-	public function __invoke(ContainerInterface $container): deleteTasksController
+	public function __invoke(ContainerInterface $container): DeleteTasksController
 	{
-		return new deleteTasksController($container);
+		return new DeleteTasksController($container);
 	}
 }
