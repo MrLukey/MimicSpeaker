@@ -14,6 +14,7 @@ class LoginUserController
 
 	public function __invoke($request, $response, $args)
 	{
+		$errorLogger = $this->container->get('errorLoggerModel');
 		$_SESSION['loggedIn'] = false;
 		$_SESSION['user'] = null;
 		$_SESSION['error'] = true;
@@ -24,16 +25,17 @@ class LoginUserController
 		else {
 			$userModel = $this->container->get('userModel');
 			$hashPasswordData = $userModel->getHashedPasswordForUser($userInputData['username'])[0];
+			$errorLogger->logTestJSON($hashPasswordData);
 			if (isset($hashPasswordData['exception'])){
 				$errorLogger = $this->container->get('errorLoggerModel');
 				$errorLogger->logDataBaseError($hashPasswordData['cause'], $hashPasswordData['exception']);
-			} elseif (isset($hashPasswordData['hashPassword'])) {
+			} elseif (isset($hashPasswordData['password'])) {
 				$userData = $userModel->getUserByName($userInputData['username']);
 				if (isset($userData['exception'])) {
 					$errorLogger = $this->container->get('errorLoggerModel');
 					$errorLogger->logDatabaseError($userData['cause'], $userData['exception']);
 					$_SESSION['error'] = 'Unexpected database error.';
-				} elseif (password_verify($userInputData['rawPassword'], $hashPasswordData['hashPassword'])) {
+				} elseif (password_verify($userInputData['rawPassword'], $hashPasswordData['password'])) {
 					$_SESSION['loggedIn'] = true;
 					$_SESSION['loginAttempts'] = 0;
 					$_SESSION['user'] = $userData[0];
