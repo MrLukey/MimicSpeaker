@@ -5,7 +5,7 @@ namespace App\Abstracts;
 abstract class UserEntityAbstract
 {
 	protected int $id;
-	protected string $userName;
+	protected string $username;
 	protected string $lastActive;
 
 	public function getId(): int
@@ -15,7 +15,7 @@ abstract class UserEntityAbstract
 
 	public function getUserName(): string
 	{
-		return $this->userName;
+		return $this->username;
 	}
 
 	public function getLastActive(): string

@@ -12,12 +12,13 @@ class UserModel
 		$this->db = $db;
 	}
 
-	public function insertNewUser(string $userName, string $hashPassword): ?array
+	public function insertNewUser(string $username, string $email, string $hashPassword): ?array
 	{
-		$query = $this->db->prepare("INSERT INTO `users` (`userName`, `hashPassword`)
-											VALUES  (:userName, :hashPassword);");
-		$query->bindParam(':userName', $userName);
-		$query->bindParam(':hashPassword', $hashPassword);
+		$query = $this->db->prepare("INSERT INTO `users` (`username`, `email`, `password`)
+											VALUES  (:username, :email, :password);");
+		$query->bindParam(':username', $username);
+		$query->bindParam(':email', $email);
+		$query->bindParam(':password', $hashPassword);
 		try {
 			$query->execute();
 			return null;
@@ -26,10 +27,10 @@ class UserModel
 		}
 	}
 
-	public function getUserByName(string $userName): array
+	public function getUserByName(string $username): array
 	{
-		$query = $this->db->prepare('SELECT `id`, `userName`, `lastActive` FROM `users` WHERE `userName` = :userName;');
-		$query->bindParam(':userName', $userName);
+		$query = $this->db->prepare('SELECT `id`, `username`, `email`, `lastActive` FROM `users` WHERE `username` = :username;');
+		$query->bindParam(':username', $username);
 		$query->setFetchMode(\PDO::FETCH_CLASS, UserEntity::class);
 		try {
 			$query->execute();
@@ -39,12 +40,12 @@ class UserModel
 		}
 	}
 
-	public function getHashedPasswordForUser(string $userName): ?array
+	public function getHashedPasswordForUser(string $username): ?array
 	{
-		$query = $this->db->prepare('SELECT `hashPassword`
+		$query = $this->db->prepare('SELECT `password`
   												FROM `users` 
-  												WHERE userName = :userName;');
-		$query->bindParam(':userName', $userName);
+  												WHERE username = :username;');
+		$query->bindParam(':username', $username);
 		try {
 			$query->execute();
 			return $query->fetchAll();

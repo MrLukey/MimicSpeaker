@@ -88,7 +88,7 @@ class PageViewHelper
 											</div>
 											<form method="post" action="signup">
 												<div class="form-outline mb-4">
-													<input type="text" name="userName" class="form-control" placeholder="Username"/>
+													<input type="text" maxlength="30" name="username" class="form-control" placeholder="Username"/>
 												</div>
 												<div class="form-outline mb-4">
 													<input type="text" name="email" class="form-control" placeholder="Email"/>
