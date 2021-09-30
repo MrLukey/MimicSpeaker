@@ -19,8 +19,8 @@ class SignUpNewUserController
 		$userInputData = $request->getParsedBody();
 		if ($userInputData['username'] === '' || $userInputData['email'] === '' || $userInputData['rawPassword'] === '') {
 			$_SESSION['errorMessage'] ='Username, email and password are required.';
-		} elseif (false) {
-			// do some validation on email
+		} elseif (!filter_var($userInputData['email'], FILTER_VALIDATE_EMAIL)) {
+			$_SESSION['errorMessage'] = 'Email is not valid.';
 		} elseif ($userInputData['rawPassword'] !== $userInputData['repeatedRawPassword']){
 			$_SESSION['errorMessage'] = 'Passwords do not match.';
 		} else {
@@ -31,7 +31,7 @@ class SignUpNewUserController
 				$errorLogger = $this->container->get('errorLoggerModel');
 				$errorLogger->logDatabaseError($errorData['cause'], $errorData['exception']);
 				$_SESSION['error'] = true;
-				$_SESSION['errorMessage'] = 'Username is already taken.';
+				$_SESSION['errorMessage'] = 'An account already exists.';
 			} else {
 				$userData = $userModel->getUserByName($userInputData['username']);
 				if (isset($userData['exception'])) {
