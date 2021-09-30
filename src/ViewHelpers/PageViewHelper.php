@@ -12,7 +12,7 @@ class PageViewHelper
 			$warningText = 'black';
 		}
 		else {
-			$error = 'PLACEHOLDER';
+			$error = 'HELLO WORLD';
 			$warningText = 'white';
 		}
 
@@ -31,10 +31,10 @@ class PageViewHelper
 											</div>
 											<form method="post" action="login">
 												<div class="form-outline mb-4">
-													<input type="text" name="username" class="form-control" placeholder="Username"/>
+													<input type="text" maxlength="30" name="username" class="form-control" placeholder="Username" required/>
 												</div>
 												<div class="form-outline mb-4">
-													<input type="password" name="rawPassword" class="form-control" placeholder="Password"/>
+													<input type="password" minlength="8" maxlength="255" name="rawPassword" class="form-control" placeholder="Password" required/>
 												</div>
 												<div class="text-center pt-1 mb-5 pb-1">' .
 													'<p class="warning text-' . $warningText . '">' . $error . ' </p>
@@ -86,18 +86,18 @@ class PageViewHelper
 //												'<img src="" style="width: 185px;" alt="logo">' .
 												'<h1 class="mt-1 mb-5 pb-1">Slim ToDo App</h1>
 											</div>
-											<form method="post" action="signup">
+											<form method="post" action="signup" class="needs-validation">
 												<div class="form-outline mb-4">
-													<input type="text" maxlength="30" name="username" class="form-control" placeholder="Username"/>
+													<input type="text" maxlength="30" name="username" id="username" class="form-control" placeholder="Username" required/>
 												</div>
 												<div class="form-outline mb-4">
-													<input type="text" name="email" class="form-control" placeholder="Email"/>
+													<input type="email" maxlength="255" name="email" class="form-control" placeholder="Email" required/>
 												</div>
 												<div class="form-outline mb-4">
-													<input type="password" name="rawPassword" class="form-control" placeholder="Password"/>
+													<input type="password" minlength="8" maxlength="255" name="rawPassword" class="form-control" placeholder="Password" required/>
 												</div>
 												<div class="form-outline mb-4">
-													<input type="password" name="repeatedRawPassword" class="form-control" placeholder="Password"/>
+													<input type="password" minlength="8" maxlength="255" name="repeatedRawPassword" class="form-control" placeholder="Retype password" required/>
 												</div>
 												<div class="text-center pt-1 mb-5 pb-1">' .
 													'<p class="warning text-' . $warningText . '">' . $error . ' </p>
