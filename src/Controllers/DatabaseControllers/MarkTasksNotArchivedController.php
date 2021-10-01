@@ -22,7 +22,7 @@ class MarkTasksNotArchivedController
 			$taskToMarkNotArchived = $request->getParsedBody();
 			foreach ($taskToMarkNotArchived as $key => $value) {
 				$taskID = intval(mb_substr($key, 4)); // extract ID from task{ID}="" form inputs
-				$errorData = $taskModel->markTaskNotArchived($taskID);
+				$errorData = $taskModel->markTaskNotArchived($taskID, $_SESSION['user']->getID());
 				if ($errorData) {
 					$errorLogger = $this->container->get('errorLoggerModel');
 					$errorLogger->logDatabaseError($errorData['cause'], $errorData['exception']);

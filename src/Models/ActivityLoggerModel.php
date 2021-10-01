@@ -75,6 +75,22 @@ class ActivityLoggerModel
 		}
 	}
 
+	public function logTaskReset(int $userID): ?array
+	{
+		$sqlQuery =
+			'UPDATE `activity` 
+			SET `tasksReset` = `tasksReset` + 1 
+			WHERE `userID` = :userID;';
+		$query = $this->db->prepare($sqlQuery);
+		$query->bindParam(':userID', $userID);
+		try {
+			$query->execute();
+			return null;
+		} catch (\PDOException $exception){
+			return ['cause' => 'ActivityLoggerModel->logTaskCompleted()', 'exception' => $exception];
+		}
+	}
+
 	public function logTaskArchived(int $userID): ?array
 	{
 		$sqlQuery =
@@ -82,7 +98,23 @@ class ActivityLoggerModel
 			SET `tasksArchived` = `tasksArchived` + 1 
 			WHERE `userID` = :userID;';
 		$query = $this->db->prepare($sqlQuery);
-		$query->bindParam(':username', $userID);
+		$query->bindParam(':userID', $userID);
+		try {
+			$query->execute();
+			return null;
+		} catch (\PDOException $exception){
+			return ['cause' => 'ActivityLoggerModel->logTaskArchived()', 'exception' => $exception];
+		}
+	}
+
+	public function logTaskRecovered(int $userID): ?array
+	{
+		$sqlQuery =
+			'UPDATE `activity` 
+			SET `tasksRecovered` = `tasksRecovered` + 1 
+			WHERE `userID` = :userID;';
+		$query = $this->db->prepare($sqlQuery);
+		$query->bindParam(':userID', $userID);
 		try {
 			$query->execute();
 			return null;

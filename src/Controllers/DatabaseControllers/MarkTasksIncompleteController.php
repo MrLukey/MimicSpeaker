@@ -22,7 +22,7 @@ class MarkTasksIncompleteController
 			$tasksToMarkIncomplete = $request->getParsedBody();
 			foreach ($tasksToMarkIncomplete as $key => $value){
 				$taskID = intval(mb_substr($key, 4)); // extract ID from task{ID}="" form inputs
-				$errorData = $taskModel->markTaskIncomplete($taskID);
+				$errorData = $taskModel->markTaskIncomplete($taskID, $_SESSION['user']->getID());
 				if ($errorData){
 					$errorLogger = $this->container->get('errorLoggerModel');
 					$errorLogger->logDatabaseError($errorData['cause'], $errorData['exception']);

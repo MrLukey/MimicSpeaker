@@ -22,19 +22,12 @@ class DeleteTasksController
 			$tasksToDelete = $request->getParsedBody();
 			foreach ($tasksToDelete as $key => $value){
 				$taskID = intval(mb_substr($key, 4)); // extract ID from task{ID}="" form inputs
-				$errorData = $taskModel->deleteTaskPermanently($taskID);
+				$errorData = $taskModel->deleteTaskPermanently($taskID, $_SESSION['user']->getID());
 				if ($errorData){
 					$errorLogger = $this->container->get('errorLoggerModel');
 					$errorLogger->logDatabaseError($errorData['cause'], $errorData['exception']);
 					$_SESSION['error'] = true;
 					$_SESSION['errorMessage'] = 'A task was not deleted.';
-				} else {
-					$activityLogger = $this->container->get('activityLoggerModel');
-					$errorData = $activityLogger->logTaskDeleted($_SESSION['user']->getID());
-					if ($errorData){
-						$errorLogger = $this->container->get('errorLoggerModel');
-						$errorLogger->logDatabaseError($errorData['cause'], $errorData['exception']);
-					}
 				}
 			}
 			$status = $_SESSION['error'] ? 500 : 200;

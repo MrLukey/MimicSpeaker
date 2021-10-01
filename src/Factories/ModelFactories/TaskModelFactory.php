@@ -9,6 +9,7 @@ class TaskModelFactory
 	public function __invoke(ContainerInterface $container): TaskModel
 	{
 		$db = $container->get('pdo');
-		return new TaskModel($db);
+		$activityLogger = $container->get('activityLoggerModel');
+		return new TaskModel($db, $activityLogger);
 	}
 }
