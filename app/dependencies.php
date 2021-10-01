@@ -32,6 +32,9 @@ return function (ContainerBuilder $containerBuilder) {
         return new PhpRenderer($settings['template_path']);
     };
 
+    $container['pdo'] = DI\factory('App\Factories\BuiltInClassFactories\PDOFactory');
+    $container['dateTime'] = DI\factory('App\Factories\BuiltInClassFactories\DateTimeFactory');
+
 	$container['taskModel'] = DI\factory('App\Factories\ModelFactories\TaskModelFactory');
 	$container['userModel'] = DI\factory('App\Factories\ModelFactories\UserModelFactory');
 	$container['errorLoggerModel'] = DI\factory('App\Factories\ModelFactories\ErrorLoggerModelFactory');

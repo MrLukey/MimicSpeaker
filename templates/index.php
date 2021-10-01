@@ -7,7 +7,7 @@ $incompleteTasks = [];
 $completeTasks = [];
 $archivedTasks = [];
 
-if ($data === [])
+if (!$_SESSION['error'] && $data === [])
 	$_SESSION['errorMessage'] = 'You have no tasks on your todo list.';
 elseif (isset($data['exception'])) {
 	$_SESSION['errorMessage'] = 'Unexpected error';
