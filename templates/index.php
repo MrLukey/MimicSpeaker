@@ -8,12 +8,10 @@ $completeTasks = [];
 $archivedTasks = [];
 
 if ($data === [])
-	$errorMessage = 'You have no tasks on your todo list.';
+	$_SESSION['errorMessage'] = 'You have no tasks on your todo list.';
 elseif (isset($data['exception'])) {
-    $errorMessage = 'Unexpected error';
-    $data = [];
+	$_SESSION['errorMessage'] = 'Unexpected error';
 } else {
-    $errorMessage = '';
 	foreach ($data as $task) {
 		if ($task->isArchived())
 			array_push($archivedTasks, $task);
@@ -48,7 +46,7 @@ elseif (isset($data['exception'])) {
         </nav>
     </header>
 <main class="d-flex flex-column align-items-center w-75 m-auto">
-    <p class="errorMessage"><?php echo $errorMessage ?></p>
+    <p class="errorMessage"><?php echo $_SESSION['errorMessage'] ?></p>
     <?php
         if(count($incompleteTasks) > 0) {
             echo '<section class="w-100 mb-5">';

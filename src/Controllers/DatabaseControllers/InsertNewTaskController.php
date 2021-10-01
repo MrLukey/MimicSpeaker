@@ -18,6 +18,8 @@ class InsertNewTaskController
 	{   $_SESSION['error'] = true;
 		if ($_SESSION['loggedIn'] && $_SESSION['user'] !== null) {
 			$taskData = $request->getParsedBody();
+			$errorLogger = $this->container->get('errorLoggerModel');
+			$errorLogger->logTestJSON($taskData);
 			if ($taskData['taskTitle'] === '') {
 				$_SESSION['errorMessage'] = 'Tasks require at least a title.';
 			} else {
@@ -33,8 +35,8 @@ class InsertNewTaskController
 					$status = 200;
 					$_SESSION['error'] = false;
 				}
+				return $response->withStatus($status)->withHeader('Location', './');
 			}
-			return $response->withStatus($status)->withHeader('Location', './');
 		}
 		return $response->withStatus(500)->withHeader('Location', './login');
 	}

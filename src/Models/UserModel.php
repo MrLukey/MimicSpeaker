@@ -32,7 +32,7 @@ class UserModel
 	public function getUserByName(string $username): array
 	{
 		$sqlQuery =
-			'SELECT `id`, `username`, `email`, 
+			'SELECT `id`, `username`, `email`
        		FROM `users` 
 			WHERE `username` = :username;';
 		$query = $this->db->prepare($sqlQuery);
