@@ -6,15 +6,17 @@ use App\Entities\TaskEntity;
 class TaskModel
 {
 	private ActivityLoggerModel $activityLogger;
+	private ErrorLoggerModel $errorLogger;
 	private \PDO $db;
 
-	public function __construct(\PDO $db, ActivityLoggerModel $activityLogger)
+	public function __construct(\PDO $db, ActivityLoggerModel $activityLogger, ErrorLoggerModel $errorLogger)
 	{
-		$this->activityLogger = $activityLogger;
 		$this->db = $db;
+		$this->activityLogger = $activityLogger;
+		$this->errorLogger = $errorLogger;
 	}
 
-	public function getAllTasksForUser(int $userID): array
+	public function getAllTasksForUser(int $userID): ?array
 	{
 		$sqlQuery =
 			'SELECT `id`, `userID`, `title`, `text`, `creationTime`, `complete`, `completionTime`, `archived`, `archivedTime` 
@@ -28,11 +30,12 @@ class TaskModel
 			$query->execute();
 			return $query->fetchAll();
 		} catch (\PDOException $exception) {
-			return ['cause' => 'TaskModel->getAllTasksForUser()', 'exception' => $exception];
+			$this->errorLogger->logDatabaseError('TaskModel->getAllTasksForUser()', $exception);
+			return null;
 		}
 	}
 
-	public function insertTask(int $userID, string $title, string $text): ?array
+	public function insertTask(int $userID, string $title, string $text): bool
 	{
 		$sqlQuery =
 			'INSERT INTO `tasks` (`userID`, `title`, `text`, `creationTime`) 
@@ -44,13 +47,14 @@ class TaskModel
 		try {
 			$query->execute();
 			$this->activityLogger->logTaskCreated($userID);
-			return null;
+			return true;
 		} catch (\PDOException $exception) {
-			return ['cause' => 'TaskModel->insertTask()', 'exception' => $exception];
+			$this->errorLogger->logDatabaseError('TaskModel->insertTask()', $exception);
+			return false;
 		}
 	}
 
-	public function markTaskComplete(int $taskID, int $userID): ?array
+	public function markTaskComplete(int $taskID, int $userID): bool
 	{
 		$sqlQuery =
 			'UPDATE tasks 
@@ -63,13 +67,14 @@ class TaskModel
 		try {
 			$query->execute();
 			$this->activityLogger->logTaskCompleted($userID);
-			return null;
+			return true;
 		} catch (\PDOException $exception) {
-			return ['cause' => 'TaskModel->markTaskComplete()', 'exception' => $exception];
+			$this->errorLogger->logDatabaseError('TaskModel->markTaskComplete()', $exception);
+			return false;
 		}
 	}
 
-	public function markTaskIncomplete(int $taskID, int $userID): ?array
+	public function markTaskIncomplete(int $taskID, int $userID): bool
 	{
 		$sqlQuery =
 			"UPDATE tasks 
@@ -82,13 +87,14 @@ class TaskModel
 		try {
 			$query->execute();
 			$this->activityLogger->logTaskReset($userID);
-			return null;
+			return true;
 		} catch (\PDOException $exception) {
-			return ['cause' => 'TaskModel->markTaskIncomplete()', 'exception' => $exception];
+			$this->errorLogger->logDatabaseError('TaskModel->markTaskIncomplete()', $exception);
+			return false;
 		}
 	}
 
-	public function markTaskArchived(int $taskID, int $userID): ?array
+	public function markTaskArchived(int $taskID, int $userID): bool
 	{
 		$sqlQuery =
 			'UPDATE tasks 
@@ -101,13 +107,14 @@ class TaskModel
 		try {
 			$query->execute();
 			$this->activityLogger->logTaskArchived($userID);
-			return null;
+			return true;
 		} catch (\PDOException $exception) {
-			return ['cause' => 'TaskModel->markTaskArchived()', 'exception' => $exception];
+			$this->errorLogger->logDatabaseError('TaskModel->markTaskArchived()', $exception);
+			return false;
 		}
 	}
 
-	public function markTaskNotArchived(int $taskID, int $userID): ?array
+	public function markTaskNotArchived(int $taskID, int $userID): bool
 	{
 		$sqlQuery =
 			"UPDATE tasks 
@@ -120,13 +127,14 @@ class TaskModel
 		try {
 			$query->execute();
 			$this->activityLogger->logTaskRecovered($userID);
-			return null;
+			return true;
 		} catch (\PDOException $exception) {
-			return ['cause' => 'TaskModel->markTaskNotArchived()', 'exception' => $exception];
+			$this->errorLogger->logDatabaseError('TaskModel->markTaskNotArchived()', $exception);
+			return false;
 		}
 	}
 
-	public function deleteTaskPermanently(int $taskID, $userID): ?array
+	public function deleteTaskPermanently(int $taskID, $userID): bool
 	{
 		$sqlQuery =
 			'DELETE FROM `tasks` 
@@ -136,9 +144,10 @@ class TaskModel
 		try {
 			$query->execute();
 			$this->activityLogger->logTaskDeleted($userID);
-			return null;
+			return true;
 		} catch (\PDOException $exception) {
-			return ['cause' => 'TaskModel->deleteTaskPermanently()', 'exception' => $exception];
+			$this->errorLogger->logDatabaseError('TaskModel->deleteTaskPermanently()', $exception);
+			return false;
 		}
 	}
 }

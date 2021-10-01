@@ -10,6 +10,7 @@ class TaskModelFactory
 	{
 		$db = $container->get('pdo');
 		$activityLogger = $container->get('activityLoggerModel');
-		return new TaskModel($db, $activityLogger);
+		$errorLogger = $container->get('errorLoggerModel');
+		return new TaskModel($db, $activityLogger, $errorLogger);
 	}
 }
