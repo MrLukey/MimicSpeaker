@@ -11,14 +11,14 @@ class ActivityLoggerModel
 		$this->db = $db;
 	}
 
-	public function logLoginAttempt(string $username): ?array
+	public function logLoginAttempt(int $userID): ?array
 	{
 		$sqlQuery =
 			'UPDATE `activity` 
 			SET `loginAttempts` = `loginAttempts` + 1 
-			WHERE `username` = :username;';
+			WHERE `userID` = :userID;';
 		$query = $this->db->prepare($sqlQuery);
-		$query->bindParam(':username', $username);
+		$query->bindParam(':userID', $userID);
 		try {
 			$query->execute();
 			return null;
@@ -27,14 +27,14 @@ class ActivityLoggerModel
 		}
 	}
 
-	public function logSuccessfulLogin(string $username): ?array
+	public function logSuccessfulLogin(int $userID): ?array
 	{
 		$sqlQuery =
 			'UPDATE `activity` 
 			SET `logins` = `logins` + 1 
-			WHERE `username` = :username;';
+			WHERE `userID` = :userID;';
 		$query = $this->db->prepare($sqlQuery);
-		$query->bindParam(':username', $username);
+		$query->bindParam(':userID', $userID);
 		try {
 			$query->execute();
 			return null;
@@ -43,14 +43,14 @@ class ActivityLoggerModel
 		}
 	}
 
-	public function logTaskCreated(string $username): ?array
+	public function logTaskCreated(int $userID): ?array
 	{
 		$sqlQuery =
 			'UPDATE `activity` 
 			SET `tasksCreated` = `tasksCreated` + 1 
-			WHERE `username` = :username;';
+			WHERE `userID` = :userID;';
 		$query = $this->db->prepare($sqlQuery);
-		$query->bindParam(':username', $username);
+		$query->bindParam(':userID', $userID);
 		try {
 			$query->execute();
 			return null;
@@ -59,14 +59,14 @@ class ActivityLoggerModel
 		}
 	}
 
-	public function logTaskCompleted(string $username): ?array
+	public function logTaskCompleted(int $userID): ?array
 	{
 		$sqlQuery =
 			'UPDATE `activity` 
 			SET `tasksCompleted` = `tasksCompleted` + 1 
-			WHERE `username` = :username;';
+			WHERE `userID` = :userID;';
 		$query = $this->db->prepare($sqlQuery);
-		$query->bindParam(':username', $username);
+		$query->bindParam(':userID', $userID);
 		try {
 			$query->execute();
 			return null;
@@ -75,14 +75,14 @@ class ActivityLoggerModel
 		}
 	}
 
-	public function logTaskArchived(string $username): ?array
+	public function logTaskArchived(int $userID): ?array
 	{
 		$sqlQuery =
 			'UPDATE `activity` 
 			SET `tasksArchived` = `tasksArchived` + 1 
-			WHERE `username` = :username;';
+			WHERE `userID` = :userID;';
 		$query = $this->db->prepare($sqlQuery);
-		$query->bindParam(':username', $username);
+		$query->bindParam(':username', $userID);
 		try {
 			$query->execute();
 			return null;
@@ -91,14 +91,14 @@ class ActivityLoggerModel
 		}
 	}
 
-	public function logTaskDeleted(string $username): ?array
+	public function logTaskDeleted(int $userID): ?array
 	{
 		$sqlQuery =
 			'UPDATE `activity` 
 			SET `tasksDeleted` = `tasksDeleted` + 1 
-			WHERE `username` = :username;';
+			WHERE `userID` = :userID;';
 		$query = $this->db->prepare($sqlQuery);
-		$query->bindParam(':username', $username);
+		$query->bindParam(':userID', $userID);
 		try {
 			$query->execute();
 			return null;

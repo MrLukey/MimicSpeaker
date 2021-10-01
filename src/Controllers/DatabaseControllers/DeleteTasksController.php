@@ -30,12 +30,10 @@ class DeleteTasksController
 					$_SESSION['errorMessage'] = 'A task was not deleted.';
 				} else {
 					$activityLogger = $this->container->get('activityLoggerModel');
-					$errorData = $activityLogger->logDeletedTask($_SESSION['user']->getUsername());
+					$errorData = $activityLogger->logTaskDeleted($_SESSION['user']->getID());
 					if ($errorData){
 						$errorLogger = $this->container->get('errorLoggerModel');
 						$errorLogger->logDatabaseError($errorData['cause'], $errorData['exception']);
-						$_SESSION['error'] = true;
-						$_SESSION['errorMessage'] = 'An unexpected error occurred.';
 					}
 				}
 			}
