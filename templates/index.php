@@ -70,3 +70,7 @@ elseif (isset($data['exception'])) {
 </main>
 </body>
 </html>
+
+<?php
+$_SESSION['error'] = false;
+$_SESSION['errorMessage'] = '';
