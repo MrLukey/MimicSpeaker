@@ -13,6 +13,7 @@
 - all tasks and functionality on one page
 - format tasks by state
 - Bootstrap styling
+- Login & signup
 
 ## Install the Application
 This app was built for Composer. This makes setting up the Slim Framework quick and easy.
