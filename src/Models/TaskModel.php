@@ -138,9 +138,11 @@ class TaskModel
 	{
 		$sqlQuery =
 			'DELETE FROM `tasks` 
-			WHERE `id` = :taskID;';
+			WHERE `id` = :taskID
+			AND `userID` = :userID;';
 		$query = $this->db->prepare($sqlQuery);
 		$query->bindParam(':taskID', $taskID);
+		$query->bindParam(':userID', $userID);
 		try {
 			$query->execute();
 			$this->activityLogger->logTaskDeleted($userID);
