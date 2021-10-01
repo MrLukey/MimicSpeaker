@@ -1,18 +1,23 @@
 <?php
 
 namespace App\Models;
+use App\Abstracts\UserEntityAbstract;
 use App\Entities\UserEntity;
 
 class UserModel
 {
 	private \PDO $db;
+	private ActivityLoggerModel $activityLogger;
+	private ErrorLoggerModel $errorLogger;
 
-	public function __construct(\PDO $db)
+	public function __construct(\PDO $db, ActivityLoggerModel $activityLogger, ErrorLoggerModel $errorLogger)
 	{
 		$this->db = $db;
+		$this->activityLogger = $activityLogger;
+		$this->errorLogger = $errorLogger;
 	}
 
-	public function insertNewUser(string $username, string $email, string $hashPassword): ?array
+	public function insertNewUser(string $username, string $email, string $hashPassword): bool
 	{
 		$sqlQuery =
 			'INSERT INTO `users` (`username`, `email`, `password`)
@@ -23,13 +28,14 @@ class UserModel
 		$query->bindParam(':password', $hashPassword);
 		try {
 			$query->execute();
-			return null;
+			return true;
 		} catch (\PDOException $exception) {
-			return ['cause' => 'UserModel->insertNewUser()', 'exception' => $exception];
+			$this->errorLogger->logDatabaseError('UserModel->insertNewUser()', $exception);
+			return false;
 		}
 	}
 
-	public function getUserByName(string $username): array
+	public function getUserByName(string $username): ?UserEntityAbstract
 	{
 		$sqlQuery =
 			'SELECT `id`, `username`, `email`
@@ -40,25 +46,26 @@ class UserModel
 		$query->setFetchMode(\PDO::FETCH_CLASS, UserEntity::class);
 		try {
 			$query->execute();
-			return $query->fetchAll();
+			return $query->fetchAll()[0];
 		} catch (\PDOException $exception) {
-			return ['cause' => 'UserModel->getUserByName()', 'exception' => $exception];
+			$this->errorLogger->logDatabaseError('UserModel->getUserByName()', $exception);
+			return null;
 		}
 	}
 
-	public function getHashedPasswordForUser(string $username): ?array
+	public function getHashedPasswordForUser(int $userID): ?string
 	{
 		$sqlQuery =
 			'SELECT `password`
-  			FROM `users` 
-  			WHERE username = :username;';
+  			FROM `users` WHERE `id` = :userID;';
 		$query = $this->db->prepare($sqlQuery);
-		$query->bindParam(':username', $username);
+		$query->bindParam(':userID', $userID);
 		try {
 			$query->execute();
-			return $query->fetchAll();
+			return $query->fetchAll()[0]['password'];
 		} catch (\PDOException $exception) {
-			return ['cause' => 'UserModel->getHashedPasswordForUser()', 'exception' => $exception];
+			$this->errorLogger->logDatabaseError('UserModel->getHashedPasswordForUser()', $exception);
+			return null;
 		}
 	}
 }

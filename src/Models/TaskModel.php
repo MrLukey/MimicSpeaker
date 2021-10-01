@@ -22,7 +22,7 @@ class TaskModel
 			'SELECT `id`, `userID`, `title`, `text`, `creationTime`, `complete`, `completionTime`, `archived`, `archivedTime` 
 			FROM  `tasks` 
 			WHERE `userID` = :userID
-			ORDER BY complete, archived;';
+			ORDER BY complete, archived, creationTime, completionTime, archivedTime;';
 		$query = $this->db->prepare($sqlQuery);
 		$query->bindParam(':userID', $userID);
 		$query->setFetchMode(\PDO::FETCH_CLASS, TaskEntity::class);

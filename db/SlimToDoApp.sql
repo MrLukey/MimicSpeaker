@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.7.34)
 # Database: SlimToDoApp
-# Generation Time: 2021-10-01 16:04:51 +0000
+# Generation Time: 2021-10-01 21:56:38 +0000
 # ************************************************************
 
 
@@ -29,12 +29,14 @@ DROP TABLE IF EXISTS `activity`;
 CREATE TABLE `activity` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `userID` int(11) unsigned NOT NULL,
-  `logins` int(11) NOT NULL DEFAULT '0',
-  `loginAttempts` int(11) NOT NULL DEFAULT '0',
-  `tasksCreated` int(11) NOT NULL DEFAULT '0',
-  `tasksCompleted` int(11) NOT NULL DEFAULT '0',
-  `tasksArchived` int(11) NOT NULL DEFAULT '0',
-  `tasksDeleted` int(11) NOT NULL DEFAULT '0',
+  `logins` int(11) unsigned NOT NULL DEFAULT '0',
+  `loginAttempts` int(11) unsigned NOT NULL DEFAULT '0',
+  `tasksCreated` int(11) unsigned NOT NULL DEFAULT '0',
+  `tasksCompleted` int(11) unsigned NOT NULL DEFAULT '0',
+  `tasksReset` int(11) unsigned NOT NULL DEFAULT '0',
+  `tasksArchived` int(11) unsigned NOT NULL DEFAULT '0',
+  `tasksRecovered` int(11) unsigned NOT NULL DEFAULT '0',
+  `tasksDeleted` int(11) unsigned NOT NULL DEFAULT '0',
   `lastActive` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `userID` (`userID`)
@@ -49,7 +51,7 @@ DROP TABLE IF EXISTS `tasks`;
 
 CREATE TABLE `tasks` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `userID` int(11) unsigned DEFAULT NULL,
+  `userID` int(11) unsigned NOT NULL,
   `title` varchar(100) NOT NULL DEFAULT '',
   `text` text NOT NULL,
   `creationTime` varchar(20) NOT NULL DEFAULT 'N/A',

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controllers\DatabaseControllers;
+use App\Models\ActivityLoggerModel;
 use Psr\Container\ContainerInterface;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
@@ -28,21 +29,18 @@ class SignUpNewUserController
 		} else {
 			$userModel = $this->container->get('userModel');
 			$hashPassword = password_hash($userInputData['rawPassword'], PASSWORD_DEFAULT);
-			$insertUserError = $userModel->insertNewUser($userInputData['username'], $userInputData['email'], $hashPassword);
-			if ($insertUserError){
-				$errorLogger = $this->container->get('errorLoggerModel');
-				$errorLogger->logDatabaseError($insertUserError['cause'], $insertUserError['exception']);
+			$success = $userModel->insertNewUser($userInputData['username'], $userInputData['email'], $hashPassword);
+			if (!$success){
 				$_SESSION['errorMessage'] = 'An account already exists.';
 			} else {
-				$userData = $userModel->getUserByName($userInputData['username']);
-				if (isset($userData['exception'])) {
-					$errorLogger = $this->container->get('errorLoggerModel');
-					$errorLogger->logDatabaseError($userData['cause'], $userData['exception']);
-				} else {
+				$user = $userModel->getUserByName($userInputData['username']);
+				if ($user){
 					$_SESSION['loggedIn'] = true;
-					$_SESSION['user'] = $userData[0];
+					$_SESSION['user'] = $user;
 					$_SESSION['error'] = false;
 					$_SESSION['errorMessage'] = '';
+					$activityLogger = $this->container->get('activityLoggerModel');
+					$activityLogger->logSuccessfulLogin($user->getID());
 					return $response->withStatus(200)->withHeader('Location', './');
 				}
 			}
