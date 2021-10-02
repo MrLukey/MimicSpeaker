@@ -25,8 +25,5 @@ use App\ViewHelpers\PageViewHelper;
 </html>
 
 <?php
-
-if ($_SESSION['error']){
-	$_SESSION['error'] = false;
-	$_SESSION['errorMessage'] = '';
-}
+$_SESSION['error'] = false;
+$_SESSION['errorMessage'] = '';

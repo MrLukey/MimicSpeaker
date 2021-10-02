@@ -17,15 +17,12 @@ class MarkTasksIncompleteController
 	public function __invoke(Request $request, Response $response, array $args)
 	{
 		if ($_SESSION['loggedIn'] && $_SESSION['user'] !== null){
-			$_SESSION['error'] = false;
 			$taskModel = $this->container->get('taskModel');
 			$tasksToMarkIncomplete = $request->getParsedBody();
 			foreach ($tasksToMarkIncomplete as $key => $value){
 				$taskID = intval(mb_substr($key, 4)); // extract ID from task{ID}="" form inputs
-				$errorData = $taskModel->markTaskIncomplete($taskID);
-				if ($errorData){
-					$errorLogger = $this->container->get('errorLoggerModel');
-					$errorLogger->logDatabaseError($errorData['cause'], $errorData['exception']);
+				$success = $taskModel->markTaskIncomplete($taskID, $_SESSION['user']->getID());
+				if (!$success){
 					$_SESSION['error'] = true;
 					$_SESSION['error'] = 'A task was not marked incomplete.';
 				}

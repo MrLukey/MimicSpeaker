@@ -15,7 +15,7 @@ class InsertNewTaskController
 	}
 
 	public function __invoke(Request $request, Response $response, array $args)
-	{   $_SESSION['error'] = true;
+	{
 		if ($_SESSION['loggedIn'] && $_SESSION['user'] !== null) {
 			$taskData = $request->getParsedBody();
 			if ($taskData['taskTitle'] === '') {
@@ -23,18 +23,14 @@ class InsertNewTaskController
 			} else {
 				$taskText = $taskData['taskText'] | '';
 				$taskModel = $this->container->get('taskModel');
-				$errorData = $taskModel->insertTask($_SESSION['user']->getID(), $taskData['taskTitle'], $taskText);
-				if ($errorData) {
-					$errorLogger = $this->container->get('errorLoggerModel');
-					$errorLogger->logDatabaseError($errorData['cause'], $errorData['exception']);
-					$_SESSION['errorMessage'] = 'Task was not added.';
-					$status = 500;
-				} else {
-					$status = 200;
-					$_SESSION['error'] = false;
+				$success = $taskModel->insertTask($_SESSION['user']->getID(), $taskData['taskTitle'], $taskText);
+				if (!$success) {
+					$_SESSION['error'] = true;
+					$_SESSION['errorMessage'] = 'A task was not added.';
 				}
+				$status = $_SESSION['error'] ? 500 : 200;
+				return $response->withStatus($status)->withHeader('Location', './');
 			}
-			return $response->withStatus($status)->withHeader('Location', './');
 		}
 		return $response->withStatus(500)->withHeader('Location', './login');
 	}

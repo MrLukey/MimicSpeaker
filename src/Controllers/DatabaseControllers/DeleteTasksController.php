@@ -17,15 +17,12 @@ class DeleteTasksController
 	public function __invoke(Request $request, Response $response, array $args)
 	{
 		if ($_SESSION['loggedIn'] && $_SESSION['user'] !== null){
-			$_SESSION['error'] = false;
 			$taskModel = $this->container->get('taskModel');
 			$tasksToDelete = $request->getParsedBody();
 			foreach ($tasksToDelete as $key => $value){
 				$taskID = intval(mb_substr($key, 4)); // extract ID from task{ID}="" form inputs
-				$errorData = $taskModel->deleteTaskPermanently($taskID);
-				if ($errorData){
-					$errorLogger = $this->container->get('errorLoggerModel');
-					$errorLogger->logDatabaseError($errorData['cause'], $errorData['exception']);
+				$success = $taskModel->deleteTaskPermanently($taskID, $_SESSION['user']->getID());
+				if (!$success){
 					$_SESSION['error'] = true;
 					$_SESSION['errorMessage'] = 'A task was not deleted.';
 				}

@@ -7,7 +7,6 @@ abstract class UserEntityAbstract
 	protected int $id;
 	protected string $username;
 	protected string $email;
-	protected string $lastActive;
 
 	public function getId(): int
 	{
@@ -22,10 +21,5 @@ abstract class UserEntityAbstract
 	public function getEmail(): string
 	{
 		return $this->email;
-	}
-
-	public function getLastActive(): string
-	{
-		return $this->lastActive;
 	}
 }

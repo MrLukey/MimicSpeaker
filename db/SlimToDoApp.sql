@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.7.34)
 # Database: SlimToDoApp
-# Generation Time: 2021-10-01 08:07:18 +0000
+# Generation Time: 2021-10-02 10:16:29 +0000
 # ************************************************************
 
 
@@ -21,6 +21,29 @@ SET NAMES utf8mb4;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
+# Dump of table activity
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `activity`;
+
+CREATE TABLE `activity` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `userID` int(11) unsigned NOT NULL,
+  `logins` int(11) unsigned NOT NULL DEFAULT '0',
+  `loginAttempts` int(11) unsigned NOT NULL DEFAULT '0',
+  `tasksCreated` int(11) unsigned NOT NULL DEFAULT '0',
+  `tasksCompleted` int(11) unsigned NOT NULL DEFAULT '0',
+  `tasksReset` int(11) unsigned NOT NULL DEFAULT '0',
+  `tasksArchived` int(11) unsigned NOT NULL DEFAULT '0',
+  `tasksRecovered` int(11) unsigned NOT NULL DEFAULT '0',
+  `tasksDeleted` int(11) unsigned NOT NULL DEFAULT '0',
+  `lastActive` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `userID` (`userID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+
 # Dump of table tasks
 # ------------------------------------------------------------
 
@@ -28,7 +51,7 @@ DROP TABLE IF EXISTS `tasks`;
 
 CREATE TABLE `tasks` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `userID` int(11) unsigned DEFAULT NULL,
+  `userID` int(11) unsigned NOT NULL,
   `title` varchar(100) NOT NULL DEFAULT '',
   `text` text NOT NULL,
   `creationTime` varchar(20) NOT NULL DEFAULT 'N/A',
@@ -51,7 +74,6 @@ CREATE TABLE `users` (
   `username` varchar(30) NOT NULL DEFAULT '',
   `email` varchar(255) NOT NULL DEFAULT '',
   `password` varchar(255) NOT NULL DEFAULT '',
-  `lastActive` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`)

@@ -17,15 +17,12 @@ class MarkTasksNotArchivedController
 	public function __invoke(Request $request, Response $response, array $args)
 	{
 		if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']) {
-			$_SESSION['error'] = false;
 			$taskModel = $this->container->get('taskModel');
 			$taskToMarkNotArchived = $request->getParsedBody();
 			foreach ($taskToMarkNotArchived as $key => $value) {
 				$taskID = intval(mb_substr($key, 4)); // extract ID from task{ID}="" form inputs
-				$errorData = $taskModel->markTaskNotArchived($taskID);
-				if ($errorData) {
-					$errorLogger = $this->container->get('errorLoggerModel');
-					$errorLogger->logDatabaseError($errorData['cause'], $errorData['exception']);
+				$success = $taskModel->markTaskNotArchived($taskID, $_SESSION['user']->getID());
+				if (!$success) {
 					$_SESSION['error'] = true;
 					$_SESSION['errorMessage'] = 'A task was not archived.';
 				}
