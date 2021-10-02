@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.7.34)
 # Database: SlimToDoApp
-# Generation Time: 2021-10-01 21:56:38 +0000
+# Generation Time: 2021-10-02 10:16:29 +0000
 # ************************************************************
 
 
@@ -79,14 +79,6 @@ CREATE TABLE `users` (
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-
-DELIMITER ;;
-/*!50003 SET SESSION SQL_MODE="ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION" */;;
-/*!50003 CREATE */ /*!50017 DEFINER=`root`@`%` */ /*!50003 TRIGGER `createActivtiyLogger` AFTER INSERT ON `users` FOR EACH ROW INSERT INTO `activity` (`userID`)
-SELECT `id` 
-FROM `users` */;;
-DELIMITER ;
-/*!50003 SET SESSION SQL_MODE=@OLD_SQL_MODE */;
 
 
 
