@@ -26,18 +26,20 @@ class LoginUserController
 		else {
 			$userModel = $this->container->get('userModel');
 			$user = $userModel->getUserByName($userInputData['username']);
-			$hashPassword = $userModel->getHashedPasswordForUser($user->getID());
-			if ($hashPassword){
-				$activityLogger = $this->container->get('activityLoggerModel');
-				if (password_verify($userInputData['rawPassword'], $hashPassword)){
-					$activityLogger->logSuccessfulLogin($user->getID());
-					$_SESSION['loggedIn'] = true;
-					$_SESSION['user'] = $user;
-					$_SESSION['error'] = false;
-					$_SESSION['errorMessage'] = '';
-					return $response->withStatus(200)->withHeader('Location', './');
+			if ($user){
+				$hashPassword = $userModel->getHashedPasswordForUser($user->getID());
+				if ($hashPassword){
+					$activityLogger = $this->container->get('activityLoggerModel');
+					if (password_verify($userInputData['rawPassword'], $hashPassword)){
+						$activityLogger->logSuccessfulLogin($user->getID());
+						$_SESSION['loggedIn'] = true;
+						$_SESSION['user'] = $user;
+						$_SESSION['error'] = false;
+						$_SESSION['errorMessage'] = '';
+						return $response->withStatus(200)->withHeader('Location', './');
+					}
+					$activityLogger->logUnsuccessfullLogin($user->getID());
 				}
-				$activityLogger->logLoginAttempt($user->getID());
 			}
 		}
 		return $response->withStatus(500)->withHeader('Location', './login');

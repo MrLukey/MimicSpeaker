@@ -26,17 +26,9 @@ class ErrorLoggerModel
 
 	public function logDatabaseError(string $cause, \PDOException $exception)
 	{
-		$errorData = [
-			'time' => $this->dateTime->getTimestamp(),
-			'cause' => $cause,
-			'code' => $exception->getCode(),
-			'message' => $exception->getMessage(),
-			'file' => $exception->getFile(),
-			'line' => $exception->getLine(),
-			'trace' => $exception->getTrace(),
-			'previous' => $exception->getPrevious()
-		];
-		file_put_contents($this->databaseErrorLogs, json_encode($errorData), FILE_APPEND | LOCK_EX);
+		$errorString = 'DB error at ' . $this->dateTime->getTimestamp() . ' in ' . $cause . ' at line '
+			. $exception->getLine() . ': ' . $exception->getMessage() . "\n";
+		file_put_contents($this->databaseErrorLogs, $errorString, FILE_APPEND | LOCK_EX);
 	}
 
 	public function logSuspiciousActivity($data)

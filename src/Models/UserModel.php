@@ -7,13 +7,11 @@ use App\Entities\UserEntity;
 class UserModel
 {
 	private \PDO $db;
-	private ActivityLoggerModel $activityLogger;
 	private ErrorLoggerModel $errorLogger;
 
-	public function __construct(\PDO $db, ActivityLoggerModel $activityLogger, ErrorLoggerModel $errorLogger)
+	public function __construct(\PDO $db, ErrorLoggerModel $errorLogger)
 	{
 		$this->db = $db;
-		$this->activityLogger = $activityLogger;
 		$this->errorLogger = $errorLogger;
 	}
 
@@ -31,6 +29,22 @@ class UserModel
 			return true;
 		} catch (\PDOException $exception) {
 			$this->errorLogger->logDatabaseError('UserModel->insertNewUser()', $exception);
+			return false;
+		}
+	}
+
+	public function linkActivityTableToUser(int $userID): bool
+	{
+		$sqlQuery =
+			'INSERT INTO `activity` (`userID`) 
+			VALUES (:userID);';
+		$query = $this->db->prepare($sqlQuery);
+		$query->bindParam(':userID', $userID);
+		try {
+			$query->execute();
+			return true;
+		} catch (\PDOException $exception) {
+			$this->errorLogger->logDatabaseError('UserModel->linkActivityTableToUser()', $exception);
 			return false;
 		}
 	}

@@ -5,13 +5,15 @@ namespace App\Models;
 class ActivityLoggerModel
 {
 	private \PDO $db;
+	private ErrorLoggerModel $errorLogger;
 
-	public function __construct(\PDO $db)
+	public function __construct(\PDO $db, ErrorLoggerModel $errorLogger)
 	{
 		$this->db = $db;
+		$this->errorLogger = $errorLogger;
 	}
 
-	public function logLoginAttempt(int $userID): ?array
+	public function logUnsuccessfullLogin(int $userID): bool
 	{
 		$sqlQuery =
 			'UPDATE `activity` 
@@ -21,13 +23,14 @@ class ActivityLoggerModel
 		$query->bindParam(':userID', $userID);
 		try {
 			$query->execute();
-			return null;
+			return true;
 		} catch (\PDOException $exception){
-			return ['cause' => 'ActivityLoggerModel->logLoginAttempt()', 'exception' => $exception];
+			$this->errorLogger->logDatabaseError('ActivityLoggerModel->logUnsuccessfullLogin()', $exception);
+			return false;
 		}
 	}
 
-	public function logSuccessfulLogin(int $userID): ?array
+	public function logSuccessfulLogin(int $userID): bool
 	{
 		$sqlQuery =
 			'UPDATE `activity` 
@@ -37,13 +40,14 @@ class ActivityLoggerModel
 		$query->bindParam(':userID', $userID);
 		try {
 			$query->execute();
-			return null;
+			return true;
 		} catch (\PDOException $exception){
-			return ['cause' => 'ActivityLoggerModel->logSuccessfulLogin()', 'exception' => $exception];
+			$this->errorLogger->logDatabaseError('ActivityLoggerModel->logSuccessfulLogin()', $exception);
+			return false;
 		}
 	}
 
-	public function logTaskCreated(int $userID): ?array
+	public function logTaskCreated(int $userID): bool
 	{
 		$sqlQuery =
 			'UPDATE `activity` 
@@ -53,13 +57,14 @@ class ActivityLoggerModel
 		$query->bindParam(':userID', $userID);
 		try {
 			$query->execute();
-			return null;
+			return true;
 		} catch (\PDOException $exception){
-			return ['cause' => 'ActivityLoggerModel->logTaskCreated()', 'exception' => $exception];
+			$this->errorLogger->logDatabaseError('ActivityLoggerModel->logTaskCreated()', $exception);
+			return false;
 		}
 	}
 
-	public function logTaskCompleted(int $userID): ?array
+	public function logTaskCompleted(int $userID): bool
 	{
 		$sqlQuery =
 			'UPDATE `activity` 
@@ -69,13 +74,14 @@ class ActivityLoggerModel
 		$query->bindParam(':userID', $userID);
 		try {
 			$query->execute();
-			return null;
+			return true;
 		} catch (\PDOException $exception){
-			return ['cause' => 'ActivityLoggerModel->logTaskCompleted()', 'exception' => $exception];
+			$this->errorLogger->logDatabaseError('ActivityLoggerModel->logTaskCompleted()', $exception);
+			return false;
 		}
 	}
 
-	public function logTaskReset(int $userID): ?array
+	public function logTaskReset(int $userID): bool
 	{
 		$sqlQuery =
 			'UPDATE `activity` 
@@ -85,13 +91,14 @@ class ActivityLoggerModel
 		$query->bindParam(':userID', $userID);
 		try {
 			$query->execute();
-			return null;
+			return true;
 		} catch (\PDOException $exception){
-			return ['cause' => 'ActivityLoggerModel->logTaskCompleted()', 'exception' => $exception];
+			$this->errorLogger->logDatabaseError('ActivityLoggerModel->logTaskReset()', $exception);
+			return false;
 		}
 	}
 
-	public function logTaskArchived(int $userID): ?array
+	public function logTaskArchived(int $userID): bool
 	{
 		$sqlQuery =
 			'UPDATE `activity` 
@@ -101,13 +108,14 @@ class ActivityLoggerModel
 		$query->bindParam(':userID', $userID);
 		try {
 			$query->execute();
-			return null;
+			return true;
 		} catch (\PDOException $exception){
-			return ['cause' => 'ActivityLoggerModel->logTaskArchived()', 'exception' => $exception];
+			$this->errorLogger->logDatabaseError('ActivityLoggerModel->logTaskArchived()', $exception);
+			return false;
 		}
 	}
 
-	public function logTaskRecovered(int $userID): ?array
+	public function logTaskRecovered(int $userID): bool
 	{
 		$sqlQuery =
 			'UPDATE `activity` 
@@ -117,13 +125,14 @@ class ActivityLoggerModel
 		$query->bindParam(':userID', $userID);
 		try {
 			$query->execute();
-			return null;
+			return true;
 		} catch (\PDOException $exception){
-			return ['cause' => 'ActivityLoggerModel->logTaskArchived()', 'exception' => $exception];
+			$this->errorLogger->logDatabaseError('ActivityLoggerModel->logTaskRecovered()', $exception);
+			return false;
 		}
 	}
 
-	public function logTaskDeleted(int $userID): ?array
+	public function logTaskDeleted(int $userID): bool
 	{
 		$sqlQuery =
 			'UPDATE `activity` 
@@ -133,9 +142,10 @@ class ActivityLoggerModel
 		$query->bindParam(':userID', $userID);
 		try {
 			$query->execute();
-			return null;
+			return true;
 		} catch (\PDOException $exception){
-			return ['cause' => 'ActivityLoggerModel->logTaskDeleted()', 'exception' => $exception];
+			$this->errorLogger->logDatabaseError('ActivityLoggerModel->logTaskDeleted()', $exception);
+			return false;
 		}
 	}
 }

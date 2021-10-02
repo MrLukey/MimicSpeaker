@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Controllers\DatabaseControllers;
-use App\Models\ActivityLoggerModel;
 use Psr\Container\ContainerInterface;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
@@ -35,6 +34,7 @@ class SignUpNewUserController
 			} else {
 				$user = $userModel->getUserByName($userInputData['username']);
 				if ($user){
+					$userModel->linkActivityTableToUser($user->getID());
 					$_SESSION['loggedIn'] = true;
 					$_SESSION['user'] = $user;
 					$_SESSION['error'] = false;

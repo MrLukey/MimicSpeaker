@@ -9,6 +9,7 @@ class ActivityLoggerModelFactory
 	public function __invoke(ContainerInterface $container): ActivityLoggerModel
 	{
 		$db = $container->get('pdo');
-		return new ActivityLoggerModel($db);
+		$errorLogger = $container->get('errorLoggerModel');
+		return new ActivityLoggerModel($db, $errorLogger);
 	}
 }
