@@ -13,12 +13,13 @@ return function (App $app) {
 	$app->post('/signup', 'signUpNewUserController');
 
     $app->any('/logout', 'logoutUserController');
-    $app->any('/add', 'insertNewTaskController');
-    $app->any('/complete', 'markTasksCompleteController');
-    $app->any('/incomplete', 'markTasksIncompleteController');
-    $app->any('/archive', 'markTasksArchivedController');
-    $app->any('/recover', 'markTasksNotArchivedController');
-    $app->any('/delete', 'deleteTasksController');
-
+    $app->post('/add', 'insertNewTaskController');
+    $app->post('/complete', 'markTasksCompleteController');
+    $app->post('/incomplete', 'markTasksIncompleteController');
+    $app->post('/archive', 'markTasksArchivedController');
+    $app->post('/recover', 'markTasksNotArchivedController');
+    $app->post('/delete', 'deleteTasksController');
 	$app->post('/editAll', 'editAllTasksController');
+
+	$app->any('/{path:.*}', 'loginPageController');
 };
