@@ -4,7 +4,7 @@ declare(strict_types=1);
 use Slim\App;
 
 return function (App $app) {
-    $app->get('/', 'toDoListPageController');
+    $app->get('/', 'homePageController');
 
     $app->get('/login', 'loginPageController');
     $app->post('/login', 'loginUserController');
