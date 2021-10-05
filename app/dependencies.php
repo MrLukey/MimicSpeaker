@@ -34,6 +34,7 @@ return function (ContainerBuilder $containerBuilder) {
 
     $container['pdo'] = DI\factory('App\Factories\BuiltInClassFactories\PDOFactory');
     $container['dateTime'] = DI\factory('App\Factories\BuiltInClassFactories\DateTimeFactory');
+    $container['mimicSpeaker'] = DI\factory('App\Factories\EntityFactories\MimicSpeakerEntityFactory');
 
 	$container['taskModel'] = DI\factory('App\Factories\ModelFactories\TaskModelFactory');
 	$container['userModel'] = DI\factory('App\Factories\ModelFactories\UserModelFactory');
