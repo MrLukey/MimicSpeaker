@@ -1,13 +1,13 @@
 # ************************************************************
 # Sequel Pro SQL dump
-# Version 5446
+# Version 4541
 #
-# https://www.sequelpro.com/
+# http://www.sequelpro.com/
 # https://github.com/sequelpro/sequelpro
 #
 # Host: 127.0.0.1 (MySQL 5.7.34)
-# Database: SlimToDoApp
-# Generation Time: 2021-10-02 10:16:29 +0000
+# Database: mimic_speaker_database
+# Generation Time: 2021-10-05 21:00:49 +0000
 # ************************************************************
 
 
@@ -15,7 +15,6 @@
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
-SET NAMES utf8mb4;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
@@ -44,21 +43,32 @@ CREATE TABLE `activity` (
 
 
 
-# Dump of table tasks
+# Dump of table mimics
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `tasks`;
+DROP TABLE IF EXISTS `mimics`;
 
-CREATE TABLE `tasks` (
+CREATE TABLE `mimics` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `userID` int(11) unsigned NOT NULL,
-  `title` varchar(100) NOT NULL DEFAULT '',
-  `text` text NOT NULL,
-  `creationTime` varchar(20) NOT NULL DEFAULT 'N/A',
-  `complete` tinyint(1) NOT NULL DEFAULT '0',
-  `completionTime` varchar(20) NOT NULL DEFAULT 'N/A',
-  `archived` tinyint(4) NOT NULL DEFAULT '0',
-  `archivedTime` varchar(20) NOT NULL DEFAULT 'N/A',
+  `user_id` int(11) NOT NULL,
+  `text_json` longtext NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+
+# Dump of table processed_texts
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `processed_texts`;
+
+CREATE TABLE `processed_texts` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(30) NOT NULL DEFAULT '',
+  `author` varchar(30) NOT NULL DEFAULT '',
+  `genre` varchar(30) NOT NULL DEFAULT '',
+  `year_first_published` int(4) NOT NULL,
+  `file_path` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
