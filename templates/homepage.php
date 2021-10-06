@@ -1,8 +1,16 @@
 <?php
 use App\ViewHelpers\MimicViewHelper;
 
-if (!$_SESSION['error'] && $data === [])
+print_r($_SESSION['mimicSpeech']);
+
+if (!$_SESSION['error'] && $data === []){
 	$_SESSION['errorMessage'] = 'There are no mimics in the database.';
+	$mimics = [];
+	$processedTexts = [];
+} else {
+    $mimics = $data['mimics'];
+    $processedTexts = $data['processedTexts'];
+}
 ?>
 <!DOCTYPE html>
 <html lang="en-gb">
@@ -20,9 +28,10 @@ if (!$_SESSION['error'] && $data === [])
 </head>
 <body>
 <?php
-foreach ($data as $mimic){
-    echo MimicViewHelper::createHTMLForMimic($mimic);
+foreach ($mimics as $mimic){
+    //echo MimicViewHelper::createHTMLForMimic($mimic);
 }
+echo MimicViewHelper::createHTMLForMimicGenerator($processedTexts);
 ?>
 </body>
 </html>

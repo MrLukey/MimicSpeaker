@@ -8,11 +8,13 @@ return function (App $app) {
 
     $app->get('/login', 'loginPageController');
     $app->post('/login', 'loginUserController');
-
     $app->get('/signup', 'signUpPageController');
 	$app->post('/signup', 'signUpNewUserController');
-
     $app->any('/logout', 'logoutUserController');
+
+    $app->post('/mimicSpeaker', 'mimicSpeakerController');
+
+
     $app->post('/add', 'insertNewTaskController');
     $app->post('/complete', 'markTasksCompleteController');
     $app->post('/incomplete', 'markTasksIncompleteController');

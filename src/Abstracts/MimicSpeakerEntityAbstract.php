@@ -33,19 +33,19 @@ abstract class MimicSpeakerEntityAbstract
 		return $this->wordDictionary;
 	}
 
-	public function mimic(int $sentenceLength): string
+	public function mimic(int $sentenceLength): array
 	{
 		$currentWord = $this->startWords[array_rand($this->startWords)];
-		$mimicSpeech = '' . $currentWord;
+		$mimicSpeech = [$currentWord];
 		for ($i = 0; $i < $sentenceLength; $i++){
 			if (isset($this->wordDictionary[$currentWord])){
 				$currentWord = $this->wordDictionary[$currentWord][array_rand($this->wordDictionary[$currentWord])];
-				$mimicSpeech .= ' ' . $currentWord;
+				$mimicSpeech[] = $currentWord;
 			} else {
 				break;
 			}
 		}
-		return $mimicSpeech . "\n";
+		return $mimicSpeech;
 	}
 
 	public function mergeWordData(MimicSpeakerEntityAbstract $mimicSpeaker): void

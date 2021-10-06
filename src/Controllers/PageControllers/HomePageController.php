@@ -17,9 +17,10 @@ class HomePageController
 
 	public function __invoke(Request $request, Response $response, array $args)
 	{
-		$mimicSpeakerModel = $this->container->get('mimicSpeakerModel');
 		$renderer = $this->container->get('renderer');
-		$mimics = $mimicSpeakerModel->getMimics();
-		return $renderer->render($response, 'homepage.php', $mimics);
+		$mimicSpeakerModel = $this->container->get('mimicSpeakerModel');
+		$data['mimics'] = $mimicSpeakerModel->getMimics();
+		$data['processedTexts'] = $mimicSpeakerModel->getAllProcessedTexts();
+		return $renderer->render($response, 'homepage.php', $data);
 	}
 }

@@ -49,6 +49,7 @@ return function (ContainerBuilder $containerBuilder) {
 	$container['loginUserController'] = DI\factory('App\Factories\DatabaseFactories\LoginUserControllerFactory');
 	$container['logoutUserController'] = DI\factory('App\Factories\DatabaseFactories\LogoutUserControllerFactory');
 
+	$container['mimicSpeakerController'] = DI\factory('App\Factories\DatabaseFactories\MimicSpeakerControllerFactory');
 
 
 	$container['taskModel'] = DI\factory('App\Factories\ModelFactories\TaskModelFactory');
