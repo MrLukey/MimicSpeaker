@@ -20,6 +20,7 @@ class MimicSpeakerController
 		$mimicSpeakerModel = $this->container->get('mimicSpeakerModel');
 		$mimicSpeaker = $this->container->get('mimicSpeakerEntity');
 		$mimicParams = $request->getParsedBody();
+		$errorLogger->logTestJSON($mimicParams);
 		if($mimicParams['shortTitle'] !== ''){
 			$textData = $mimicSpeakerModel->getProcessedTextByShortTitle($mimicParams['shortTitle'])[0];
 		} elseif ($mimicParams['genre'] !== ''){
@@ -28,8 +29,7 @@ class MimicSpeakerController
 			$textData = $mimicSpeakerModel->getRandomProcessedText()[0];
 		}
 		$mimicSpeaker->buildFromJSON($textData['file_path']);
-		$_SESSION['mimicSpeech'] = $mimicSpeaker->mimic(50);
-		$errorLogger->logTestJSON($textData);
+		$_SESSION['mimicSpeech'] = $mimicSpeaker->mimic($mimicParams['sentenceLength']);
 		return $response->withStatus(200)->withHeader('Location', './');
 	}
 }

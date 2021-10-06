@@ -6,7 +6,11 @@ class MimicViewHelper
 {
 	public static function createHTMLForMimic(array $mimic): string
 	{
-		return print_r($mimic);
+		$mimicHTML = '';
+		foreach ($mimic as $word){
+			$mimicHTML .= '<button>' . $word . '</button>';
+		}
+		return $mimicHTML;
 	}
 
 	public static function createHTMLForMimicGenerator(array $processedTexts): string
@@ -31,7 +35,8 @@ class MimicViewHelper
 		}
 		$titleSelector .= '</select>';
 		$genreSelector .= '</select>';
+		$sentenceLength = '<input type="number" min="5" value=50 name="sentenceLength">';
 		$editButton = '<input type="submit" value="Mimic">';
-		return '<form action="mimicSpeaker" method="post">' . $titleSelector . $genreSelector . $editButton . '</form>';
+		return '<form action="mimicSpeaker" method="post">' . $titleSelector . $genreSelector . $sentenceLength . $editButton . '</form>';
 	}
 }

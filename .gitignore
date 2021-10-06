@@ -6,4 +6,4 @@
 !/logs/README.md
 /templates/test.php
 /db/textJSONs
-/db/target.txt
+/db/scripts/target.txt
