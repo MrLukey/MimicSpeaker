@@ -6,7 +6,7 @@ abstract class MimicSpeakerEntityAbstract
 {
 	protected array $wordDictionary;
 
-	public function buildFromText(string $textFilePath): void
+	public function buildFromTextFile(string $textFilePath): void
 	{
 		$rawText = file_get_contents($textFilePath);
 		$allWords = $this::processTextIntoArray($rawText);

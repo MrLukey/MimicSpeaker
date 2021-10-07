@@ -12,7 +12,8 @@ return function (App $app) {
 	$app->post('/signup', 'signUpNewUserController');
     $app->any('/logout', 'logoutUserController');
 
-    $app->post('/mimicSpeaker', 'mimicSpeakerController');
+    $app->post('/buildMimicSpeaker', 'buildMimicSpeakerController');
+    $app->post('/mimic', 'mimicController');
 
 
     $app->post('/add', 'insertNewTaskController');

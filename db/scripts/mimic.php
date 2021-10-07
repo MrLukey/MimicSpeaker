@@ -1,7 +1,7 @@
 <?php
 
 $jsonFileToMimic = $argv[1];
-$noOfWords = 1000;
+$noOfWords = 50;
 $textFile = file_get_contents($jsonFileToMimic);
 $wordDictionary = json_decode($textFile, true);
 $currentWord = array_rand($wordDictionary);

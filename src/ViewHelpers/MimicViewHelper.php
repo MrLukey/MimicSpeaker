@@ -13,8 +13,19 @@ class MimicViewHelper
 		return $mimicHTML;
 	}
 
-	public static function createHTMLForMimicGenerator(array $processedTexts): string
+	public static function createHTMLForMimicSpeakerBuilder(array $processedTexts): string
 	{
+		$customSelector =
+			'<label for="buildSelect">Pick Build:</label>
+			<select name="buildSelect" id="buildSelect">
+				<option value="preBuilt">Pre-built</option>
+				<option value="customBuild">Build from text file</option>
+			</select>';
+
+		$customBuilder =
+			'<label for="inputFile">Upload text file for processing</label>
+			<input type="file" class="form-control-file" name="inputFile" id="inputFile">';
+
 		$titleSelector =
 			'<label for="titleSelect">Title:</label>
 			<select name="shortTitle" id="titleSelect">
@@ -35,8 +46,13 @@ class MimicViewHelper
 		}
 		$titleSelector .= '</select>';
 		$genreSelector .= '</select>';
+		$buildButton = '<input type="submit" value="Build Mimic Speaker">';
+		return '<form action="buildMimicSpeaker" method="post" enctype="multipart/form-data">' . $customSelector . $customBuilder . $titleSelector . $genreSelector . $buildButton . '</form>';
+	}
+
+	public static function createHTMLForMimicSpeaker(){
 		$sentenceLength = '<input type="number" min="5" value=50 name="sentenceLength">';
-		$editButton = '<input type="submit" value="Mimic">';
-		return '<form action="mimicSpeaker" method="post">' . $titleSelector . $genreSelector . $sentenceLength . $editButton . '</form>';
+		$mimicButton = '<input type="submit" value="Mimic">';
+		return '<form action="mimic" method="post">' . $sentenceLength . $mimicButton . '</form>';
 	}
 }

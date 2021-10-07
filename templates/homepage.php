@@ -26,7 +26,9 @@ if (!$_SESSION['error'] && $data === []){
 </head>
 <body>
 <?php
-echo MimicViewHelper::createHTMLForMimicGenerator($processedTexts);
+echo $_SESSION['errorMessage'];
+echo MimicViewHelper::createHTMLForMimicSpeakerBuilder($processedTexts);
+echo MimicViewHelper::createHTMLForMimicSpeaker();
 echo MimicViewHelper::createHTMLForMimic($_SESSION['mimicSpeech']);
 ?>
 </body>
