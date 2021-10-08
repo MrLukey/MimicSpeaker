@@ -52,6 +52,8 @@ return function (ContainerBuilder $containerBuilder) {
 	$container['buildMimicSpeakerController'] = DI\factory('App\Factories\MimicSpeakerFactories\BuildMimicSpeakerControllerFactory');
 	$container['mimicController'] = DI\factory('App\Factories\MimicSpeakerFactories\MimicControllerFactory');
 
+	$container['adminPageController'] = DI\factory('App\Factories\PageFactories\AdminPageControllerFactory');
+
 	$container['taskModel'] = DI\factory('App\Factories\ModelFactories\TaskModelFactory');
 	$container['toDoListPageController'] = DI\factory('App\Factories\PageFactories\ToDoListPageControllerFactory');
 	$container['insertNewTaskController'] = DI\factory('App\Factories\DatabaseFactories\InsertNewTaskControllerFactory');

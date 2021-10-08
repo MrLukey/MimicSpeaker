@@ -5,6 +5,7 @@ use Slim\App;
 
 return function (App $app) {
     $app->get('/', 'homePageController');
+    $app->get('/admin', 'adminPageController');
 
     $app->get('/login', 'loginPageController');
     $app->post('/login', 'loginUserController');

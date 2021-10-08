@@ -4,28 +4,66 @@ namespace App\ViewHelpers;
 
 class MimicViewHelper
 {
-	public static function createHTMLForMimic(array $mimic): string
+	public static function createHTMLForMimicEditor(array $mimic, array $processedTexts): string
 	{
 		$mimicHTML =
-			'<div class="container col-10 d-flex row-wrap">
-				<div class="card rounded-3">
-					<div class="card-body">
-						<div class="">';
-							foreach ($mimic as $index => $word){
-								$mimicHTML .=
-									'<div class="wordWrapper m-1">
-										<button class="wordButton btn btn-outline-dark btn-md"
-												id="wordButton' . $index . '"
-												data-edited="false"
-												data-id="' . $index . '">' . $word . '</button>' .
-										MimicViewHelper::createHTMLForEditingButtons($index) .
-									'</div>';
+			'<div class="container">
+				<div class="card rounded-3 align-middle">
+					<div class="card-header d-flex row-nowrap justify-content-between align-items-baseline">' .
+						MimicViewHelper::createHTMLForMimicSpeakerBuilder($processedTexts) .
+					'</div>
+					<div class="card-body d-none"></div>
+					<div class="card-body" id="mimicSpeech">';
+						foreach ($mimic as $index => $word){
+							$mimicHTML .=
+								'<div class="wordWrapper m-1">
+									<button class="wordButton btn btn-outline-dark btn-md"
+											id="wordButton' . $index . '"
+											data-edited="false"
+											data-id="' . $index . '">' . $word . '</button>' .
+									MimicViewHelper::createHTMLForEditingButtons($index) .
+								'</div>';
 							}
-		$mimicHTML .=   '</div>
+		$mimicHTML .=
+					'</div>
+					<div class="card-footer d-flex row-nowrap justify-content-between">
+						<div class="d-flex row-nowrap align-items-baseline">
+							<input type="number" min="5" value=50 name="sentenceLength" id="sentenceLengthSelector">
+							<button class="btn btn-sm btn-primary" id="mimicButton">Mimic</button>
+						</div>
+						<button class="btn btn-md btn-outline-success">Publish</button>
 					</div>
 				</div>
 			</div>';
 		return $mimicHTML;
+	}
+
+	private static function createHTMLForMimicSpeakerBuilder(array $processedTexts): string
+	{
+		$titleSelector =
+			'<select class="form-inline form-select w-50 h-100" name="shortTitle" id="titleSelector">
+				<option value="">Random Title</option>';
+
+		$genreSelector =
+			'<select class="form-inline form-select w-50" name="genre" id="genreSelector">
+				<option value="">Random Genre</option>';
+
+		$uniqueGenres = [];
+		foreach ($processedTexts as $text){
+			$titleSelector .= '<option value="' . $text['short_title'] . '">' . $text['full_title'] . '</option>';
+			if (!in_array($text['genre'], $uniqueGenres)){
+				$uniqueGenres[] = $text['genre'];
+				$genreSelector .= '<option value="' . $text['genre'] . '">' . $text['genre'] . '</option>';
+			}
+		}
+		$titleSelector .= '</select>';
+		$genreSelector .= '</select>';
+		return
+			//'<form action="buildMimicSpeaker" method="post">' .
+					$titleSelector .
+					$genreSelector .
+			//'</form>
+			'<button class="btn btn-md btn-outline-primary text-nowrap" id="buildMimicSpeaker">Build Mimic Speaker</button>';
 	}
 
 	private static function createHTMLForEditingButtons(int $wordID): string
@@ -47,75 +85,6 @@ class MimicViewHelper
 					<button class="allCapsButton btn btn-sm btn-secondary" data-id="' . $wordID .'">AAA</button>
 					<button class="deleteButton btn btn-sm btn-secondary" data-id="' . $wordID .'">Delete</button>
 				</div>
-			</div>';
-	}
-
-	public static function createHTMLForMimicSpeakerBuilder(array $processedTexts): string
-	{
-		$buildSelector =
-			'<div class="form-group">
-				<label for="buildSelect">Pick Build:</label>
-				<select name="buildSelect" id="buildSelect">
-					<option value="preBuilt">Pre-built</option>
-					<option value="customBuild">Build from text file</option>
-				</select>
-			</div>';
-
-		$textFileInput =
-			'<div class="form-group">
-				<label for="inputFile">Upload text file for processing</label>
-				<input type="file" class="form-control-file" name="inputFile" id="inputFile">
-			</div>';
-
-		$titleSelector =
-			'<div class="form-group">
-				<label for="titleSelect">Title:</label>
-				<select name="shortTitle" id="titleSelect">
-			        <option value="">Random</option>';
-
-		$genreSelector =
-			'<div class="form-group">
-				<label for="genreSelect">Genre:</label>
-				<select name="genre" id="genreSelect">
-			        <option value="">Random</option>';
-
-		$uniqueGenres = [];
-		foreach ($processedTexts as $text){
-			$titleSelector .= '<option value="' . $text['short_title'] . '">' . $text['full_title'] . '</option>';
-			if (!in_array($text['genre'], $uniqueGenres)){
-				$uniqueGenres[] = $text['genre'];
-				$genreSelector .= '<option value="' . $text['genre'] . '">' . $text['genre'] . '</option>';
-			}
-		}
-		$titleSelector .= '</select></div>';
-		$genreSelector .= '</select></div>';
-		$buildButton = '<input type="submit" value="Build Mimic Speaker">';
-		return
-			'<div class="card rounded-3">' .
-				'<div class="card-body">' .
-					'<form action="buildMimicSpeaker" method="post" enctype="multipart/form-data">' .
-						$buildSelector .
-						'<div class="userInpiut">' .
-							$textFileInput .
-						'</div>' .
-						'<div class="userInpiut">' .
-							$titleSelector .
-							$genreSelector .
-						'</div>' .
-							$buildButton .
-					'</form>' .
-				'</div>' .
-			'</div>';
-	}
-
-	public static function createHTMLForMimicSpeaker(): string
-	{
-		return
-			'<div class="card rounded-3">
-				<form action="mimic" method="post">
-					<input type="number" min="5" value=50 name="sentenceLength">
-					<input type="submit" value="Mimic">
-				</form>
 			</div>';
 	}
 }

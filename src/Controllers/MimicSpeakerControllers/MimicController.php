@@ -15,16 +15,18 @@ class MimicController
 		$this->container = $container;
 	}
 
-	public function __invoke(Request $request, Response $response, array $args)
+	public function __invoke(Request $request, Response $response, array $args): Response
 	{
 		if ($_SESSION['mimicSpeaker'] === null){
 			$_SESSION['error'] = true;
 			$_SESSION['errorMessage'] = 'No mimic speaker exists, please build one.';
-			return $response->withStatus(500)->withHeader('Location', './');
+			return $response->withStatus(500);
 		} else {
 			$mimicArgs = $request->getParsedBody();
-			$_SESSION['mimicSpeech'] = $_SESSION['mimicSpeaker']->mimic($mimicArgs['sentenceLength']);
-			return $response->withStatus(200)->withHeader('Location', './');
+			$mimicSpeech = $_SESSION['mimicSpeaker']->mimic($mimicArgs['sentenceLength']);
+			$_SESSION['mimicSpeech'] = $mimicSpeech;
+			$response->getBody()->write(json_encode($mimicSpeech));
+			return $response->withStatus(200);
 		}
 	}
 }

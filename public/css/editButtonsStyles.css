@@ -10,3 +10,11 @@
     z-index: 2000;
     transform: translateX(-50px);
 }
+
+#titleSelect {
+    width: 60%;
+}
+
+#genreSelect {
+    width: 40%;
+}

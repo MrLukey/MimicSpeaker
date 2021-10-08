@@ -19,21 +19,25 @@ if (!$_SESSION['error'] && $data === []){
           integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
           crossorigin="anonymous">
     <link type="text/css" rel="stylesheet" href="css/editButtonsStyles.css">
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
             crossorigin="anonymous"></script>
-    <script defer src="js/addEventListeners.js"></script>
+    <script defer src="js/addMimicSpeakerEventListeners.js"></script>
+    <script defer src="js/editButtonEventListenerFunctions.js"></script>
     <title>Slim ToDo App</title>
 </head>
 <body>
     <main id="main">
         <?php
             echo $_SESSION['errorMessage'];
-            echo MimicViewHelper::createHTMLForMimicSpeakerBuilder($processedTexts);
-            echo MimicViewHelper::createHTMLForMimicSpeaker();
-            echo MimicViewHelper::createHTMLForMimic($_SESSION['mimicSpeech']);
+//            echo MimicViewHelper::createHTMLForMimicSpeakerBuilder($processedTexts);
+            echo MimicViewHelper::createHTMLForMimicEditor($_SESSION['mimicSpeech'], $processedTexts);
         ?>
     </main>
+    <div class="card w-75">
+        <p id="test"></p>
+    </div>
 </body>
 </html>
 
