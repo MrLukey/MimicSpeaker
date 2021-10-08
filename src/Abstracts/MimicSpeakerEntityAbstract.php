@@ -44,13 +44,16 @@ abstract class MimicSpeakerEntityAbstract
 	{
 		$currentWord = array_rand($this->wordDictionary);
 		$mimicSpeech = [$currentWord];
-		for ($i = 0; $i < $sentenceLength; $i++){
-			if (isset($this->wordDictionary[$currentWord])){
+		for ($i = 0; $i < $sentenceLength;) {
+			if (isset($this->wordDictionary[$currentWord])) {
 				$currentWord = $this->wordDictionary[$currentWord][array_rand($this->wordDictionary[$currentWord])];
-				$mimicSpeech[] = $currentWord;
-			} else {
-				$currentWord = array_rand($this->wordDictionary);
+				if (preg_match('/[A-Za-z]\S?[a-z]+/', $currentWord)) {
+					$mimicSpeech[] = $currentWord;
+					$i++;
+					continue;
+				}
 			}
+			$currentWord = array_rand($this->wordDictionary);
 		}
 		return $mimicSpeech;
 	}

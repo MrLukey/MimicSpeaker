@@ -31,21 +31,21 @@ class MimicViewHelper
 	private static function createHTMLForEditingButtons(int $wordID): string
 	{
 		return
-			'<div class="editButtons d-none p-1" id="editButtons' . $wordID . '" data-id="' . $wordID .'">
-				<div class="btn-group">
-					<button class="clearButton btn btn-sm btn-outline-light" data-id="' . $wordID .'"> </button>
-					<button class="commaButton btn btn-sm btn-outline-light" data-id="' . $wordID .'">,</button>
-					<button class="fullStopButton btn btn-sm btn-outline-light" data-id="' . $wordID .'">.</button>
-					<button class="semicolonButton btn btn-sm btn-outline-light" data-id="' . $wordID .'">;</button>
-					<button class="colonButton btn btn-sm btn-outline-light" data-id="' . $wordID .'">:</button>
-					<button class="exclamationButton btn btn-sm btn-outline-light" data-id="' . $wordID .'">!</button>
-					<button class="questionButton btn btn-sm btn-outline-light" data-id="' . $wordID .'">?</button>
+			'<div class="editButtons bg-secondary rounded-3 d-none p-1" role="" id="editButtons' . $wordID . '" data-id="' . $wordID .'">
+				<div class="btn-group" role="group">
+					<button class="clearButton btn btn-sm btn-secondary" data-id="' . $wordID .'"> </button>
+					<button class="commaButton btn btn-sm btn-secondary" data-id="' . $wordID .'">,</button>
+					<button class="fullStopButton btn btn-sm btn-secondary" data-id="' . $wordID .'">.</button>
+					<button class="semicolonButton btn btn-sm btn-secondary" data-id="' . $wordID .'">;</button>
+					<button class="colonButton btn btn-sm btn-secondary" data-id="' . $wordID .'">:</button>
+					<button class="exclamationButton btn btn-sm btn-secondary" data-id="' . $wordID .'">!</button>
+					<button class="questionButton btn btn-sm btn-secondary" data-id="' . $wordID .'">?</button>
 				</div>
-				<div class="btn-group">
-					<button class="allLowerButton btn btn-sm btn-outline-light" data-id="' . $wordID .'">aaa</button>
-					<button class="firstCapsButton btn btn-sm btn-outline-light" data-id="' . $wordID .'">Aaa</button>
-					<button class="allCapsButton btn btn-sm btn-outline-light" data-id="' . $wordID .'">AAA</button>
-					<button class="deleteButton btn btn-sm btn-outline-light" data-id="' . $wordID .'">Delete</button>
+				<div class="btn-group" role="group">
+					<button class="allLowerButton btn btn-sm btn-secondary" data-id="' . $wordID .'">aaa</button>
+					<button class="firstCapsButton btn btn-sm btn-secondary" data-id="' . $wordID .'">Aaa</button>
+					<button class="allCapsButton btn btn-sm btn-secondary" data-id="' . $wordID .'">AAA</button>
+					<button class="deleteButton btn btn-sm btn-secondary" data-id="' . $wordID .'">Delete</button>
 				</div>
 			</div>';
 	}
