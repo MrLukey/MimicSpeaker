@@ -5,23 +5,39 @@ namespace App\Abstracts;
 abstract class MimicSpeakerEntityAbstract
 {
 	protected array $wordDictionary;
-
-	public function buildFromTextFile(string $textFilePath): void
-	{
-		$rawText = file_get_contents($textFilePath);
-		$allWords = $this::processTextIntoArray($rawText);
-		$this->wordDictionary = $this::buildWordDictionary($allWords);
-	}
-
-	public function buildFromJSON(string $jsonFilePath): void
-	{
-		$textFile = file_get_contents($jsonFilePath);
-		$this->wordDictionary  = json_decode($textFile, true);
-	}
+	protected array $builtFromTitles = [];
+	protected array $builtFromGenres = [];
 
 	public function getWordDictionary(): array
 	{
 		return $this->wordDictionary;
+	}
+
+	public function getBuiltFromTitles(): array
+	{
+		return $this->builtFromTitles;
+	}
+
+	public function getBuiltFromGenres(): array
+	{
+		return $this->builtFromGenres;
+	}
+
+	public function buildFromTextFile(string $textFilePath, string $title, string $genre): void
+	{
+		$rawText = file_get_contents($textFilePath);
+		$allWords = $this::processTextIntoArray($rawText);
+		$this->wordDictionary = $this::buildWordDictionary($allWords);
+		$this->builtFromTitles[] = $title;
+		$this->builtFromGenres[] = $genre;
+	}
+
+	public function buildFromJSON(string $jsonFilePath, string $title, string $genre): void
+	{
+		$textFile = file_get_contents($jsonFilePath);
+		$this->wordDictionary  = json_decode($textFile, true);
+		$this->builtFromTitles[] = $title;
+		$this->builtFromGenres[] = $genre;
 	}
 
 	public function mimic(int $sentenceLength): array

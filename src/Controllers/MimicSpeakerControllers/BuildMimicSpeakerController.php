@@ -16,16 +16,20 @@ class BuildMimicSpeakerController
 
 	public function __invoke(Request $request, Response $response, array $args)
 	{
-		$errorLogger = $this->container->get('errorLoggerModel');
-		$mimicSpeakerModel = $this->container->get('mimicSpeakerModel');
+		$_SESSION['error'] = true;
 		$mimicSpeaker = $this->container->get('mimicSpeakerEntity');
 		$mimicParams = $request->getParsedBody();
 		if ($mimicParams['buildSelect'] === 'customBuild'){
 			$file = $_FILES['inputFile'];
 			if ($file['error'] === 0){
-				$mimicSpeaker->buildFromTextFile($file['tmp_name']);
+				$mimicSpeaker->buildFromTextFile($file['tmp_name'], $mimicParams['userTitle'], $mimicParams['userGenre']);
+			} elseif ($file['error'] === 4){
+				$_SESSION['errorMessage'] = 'Please provide a file to mimic.';
+			} else {
+				$_SESSION['errorMessage'] = 'An error occurred when loading the file.';
 			}
 		} else {
+			$mimicSpeakerModel = $this->container->get('mimicSpeakerModel');
 			if($mimicParams['shortTitle'] !== ''){
 				$textData = $mimicSpeakerModel->getProcessedTextByShortTitle($mimicParams['shortTitle'])[0];
 			} elseif ($mimicParams['genre'] !== ''){
@@ -33,7 +37,7 @@ class BuildMimicSpeakerController
 			} else {
 				$textData = $mimicSpeakerModel->getRandomProcessedText()[0];
 			}
-			$mimicSpeaker->buildFromJSON($textData['file_path']);
+			$mimicSpeaker->buildFromJSON($textData['file_path'], $textData['short_title'], $textData['genre']);
 		}
 		$_SESSION['mimicSpeaker'] = $mimicSpeaker;
 		return $response->withStatus(200)->withHeader('Location', './');

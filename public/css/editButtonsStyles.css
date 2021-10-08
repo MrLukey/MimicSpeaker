@@ -1,0 +1,61 @@
+.wordWrapper {
+    display: inline-block;
+    position: relative;
+}
+
+
+.editButtons {
+    display: flex;
+    flex-flow: column nowrap;
+    position: absolute;
+    background-color: grey;
+    z-index: 2000;
+    transform: translateX(-50px);
+}
+
+/*.tooltip {*/
+/*    position: absolute;*/
+/*    text-align: center;*/
+/*}*/
+
+/*[role="tooltip"] {*/
+/*    display: none;*/
+/*    position: absolute;*/
+/*    z-index: 999;*/
+/*    transition: opacity 0.3s;*/
+/*}*/
+
+/*.ref_tooltip {*/
+/*    width: 120px;*/
+/*    top: 30px;*/
+/*    left: 50%;*/
+/*    transform: translateX(-50%);*/
+/*}*/
+
+/*.info_tooltip {*/
+/*    width: 200px;*/
+/*    top: 85%;*/
+/*    right: 0;*/
+/*    !*transform: translateX(50%);*!*/
+/*}*/
+
+/*.ref_figure, .info_caption {*/
+/*    border-radius: 5px;*/
+/*    padding: 5px;*/
+/*}*/
+
+/*.ref_figure, .ref_arrow {*/
+/*    background: white;*/
+/*}*/
+
+/*.info_caption, .info_arrow {*/
+/*    background: black;*/
+/*}*/
+
+/*.ref_image {*/
+/*    width: 100%;*/
+/*}*/
+
+/*!*.info_tooltip {*!*/
+/*!*    width: 300px;*!*/
+/*!*}*!*/
