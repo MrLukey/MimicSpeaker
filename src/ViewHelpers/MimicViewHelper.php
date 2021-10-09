@@ -2,43 +2,50 @@
 
 namespace App\ViewHelpers;
 
+use App\Abstracts\MimicSpeakerEntityAbstract;
+
 class MimicViewHelper
 {
-	public static function createHTMLForMimicEditor(array $mimic, array $processedTexts): string
+	public static function createHTMLForMimicEditor(array $mimic, array $processedTexts, MimicSpeakerEntityAbstract $mimicSpeaker): string
 	{
 		$mimicHTML =
-			'<div class="container">
-				<div class="card rounded-3 align-middle">
-					<div class="card-header d-flex row-nowrap justify-content-between align-items-baseline">' .
-						MimicViewHelper::createHTMLForMimicSpeakerBuilder($processedTexts) .
+			'<div class="container h-75">
+				<div class="card rounded-3 h-100">
+					<div class="card-header d-flex row-nowrap justify-content-between align-items-baseline">
+						<div class="d-none" id="mimicSpeakerBuild"></div>' .
+						MimicViewHelper::createHTMLForMimicSpeakerBuilder(
+							$processedTexts, $mimicSpeaker->getBuiltFromLongTitles(), $mimicSpeaker->getBuiltFromGenres()) .
 					'</div>
-					<div class="card-body d-none"></div>
-					<div class="card-body" id="mimicSpeech">';
-						foreach ($mimic as $index => $word){
-							$mimicHTML .=
-								'<div class="wordWrapper m-1">
-									<button class="wordButton btn btn-outline-dark btn-md"
-											id="wordButton' . $index . '"
-											data-edited="false"
-											data-id="' . $index . '">' . $word . '</button>' .
-									MimicViewHelper::createHTMLForEditingButtons($index) .
-								'</div>';
+					<div class="card-body d-none d-flex overflow-auto" id="mimicPreview"></div>
+					<div class="card-body d-flex overflow-auto" id="wordEditor">
+						<div class="w-75 m-auto">';
+							foreach ($mimic as $index => $word){
+								$mimicHTML .=
+									'<div class="wordWrapper m-1">
+										<button class="wordButton btn btn-outline-dark btn-md"
+												id="wordButton' . $index . '"
+												data-edited="false"
+												data-id="' . $index . '">' . $word . '</button>' .
+										MimicViewHelper::createHTMLForEditingButtons($index) .
+									'</div>';
 							}
 		$mimicHTML .=
-					'</div>
+						'</div>
+					</div>
 					<div class="card-footer d-flex row-nowrap justify-content-between">
 						<div class="d-flex row-nowrap align-items-baseline">
 							<input type="number" min="5" value=50 name="sentenceLength" id="sentenceLengthSelector">
 							<button class="btn btn-sm btn-primary" id="mimicButton">Mimic</button>
 						</div>
-						<button class="btn btn-md btn-outline-success">Publish</button>
+						<button class="btn btn-md btn-outline-success" id="publishButton">Publish</button>
+						<button class="btn btn-md btn-outline-primary" id="previewButton">Preview</button>
 					</div>
 				</div>
 			</div>';
 		return $mimicHTML;
 	}
 
-	private static function createHTMLForMimicSpeakerBuilder(array $processedTexts): string
+	private static function createHTMLForMimicSpeakerBuilder(array $processedTexts, array $builtFromLongTitles, array $builtFromGenres): string
 	{
 		$titleSelector =
 			'<select class="form-inline form-select w-50 h-100" name="shortTitle" id="titleSelector">
@@ -50,7 +57,11 @@ class MimicViewHelper
 
 		$uniqueGenres = [];
 		foreach ($processedTexts as $text){
-			$titleSelector .= '<option value="' . $text['short_title'] . '">' . $text['full_title'] . '</option>';
+			if ($text['full_title'] === $builtFromLongTitles[0]){
+				$titleSelector .= '<option value="' . $text['short_title'] . '" selected>' . $text['full_title'] . '</option>';
+			} else {
+				$titleSelector .= '<option value="' . $text['short_title'] . '">' . $text['full_title'] . '</option>';
+			}
 			if (!in_array($text['genre'], $uniqueGenres)){
 				$uniqueGenres[] = $text['genre'];
 				$genreSelector .= '<option value="' . $text['genre'] . '">' . $text['genre'] . '</option>';

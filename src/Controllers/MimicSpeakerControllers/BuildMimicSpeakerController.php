@@ -14,13 +14,11 @@ class BuildMimicSpeakerController
 		$this->container = $container;
 	}
 
-	public function __invoke(Request $request, Response $response, array $args)
+	public function __invoke(Request $request, Response $response, array $args): Response
 	{
 		$_SESSION['error'] = true;
 		$mimicSpeaker = $this->container->get('mimicSpeakerEntity');
 		$mimicParams = $request->getParsedBody();
-		$errorLogger = $this->container->get('errorLoggerModel');
-		$errorLogger->logTestJSON($mimicParams);
 		$mimicSpeakerModel = $this->container->get('mimicSpeakerModel');
 		if($mimicParams['shortTitle'] !== ''){
 			$textData = $mimicSpeakerModel->getProcessedTextByShortTitle($mimicParams['shortTitle'])[0];
@@ -29,8 +27,8 @@ class BuildMimicSpeakerController
 		} else {
 			$textData = $mimicSpeakerModel->getRandomProcessedText()[0];
 		}
-		$mimicSpeaker->buildFromJSON($textData['file_path'], $textData['short_title'], $textData['genre']);
+		$mimicSpeaker->buildFromJSON($textData['file_path'], $textData['short_title'], $textData['full_title'], $textData['genre']);
 		$_SESSION['mimicSpeaker'] = $mimicSpeaker;
-		return $response->withStatus(200)->withHeader('Location', './');
+		return $response->withStatus(200);
 	}
 }

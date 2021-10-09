@@ -1,0 +1,5 @@
+addEventListenersToMimicSpeakerBuilder()
+addEventListenersToMimicSpeaker().catch()
+addAutoCloseEventListeners()
+addEventListenersToEditButtons()
+addEventListenerToPreviewToggle().catch()

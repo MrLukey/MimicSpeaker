@@ -1,11 +1,12 @@
 
 // add event listeners to ensure only one editButtons div is open at any time, and clicking away will close them all
-function addAutoCloseEventListeners() {
+function addAutoCloseEventListeners()
+{
     const allWordButtons = document.querySelectorAll('.wordButton')
     const editButtonsDivs = document.querySelectorAll('.editButtons')
     allWordButtons.forEach(wordButton => {
         wordButton.addEventListener('click', evt => {
-            let editButtonsDivs = document.querySelectorAll('.editButtons')
+            //let editButtonsDivs = document.querySelectorAll('.editButtons')
             if (wordButton.dataset.deleted === 'true') {
                 wordButton.style.color = 'black'
                 delete wordButton.dataset.deleted
@@ -31,7 +32,8 @@ function addAutoCloseEventListeners() {
     })
 }
 
-function punctuateWord(wordButton, punctuation){
+function punctuateWord(wordButton, punctuation)
+{
     let word = wordButton.textContent
     if (wordButton.dataset.edited === 'true'){
         word = word.substr(0, word.length - 1)
@@ -41,7 +43,8 @@ function punctuateWord(wordButton, punctuation){
     wordButton.textContent = word + punctuation
 }
 
-function resetDataset(wordButton){
+function resetDataset(wordButton)
+{
     delete wordButton.dataset.commaAdded
     delete wordButton.dataset.fullStopAdded
     delete wordButton.dataset.semiColonAdded
@@ -56,7 +59,8 @@ function resetDataset(wordButton){
 
 
 // add event listeners to allowing editing of each word
-function addEventListenersToEditButtons() {
+function addEventListenersToEditButtons()
+{
     document.querySelectorAll('.clearButton').forEach(clearButton => {
         clearButton.addEventListener('click', ext => {
             const wordButton = document.querySelector('#wordButton' + clearButton.dataset.id)
@@ -145,6 +149,3 @@ function addEventListenersToEditButtons() {
         })
     })
 }
-
-addAutoCloseEventListeners()
-addEventListenersToEditButtons()

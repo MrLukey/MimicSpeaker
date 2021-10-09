@@ -23,21 +23,22 @@ if (!$_SESSION['error'] && $data === []){
     <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
             crossorigin="anonymous"></script>
-    <script defer src="js/addMimicSpeakerEventListeners.js"></script>
-    <script defer src="js/editButtonEventListenerFunctions.js"></script>
+    <script src="js/mimicSpeakerEventListenerFunctions.js"></script>
+    <script src="js/editButtonEventListenerFunctions.js"></script>
+    <script defer src="js/addAllEventListeners.js"></script>
     <title>Slim ToDo App</title>
 </head>
 <body>
-    <main id="main">
+    <div>
+        <p id="test"></p>
+    </div>
+    <main id="main" class="vh-100">
         <?php
             echo $_SESSION['errorMessage'];
 //            echo MimicViewHelper::createHTMLForMimicSpeakerBuilder($processedTexts);
-            echo MimicViewHelper::createHTMLForMimicEditor($_SESSION['mimicSpeech'], $processedTexts);
+            echo MimicViewHelper::createHTMLForMimicEditor($_SESSION['mimicSpeech'], $processedTexts, $_SESSION['mimicSpeaker']);
         ?>
     </main>
-    <div class="card w-75">
-        <p id="test"></p>
-    </div>
 </body>
 </html>
 

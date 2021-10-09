@@ -1,4 +1,5 @@
-{{#each data}}
+<div class="w-75 m-auto">
+{{#each words}}
     <div class="wordWrapper m-1">
         <button class="wordButton btn btn-outline-dark btn-md" id="wordButton{{@index}}" data-edited="false" data-id="{{@index}}">{{this}}</button>
         <div class="editButtons bg-secondary rounded-3 d-none p-1" id="editButtons{{@index}}" data-id="{{@index}}">
@@ -20,4 +21,5 @@
         </div>
     </div>
 {{/each}}
+</div>
 
