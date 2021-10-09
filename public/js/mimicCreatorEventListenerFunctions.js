@@ -1,44 +1,29 @@
+// main function, runs entire file
+function addEventListenersForMimicCreator()
+{
+    addEventListenersToMimicSpeakerBuilder()
+    addEventListenersToMimicButton().catch()
+    addEventListenerToPreviewToggle().catch()
+}
 
-
+// helper function to read file as text (used to bring in Handlebars templates)
 async function getTextViaAJAX(path)
 {
     return await fetch(path, {method: 'get'}).then(data => data.text())
 }
 
+// add event listeners to title and genre select inputs, and build button
 function addEventListenersToMimicSpeakerBuilder()
 {
     const titleSelector = document.querySelector('#titleSelector')
     const genreSelector = document.querySelector('#genreSelector')
     const buildMimicButton = document.querySelector('#buildMimicSpeaker')
     const mimicSpeakerBuild = document.querySelector('#mimicSpeakerBuild')
+    const mimicAuthor = document.querySelector('#mimicAuthor')
 
     titleSelector.addEventListener('change', evt => {
         genreSelector.disabled = titleSelector.options.selectedIndex !== 0;
-        switch (titleSelector.value){
-            case 'trump':
-                genreSelector.value = 'Politics'
-                break
-            case 'dont-panic':
-                genreSelector.value = 'Sci-fi'
-                break
-            case 'hitchers':
-                genreSelector.value = 'Sci-fi'
-                break
-            case 'corsair':
-                genreSelector.value = 'Poetry'
-                break
-            case 'churchill':
-                genreSelector.value = 'Politics'
-                break
-            case 'bible':
-                genreSelector.value = 'Religion'
-                break
-            case 'luther-king':
-                genreSelector.value = 'Politics'
-                break
-            default:
-                genreSelector.value = ''
-        }
+        genreSelector.value = titleSelector.options[titleSelector.options.selectedIndex].dataset.genre
     })
 
     genreSelector.addEventListener('change', evt => {
@@ -66,19 +51,21 @@ function addEventListenersToMimicSpeakerBuilder()
                 body: JSON.stringify(buildData)
             }).then(response => response.json()
             ).then(data => {
-                console.log(data)
                 mimicSpeakerBuild.innerHTML = '<h4 class="">' + data['longTitle'] + '</h4>'
+                mimicAuthor.textContent = data['author']
             }).catch(error => {
                 console.error('Error:', error)
             })
         } else {
             buildMimicButton.textContent = 'Build Mimic Speaker'
+            titleSelector.disabled = false
+            genreSelector.disabled = false
         }
     })
 }
 
 
-async function addEventListenersToMimicSpeaker()
+async function addEventListenersToMimicButton()
 {
     const lengthSelector = document.querySelector('#sentenceLengthSelector')
     const mimicButton = document.querySelector('#mimicButton')
@@ -113,14 +100,22 @@ async function addEventListenerToPreviewToggle()
     previewButton.addEventListener('click', evt => {
         const mimicPreview = document.querySelector('#mimicPreview')
         const wordEditor = document.querySelector('#wordEditor')
-        let editedMimicString = '"'
-        document.querySelectorAll('.wordButton').forEach(wordButton => {
-            if (!wordButton.dataset.deleted){
-                editedMimicString += wordButton.textContent + ' '
+        let allWordButtons = document.querySelectorAll('.wordButton')
+        let editedMimicString = ''
+        let wordsAdded = 0;
+        if (allWordButtons.length > 0){
+            editedMimicString += '"'
+            allWordButtons.forEach(wordButton => {
+                if (!wordButton.dataset.deleted){
+                    editedMimicString += wordButton.textContent + ' '
+                    wordsAdded++
+                }
+            })
+            editedMimicString = editedMimicString.substr(0, editedMimicString.length - 1)
+            if (wordsAdded > 0){
+                editedMimicString += '"'
             }
-        })
-        editedMimicString = editedMimicString.substr(0, editedMimicString.length - 1)
-        editedMimicString += '"'
+        }
 
         const data = {
             title: 'test',

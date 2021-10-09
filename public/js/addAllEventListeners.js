@@ -1,5 +1,4 @@
-addEventListenersToMimicSpeakerBuilder()
-addEventListenersToMimicSpeaker().catch()
-addAutoCloseEventListeners()
-addEventListenersToEditButtons()
-addEventListenerToPreviewToggle().catch()
+// call the main functions for each event listener file
+addEventListenersForMimicCreator()
+addEventListenersForEditButtons()
+addValidationEventListeners()

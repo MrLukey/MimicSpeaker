@@ -8,7 +8,7 @@
     flex-flow: column nowrap;
     position: absolute;
     z-index: 2000;
-    transform: translateX(-50px);
+    transform: translateX(-55px);
 }
 
 #titleSelect {

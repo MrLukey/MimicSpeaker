@@ -1,3 +1,9 @@
+// main function, runs entire file
+function addEventListenersForEditButtons()
+{
+    addAutoCloseEventListeners()
+    addEventListenersToEditButtons()
+}
 
 // add event listeners to ensure only one editButtons div is open at any time, and clicking away will close them all
 function addAutoCloseEventListeners()
@@ -6,7 +12,6 @@ function addAutoCloseEventListeners()
     const editButtonsDivs = document.querySelectorAll('.editButtons')
     allWordButtons.forEach(wordButton => {
         wordButton.addEventListener('click', evt => {
-            //let editButtonsDivs = document.querySelectorAll('.editButtons')
             if (wordButton.dataset.deleted === 'true') {
                 wordButton.style.color = 'black'
                 delete wordButton.dataset.deleted
@@ -32,6 +37,7 @@ function addAutoCloseEventListeners()
     })
 }
 
+// helper function to punctuate a wordButton
 function punctuateWord(wordButton, punctuation)
 {
     let word = wordButton.textContent
@@ -43,6 +49,7 @@ function punctuateWord(wordButton, punctuation)
     wordButton.textContent = word + punctuation
 }
 
+// helper function to reset the dataset for a wordButton
 function resetDataset(wordButton)
 {
     delete wordButton.dataset.commaAdded
