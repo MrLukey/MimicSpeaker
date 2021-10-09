@@ -30,9 +30,23 @@ class MimicSpeakerModel
 		}
 	}
 
-	public function getProcessedTextsByGenre(): ?array
+	public function getRandomProcessedTextByGenre(string $genre): ?array
 	{
-		// do stuff
+		$sqlQuery =
+			'SELECT `id`, `full_title`, `short_title`, `author`, `genre`, `year_first_published`, `file_path` 
+			FROM `processed_texts`
+			WHERE `genre` = :genre
+			ORDER BY RAND() 
+			LIMIT 1;';
+		$query = $this->db->prepare($sqlQuery);
+		$query->bindParam(':genre', $genre);
+		try {
+			$query->execute();
+			return $query->fetchAll();
+		} catch (\PDOException $exception){
+			$this->errorLogger->logDatabaseError('MimicSpeakerModel->getRandomProcessedTextByGenre()', $exception);
+			return null;
+		}
 	}
 
 	public function getRandomProcessedText(): ?array

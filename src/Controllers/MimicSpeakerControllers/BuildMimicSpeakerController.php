@@ -24,7 +24,7 @@ class BuildMimicSpeakerController
 		if($mimicParams['shortTitle'] !== ''){
 			$textData = $mimicSpeakerModel->getProcessedTextByShortTitle($mimicParams['shortTitle'])[0];
 		} elseif ($mimicParams['genre'] !== ''){
-			$textData = $mimicSpeakerModel->getProcessedTextsByGenre($mimicParams['genre']);
+			$textData = $mimicSpeakerModel->getRandomProcessedTextByGenre($mimicParams['genre'])[0];
 		} else {
 			$textData = $mimicSpeakerModel->getRandomProcessedText()[0];
 		}
