@@ -1,6 +1,5 @@
 <?php
 use App\ViewHelpers\MimicViewHelper;
-
 if (!$_SESSION['error'] && $data === []){
 	$_SESSION['errorMessage'] = 'There are no mimics in the database.';
 	$mimics = [];
@@ -29,16 +28,13 @@ if (!$_SESSION['error'] && $data === []){
     <title>Slim ToDo App</title>
 </head>
 <body>
-    <div>
-        <p id="test"></p>
-    </div>
-    <main id="main" class="vh-100">
+    <section class="vh-100 d-flex align-items-center justify-content-center">
         <?php
             echo $_SESSION['errorMessage'];
 //            echo MimicViewHelper::createHTMLForMimicSpeakerBuilder($processedTexts);
             echo MimicViewHelper::createHTMLForMimicEditor($_SESSION['mimicSpeech'], $processedTexts, $_SESSION['mimicSpeaker']);
         ?>
-    </main>
+    </section>
 </body>
 </html>
 

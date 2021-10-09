@@ -8,17 +8,27 @@ class MimicViewHelper
 {
 	public static function createHTMLForMimicEditor(array $mimic, array $processedTexts, MimicSpeakerEntityAbstract $mimicSpeaker): string
 	{
+		if (count($mimicSpeaker->getBuiltFromLongTitles()) < 1){
+			$buildOptionDisplay = '';
+			$buildDisplay = ' d-none';
+			$buildButtonText = 'Build Mimic Speaker';
+		} else {
+			$buildOptionDisplay = ' d-none';
+			$buildDisplay = '';
+			$buildButtonText = 'Edit Mimic Speaker';
+		}
 		$mimicHTML =
 			'<div class="container h-75">
-				<div class="card rounded-3 h-100">
+				<div class="card rounded-3 h-100 align-middle">
 					<div class="card-header d-flex row-nowrap justify-content-between align-items-baseline">
-						<div class="d-none" id="mimicSpeakerBuild"></div>' .
-						MimicViewHelper::createHTMLForMimicSpeakerBuilder(
-							$processedTexts, $mimicSpeaker->getBuiltFromLongTitles(), $mimicSpeaker->getBuiltFromGenres()) .
-					'</div>
+						<div class="' . $buildDisplay . '" id="mimicSpeakerBuild"><h4>' . $mimicSpeaker->getBuiltFromLongTitles()[0] . '</h4></div>' .
+							MimicViewHelper::createHTMLForMimicSpeakerBuilder(
+								$processedTexts, $mimicSpeaker->getBuiltFromLongTitles(), $mimicSpeaker->getBuiltFromGenres(), $buildOptionDisplay) .
+						'<button class="btn btn-md btn-outline-primary text-nowrap" id="buildMimicSpeaker">' . $buildButtonText . '</button>
+						</div>
 					<div class="card-body d-none d-flex overflow-auto" id="mimicPreview"></div>
 					<div class="card-body d-flex overflow-auto" id="wordEditor">
-						<div class="w-75 m-auto">';
+						<div class="w-75 m-auto" id="wordsContainer">';
 							foreach ($mimic as $index => $word){
 								$mimicHTML .=
 									'<div class="wordWrapper m-1">
@@ -34,37 +44,38 @@ class MimicViewHelper
 					</div>
 					<div class="card-footer d-flex row-nowrap justify-content-between">
 						<div class="d-flex row-nowrap align-items-baseline">
-							<input type="number" min="5" value=50 name="sentenceLength" id="sentenceLengthSelector">
+							<input type="number" min="5" max="1000" value="50" name="sentenceLength" id="sentenceLengthSelector">
 							<button class="btn btn-sm btn-primary" id="mimicButton">Mimic</button>
 						</div>
-						<button class="btn btn-md btn-outline-success" id="publishButton">Publish</button>
-						<button class="btn btn-md btn-outline-primary" id="previewButton">Preview</button>
+						<div class="btn-group">
+							<button class="btn btn-md btn-outline-success" id="publishButton">Publish</button>
+							<button class="btn btn-md btn-outline-primary" id="previewButton">Preview</button>
+						</div>
 					</div>
 				</div>
 			</div>';
 		return $mimicHTML;
 	}
 
-	private static function createHTMLForMimicSpeakerBuilder(array $processedTexts, array $builtFromLongTitles, array $builtFromGenres): string
+	private static function createHTMLForMimicSpeakerBuilder(array $processedTexts, array $builtFromLongTitles, array $builtFromGenres, string $buildOptionDisplay): string
 	{
 		$titleSelector =
-			'<select class="form-inline form-select w-50 h-100" name="shortTitle" id="titleSelector">
+			'<select class="form-inline form-select w-50 h-100' . $buildOptionDisplay . '" name="shortTitle" id="titleSelector">
 				<option value="">Random Title</option>';
 
 		$genreSelector =
-			'<select class="form-inline form-select w-50" name="genre" id="genreSelector">
+			'<select class="form-inline form-select w-50' . $buildOptionDisplay . '" name="genre" id="genreSelector">
 				<option value="">Random Genre</option>';
 
 		$uniqueGenres = [];
+		$selected = ' selected';
 		foreach ($processedTexts as $text){
-			if ($text['full_title'] === $builtFromLongTitles[0]){
-				$titleSelector .= '<option value="' . $text['short_title'] . '" selected>' . $text['full_title'] . '</option>';
-			} else {
-				$titleSelector .= '<option value="' . $text['short_title'] . '">' . $text['full_title'] . '</option>';
-			}
+			$titleSelected = $text['full_title'] === $builtFromLongTitles[0] ? ' selected' : '';
+			$genreSelected = $text['genre'] === $builtFromGenres[0] ? ' selected' : '';
+			$titleSelector .= '<option value="' . $text['short_title'] . '"' . $titleSelected . '>' . $text['full_title'] . '</option>';
 			if (!in_array($text['genre'], $uniqueGenres)){
 				$uniqueGenres[] = $text['genre'];
-				$genreSelector .= '<option value="' . $text['genre'] . '">' . $text['genre'] . '</option>';
+				$genreSelector .= '<option value="' . $text['genre'] . '"' . $genreSelected . '>' . $text['genre'] . '</option>';
 			}
 		}
 		$titleSelector .= '</select>';
@@ -72,9 +83,9 @@ class MimicViewHelper
 		return
 			//'<form action="buildMimicSpeaker" method="post">' .
 					$titleSelector .
-					$genreSelector .
+					$genreSelector;
 			//'</form>
-			'<button class="btn btn-md btn-outline-primary text-nowrap" id="buildMimicSpeaker">Build Mimic Speaker</button>';
+			//'<button class="btn btn-md btn-outline-primary text-nowrap" id="buildMimicSpeaker">Build Mimic Speaker</button>';
 	}
 
 	private static function createHTMLForEditingButtons(int $wordID): string

@@ -50,22 +50,30 @@ function addEventListenersToMimicSpeakerBuilder()
         titleSelector.classList.toggle('d-none')
         genreSelector.classList.toggle('d-none')
         mimicSpeakerBuild.classList.toggle('d-none')
-        mimicSpeakerBuild.innerHTML = '<h4 class="">' + titleSelector.options[titleSelector.selectedIndex].text + '</h4>'
-        const buildData = {
-            shortTitle: titleSelector.options[titleSelector.selectedIndex].value,
-            genre: genreSelector.options[genreSelector.selectedIndex].value
+        if (titleSelector.classList.contains('d-none')){
+            buildMimicButton.textContent = 'Change Mimic Speaker'
+            document.querySelector('#wordsContainer').innerHTML = ''
+            mimicSpeakerBuild.innerHTML = ''
+            const buildData = {
+                shortTitle: titleSelector.options[titleSelector.selectedIndex].value,
+                genre: genreSelector.options[genreSelector.selectedIndex].value
+            }
+            fetch('/buildMimicSpeaker', {
+                method: 'POST', // or 'PUT'
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(buildData)
+            }).then(response => response.json()
+            ).then(data => {
+                console.log(data)
+                mimicSpeakerBuild.innerHTML = '<h4 class="">' + data['longTitle'] + '</h4>'
+            }).catch(error => {
+                console.error('Error:', error)
+            })
+        } else {
+            buildMimicButton.textContent = 'Build Mimic Speaker'
         }
-        fetch('/buildMimicSpeaker', {
-            method: 'POST', // or 'PUT'
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(buildData)
-        }).then(response => {
-            console.log(response)
-        }).catch(error => {
-            console.error('Error:', error)
-        })
     })
 }
 
