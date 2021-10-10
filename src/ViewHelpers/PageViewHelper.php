@@ -11,10 +11,14 @@ class PageViewHelper
 				$pageStyles =
 					'<link type="text/css" rel="stylesheet" href="css/mimicEditorStyles.css">
 					<link type="text/css" rel="stylesheet" href="css/homePageStyles.css">';
+				$pageScripts =
+					'<script defer src="js/addHomePageEventListeners.js"></script>';
 				break;
 			default:
 				$pageStyles =
 					'<link type="text/css" rel="stylesheet" href="css/loginSignupPageStyles.css">';
+				$pageScripts = '';
+//					'<script defer src="js/addHomePageEventListeners.js"></script>';
 		}
 		return
 			'<meta charset="utf-8"/>
@@ -30,16 +34,30 @@ class PageViewHelper
             <script src="js/pageEventListenerFunctions.js"></script>
 		    <script src="js/mimicCreatorEventListenerFunctions.js"></script>
 		    <script src="js/editButtonEventListenerFunctions.js"></script>
-		    <script src="js/validationEventListenerFunctions.js"></script>
-		    <script defer src="js/addAllEventListeners.js"></script>';
+		    <script src="js/validationEventListenerFunctions.js"></script>'
+			. $pageScripts;
 	}
 
-	public static function createHTMLForNavbar(): string
+	public static function createHTMLForNavbar(string $page): string
 	{
-		if ($_SESSION['loggedIn']){
-			$logInOutButton = '<a class="nav-link" href="/logout">Logout</a>';;
-		} else {
-			$logInOutButton = '<a class="nav-link" href="/login">Login</a>';
+		$mimicButton = '';
+		switch ($page){
+			case 'homepage':
+				$mimicButton = '<button class="btn btn-md btn-outline-light" id="openCreatorButton">Create Mimic</button>';
+				if ($_SESSION['loggedIn']){
+					$loginLogoutSignupButton = '<a class="nav-link" href="/logout">Logout</a>';;
+				} else {
+					$loginLogoutSignupButton = '<a class="nav-link" href="/login">Login</a>';
+				}
+				break;
+			case 'loginPage':
+				$loginLogoutSignupButton = '<a class="nav-link" href="/signup">Sign Up</a>';
+				break;
+			case 'signUpPage':
+				$loginLogoutSignupButton = '<a class="nav-link" href="/login">Login</a>';
+				break;
+			default:
+				$loginLogoutSignupButton = '';
 		}
 		if ($_SESSION['user'] === null){
 			$username = 'Guest';
@@ -71,15 +89,16 @@ class PageViewHelper
 							</li>
 							<a class="nav-link" href="#">About</a>
 						</ul>
-						<div class="navbar-nav">'
-							. $logInOutButton .
-							'<button class="btn btn-md btn-outline-light" id="openCreatorButton">Create Mimic</button>
-						</div>
+						<div class="navbar-nav">' .
+							$loginLogoutSignupButton .
+							$mimicButton .
+						'</div>
 					</div>
 				</div>
 			</nav>';
 	}
 
+	// currently broken, carousel height will not extend beyond a small amount without breaking
 	public static function createHTMLForMimicCarousel(): string
 	{
 		return
@@ -165,7 +184,7 @@ class PageViewHelper
 									<div class="col-lg-6">
 										<div class="card-body p-md-5 mx-md-4">
 											<div class="text-center">
-												<h2 class="text-nowrap text-center mt-1 mb-5 pb-1">Mimic Speaker Login</h2>
+												<h2 class="text-nowrap text-center mt-1 mb-5 pb-1">Mimic Speaker</h2>
 											</div>
 											<form method="post" action="login">
 												<div class="form-outline mb-4">
@@ -187,8 +206,8 @@ class PageViewHelper
 									</div>
 									<div class="col-lg-6 d-flex align-items-center gradient-custom-2">
 										<div class="text-white px-3 py-4 p-md-5 mx-md-4">
-											<h4 class="mb-4">The Best Place to Get Randomly Generated Strings</h4>
-												<p class="small mb-0">Built using the as little front end logic as possible, this</p>
+											<h4 class="mb-4 text-nowrap">The Best Spamming App Around</h4>
+												<p class="small mb-0">Mimic Speaker aims to provide a one stop shop for all your spamming needs, whether they be professional, personal, or both.</p>
 										</div>
 									</div>
 								</div>
@@ -221,7 +240,7 @@ class PageViewHelper
 										<div class="card-body p-md-5 mx-md-4">
 											<div class="text-center">' .
 //												'<img src="" style="width: 185px;" alt="logo">' .
-												'<h1 class="mt-1 mb-5 pb-1">Slim ToDo App</h1>
+												'<h1 class="mt-1 mb-5 pb-1">Mimic Speaker</h1>
 											</div>
 											<form method="post" action="signup" class="needs-validation">
 												<div class="form-outline mb-4">
@@ -250,8 +269,8 @@ class PageViewHelper
 									</div>
 									<div class="col-lg-6 d-flex align-items-center gradient-custom-2">
 										<div class="text-white px-3 py-4 p-md-5 mx-md-4">
-											<h4 class="mb-4">A PHP Monolith Application</h4>
-												<p class="small mb-0">Built using the Slim framework, the frontend has been kept minimal,  most functionality being handled by the backend. What frontend exists is handled by Bootstrap.</p>
+											<h4 class="mb-4 text-nowrap">The Best Spamming App Around</h4>
+												<p class="small mb-0">Mimic Speaker aims to provide a one stop shop for all your spamming needs, whether they be professional, personal, or both.</p>
 										</div>
 									</div>
 								</div>

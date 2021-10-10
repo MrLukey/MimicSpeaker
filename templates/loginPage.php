@@ -12,7 +12,7 @@ use App\ViewHelpers\PageViewHelper;
 </head>
 <body>
     <header>
-        <?php echo PageViewHelper::createHTMLForNavbar() ?>
+        <?php echo PageViewHelper::createHTMLForNavbar('loginPage') ?>
     </header>
     <main>
         <?php echo PageViewHelper::createHTMLForLoginPage() ?>

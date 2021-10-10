@@ -7,11 +7,11 @@ use App\ViewHelpers\PageViewHelper;
 <html lang="en-gb">
 <head>
     <?php echo PageViewHelper::createHTMLForPageHead('signUpPage')?>
-    <title>Slim ToDo App Login</title>
+    <title>Mimic Speaker Sign Up</title>
 </head>
 <body>
     <header>
-        <?php echo PageViewHelper::createHTMLForNavbar() ?>
+        <?php echo PageViewHelper::createHTMLForNavbar('signUpPage') ?>
     </header>
     <main>
         <?php echo PageViewHelper::createHTMLForSignUpPage() ?>

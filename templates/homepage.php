@@ -9,19 +9,6 @@ if (!$_SESSION['error'] && $data === []){
     $mimics = $data['mimics'];
     $processedTexts = $data['processedTexts'];
 }
-
-if ($_SESSION['user'] !== null){
-	$username = $_SESSION['user']->getUserName();
-} else {
-	$username = 'Guest';
-}
-//$_SESSION['mimicSpeaker'] = null;
-//$_SESSION['mimicSpeech'] = [];
-//$_SESSION['user'] = null;
-//print_r($_SESSION['user']);
-//$_SESSION['user'] = null;
-//$_SESSION['loggedIn'] = false;
-//session_destroy()
 ?>
 <!DOCTYPE html>
 <html lang="en-gb">
@@ -31,11 +18,11 @@ if ($_SESSION['user'] !== null){
 </head>
 <body class="">
     <header class="">
-        <?php echo PageViewHelper::createHTMLForNavbar()?>
+        <?php echo PageViewHelper::createHTMLForNavbar('homepage')?>
     </header>
     <main class="">
         <div class="">
-            <div class="mimicEditor d-flex flex-column d-none" data-username="<?php echo $username ?>" id="mimicEditor">
+            <div class="mimicEditor d-flex flex-column d-none" data-username="<?php echo $_SESSION['user']->getUserName() ?>" id="mimicEditor">
 			    <?php echo MimicViewHelper::createHTMLForMimicEditor($_SESSION['mimicSpeech'], $processedTexts, $_SESSION['mimicSpeaker']); ?>
             </div>
         </div>
