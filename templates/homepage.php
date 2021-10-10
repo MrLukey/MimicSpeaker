@@ -20,14 +20,15 @@ if (!$_SESSION['error'] && $data === []){
     <header class="">
         <?php echo PageViewHelper::createHTMLForNavbar('homepage')?>
     </header>
-    <main class="">
+    <section class="">
         <div class="">
             <div class="mimicEditor d-flex flex-column d-none" data-username="<?php echo $_SESSION['user']->getUserName() ?>" id="mimicEditor">
 			    <?php echo MimicViewHelper::createHTMLForMimicEditor($_SESSION['mimicSpeech'], $processedTexts, $_SESSION['mimicSpeaker']); ?>
             </div>
         </div>
         <?php //echo PageViewHelper::(); ?>
-    </main>
+    </section>
+    <?php echo MimicViewHelper::createHTMLForMimicAlbum() ?>
 </body>
 </html>
 
