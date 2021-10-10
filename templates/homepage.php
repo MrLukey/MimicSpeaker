@@ -17,6 +17,8 @@ if ($_SESSION['user'] !== null){
 }
 //$_SESSION['mimicSpeaker'] = null;
 //$_SESSION['mimicSpeech'] = [];
+//$_SESSION['user'] = null;
+//print_r($_SESSION['user']);
 ?>
 <!DOCTYPE html>
 <html lang="en-gb">
@@ -27,9 +29,7 @@ if ($_SESSION['user'] !== null){
 <body>
     <button class="btn btn-lg btn-success" id="openCreatorButton">Create Mimic</button>
     <div class="mimicEditor d-flex flex-column" data-username="<?php echo $username ?>" id="mimicEditor">
-        <?php
-            echo MimicViewHelper::createHTMLForMimicEditor($_SESSION['mimicSpeech'], $processedTexts, $_SESSION['mimicSpeaker']);
-        ?>
+        <?php echo MimicViewHelper::createHTMLForMimicEditor($_SESSION['mimicSpeech'], $processedTexts, $_SESSION['mimicSpeaker']); ?>
     </div>
 </body>
 </html>

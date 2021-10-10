@@ -70,7 +70,11 @@ class PublishMimicController
 			$mimicString = substr($mimicString, 0, strlen($mimicString) - 1);
 			$errorLogger->logTestJSON($mimicString);
 			$mimicSpeakerModel = $this->container->get('mimicSpeakerModel');
-			$mimicSpeakerModel->insertMimic(2, $_SESSION['mimicSpeaker']->getBuiltFromIDs()[0], $mimicString);
+			$success = $mimicSpeakerModel->insertMimic($_SESSION['user']->getID(), $_SESSION['mimicSpeaker']->getBuiltFromIDs()[0], $mimicString);
+			if (!$success){
+				$response->getBody()->write(json_encode(['Error'=> 'Unexpected database error.']));
+				return $response->withStatus(500);
+			}
 			return $response->withStatus(200);
 		} else {
 			$response->getBody()->write(json_encode(['Error'=> 'String must be 5 words or more']));
