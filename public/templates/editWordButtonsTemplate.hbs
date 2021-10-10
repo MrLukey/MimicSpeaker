@@ -1,7 +1,12 @@
 <div class="w-75 m-auto" id="wordsContainer">
 {{#each words}}
     <div class="wordWrapper m-1">
-        <button class="wordButton btn btn-outline-dark btn-lg" id="wordButton{{@index}}" data-edited="false" data-id="{{@index}}">{{this}}</button>
+        <button class="wordButton btn btn-outline-dark btn-lg"
+                id="wordButton{{@index}}"
+                data-deleted="false"
+                data-capitalised="false"
+                data-punctuated="false"
+                data-id="{{@index}}">{{this}}</button>
         <div class="editButtons bg-secondary rounded-3 d-none p-1" id="editButtons{{@index}}" data-id="{{@index}}">
             <div class="btn-group" role="group">
                 <button class="clearButton btn btn-md btn-secondary" data-id={{@index}}> </button>

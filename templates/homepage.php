@@ -23,14 +23,21 @@ if ($_SESSION['user'] !== null){
 <!DOCTYPE html>
 <html lang="en-gb">
 <head>
-    <?php echo PageViewHelper::createHTMLForPageHead() ?>
+    <?php echo PageViewHelper::createHTMLForPageHead('homePage') ?>
     <title>Mimic Speaker</title>
 </head>
-<body>
-    <button class="btn btn-lg btn-success" id="openCreatorButton">Create Mimic</button>
-    <div class="mimicEditor d-flex flex-column" data-username="<?php echo $username ?>" id="mimicEditor">
-        <?php echo MimicViewHelper::createHTMLForMimicEditor($_SESSION['mimicSpeech'], $processedTexts, $_SESSION['mimicSpeaker']); ?>
-    </div>
+<body class="">
+    <header class="">
+        <?php echo PageViewHelper::createHTMLForNavbar()?>
+    </header>
+    <main class="">
+        <div class="">
+            <div class="mimicEditor d-flex flex-column" data-username="<?php echo $username ?>" id="mimicEditor">
+			    <?php echo MimicViewHelper::createHTMLForMimicEditor($_SESSION['mimicSpeech'], $processedTexts, $_SESSION['mimicSpeaker']); ?>
+            </div>
+        </div>
+        <?php //echo PageViewHelper::(); ?>
+    </main>
 </body>
 </html>
 
