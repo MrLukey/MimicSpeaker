@@ -14,6 +14,7 @@ function toggleButtonsClasses(buttons, toggleClasses)
     })
 }
 
+// helper function to populate the preview div with edited mimic string
 async function populatePreview(mimicEditor, mimicPreview, mimicAuthor, mimicSpeakerBuild)
 {
     const previewHBTemplate = await getTextViaAJAX('templates/mimicPreviewTemplate.hbs').catch()
@@ -66,6 +67,7 @@ function addEventListenersForMimicCreator()
     addEventListenersToMimicButton(titleSelector, genreSelector, buildMimicSpeakerButton, mimicSpeakerBuild,
         lengthSelector, mimicButton, publishButton, previewButton, mimicEditor, mimicPreview, mimicAuthor).catch()
     addEventListenerToPreviewToggle(previewButton, mimicPreview, wordEditor, mimicAuthor, mimicEditor, mimicSpeakerBuild).catch()
+    addEventListenersToPublishButton().catch()
 }
 
 function addEventListenersToOpenAndCloseButtons(openButton, closeButton, mimicEditor)
@@ -187,6 +189,37 @@ async function addEventListenerToPreviewToggle(previewButton, mimicPreview, word
         } else {
             previewButton.textContent = 'Editor'
         }
+    })
+}
+
+async function addEventListenersToPublishButton()
+{
+    const publishButton = document.querySelector('#publishButton')
+    publishButton.addEventListener('click', evt => {
+        const allWords = document.querySelectorAll('.wordButton')
+        let mimicData = []
+        allWords.forEach(word => {
+            let wordData = {
+                id: word.dataset.id,
+                deleted: word.dataset.deleted,
+                punctuated: word.dataset.punctuated,
+                punctuation: word.dataset.punctuation,
+                capitalised: word.dataset.capitalised,
+                capitalisation: word.dataset.capitalisation
+            }
+            mimicData.push(wordData)
+        })
+        fetch('/publishMimic', {
+            method: 'POST', // or 'PUT'
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(mimicData),
+        }).then(response => response.json()
+        ).then(data => console.log(data)
+        ).catch(error => {
+            console.error('Error:', error)
+        })
     })
 }
 

@@ -56,7 +56,9 @@ class MimicViewHelper
 								'<div class="wordWrapper m-1">
 									<button class="wordButton btn btn-lg btn-outline-dark"
 											id="wordButton' . $index . '"
-											data-edited="false"
+											data-deleted="false"
+											data-punctuated="false"
+											data-capitalised="false"
 											data-id="' . $index . '">' . $word . '</button>' .
 									MimicViewHelper::createHTMLForEditingButtons($index) .
 								'</div>';

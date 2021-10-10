@@ -14,7 +14,7 @@ function addAutoCloseEventListeners()
         wordButton.addEventListener('click', evt => {
             if (wordButton.dataset.deleted === 'true') {
                 wordButton.style.color = 'black'
-                delete wordButton.dataset.deleted
+                wordButton.dataset.deleted = 'false'
             } else {
                 editButtonsDivs.forEach(editButtonDiv => {
                     if (editButtonDiv.dataset.id !== wordButton.dataset.id) {
@@ -41,29 +41,13 @@ function addAutoCloseEventListeners()
 function punctuateWord(wordButton, punctuation)
 {
     let word = wordButton.textContent
-    if (wordButton.dataset.edited === 'true'){
+    if (wordButton.dataset.punctuated === 'true'){
         word = word.substr(0, word.length - 1)
     } else {
-        wordButton.dataset.edited = 'true'
+        wordButton.dataset.punctuated = 'true'
     }
     wordButton.textContent = word + punctuation
 }
-
-// helper function to reset the dataset for a wordButton
-function resetDataset(wordButton)
-{
-    delete wordButton.dataset.commaAdded
-    delete wordButton.dataset.fullStopAdded
-    delete wordButton.dataset.semiColonAdded
-    delete wordButton.dataset.colonAdded
-    delete wordButton.dataset.exclamationAdded
-    delete wordButton.dataset.questionAdded
-    delete wordButton.dataset.allLower
-    delete wordButton.dataset.firstCaps
-    delete wordButton.dataset.allCaps
-    delete wordButton.dataset.deleted
-}
-
 
 // add event listeners to allowing editing of each word
 function addEventListenersToEditButtons()
@@ -72,63 +56,57 @@ function addEventListenersToEditButtons()
         clearButton.addEventListener('click', ext => {
             const wordButton = document.querySelector('#wordButton' + clearButton.dataset.id)
             punctuateWord(wordButton, ' ')
-            resetDataset(wordButton)
+            wordButton.dataset.punctuation = 'space'
         })
     })
     document.querySelectorAll('.commaButton').forEach(commaButton => {
         commaButton.addEventListener('click', ext => {
             const wordButton = document.querySelector('#wordButton' + commaButton.dataset.id)
             punctuateWord(wordButton, ',')
-            resetDataset(wordButton)
-            wordButton.dataset.commaAdded = 'true'
+            wordButton.dataset.punctuation = 'comma'
         })
     })
     document.querySelectorAll('.fullStopButton').forEach(fullStopButton => {
         fullStopButton.addEventListener('click', ext => {
             const wordButton = document.querySelector('#wordButton' + fullStopButton.dataset.id)
             punctuateWord(wordButton, '.')
-            resetDataset(wordButton)
-            wordButton.dataset.fullStopAdded = 'true'
+            wordButton.dataset.punctuation = 'fullStop'
         })
     })
     document.querySelectorAll('.semicolonButton').forEach(semicolonButton => {
         semicolonButton.addEventListener('click', ext => {
             const wordButton = document.querySelector('#wordButton' + semicolonButton.dataset.id)
             punctuateWord(wordButton, ';')
-            resetDataset(wordButton)
-            wordButton.dataset.semiColonAdded = 'true'
+            wordButton.dataset.punctuation = 'semiColon'
         })
     })
     document.querySelectorAll('.colonButton').forEach(colonButton => {
         colonButton.addEventListener('click', ext => {
             const wordButton = document.querySelector('#wordButton' + colonButton.dataset.id)
             punctuateWord(wordButton, ':')
-            resetDataset(wordButton)
-            wordButton.dataset.colonAdded = 'true'
+            wordButton.dataset.punctuation = 'colon'
         })
     })
     document.querySelectorAll('.exclamationButton').forEach(exclamationButton => {
         exclamationButton.addEventListener('click', ext => {
             const wordButton = document.querySelector('#wordButton' + exclamationButton.dataset.id)
             punctuateWord(wordButton, '!')
-            resetDataset(wordButton)
-            wordButton.dataset.exclamationAdded = 'true'
+            wordButton.dataset.punctuation = 'exclamation'
         })
     })
     document.querySelectorAll('.questionButton').forEach(questionButton => {
         questionButton.addEventListener('click', ext => {
             const wordButton = document.querySelector('#wordButton' + questionButton.dataset.id)
             punctuateWord(wordButton, '?')
-            resetDataset(wordButton)
-            wordButton.dataset.questionAdded = 'true'
+            wordButton.dataset.punctuation = 'question'
         })
     })
     document.querySelectorAll('.allLowerButton').forEach(allLowerButton => {
         allLowerButton.addEventListener('click', ext => {
             const wordButton = document.querySelector('#wordButton' + allLowerButton.dataset.id)
             wordButton.textContent = wordButton.textContent.toLowerCase()
-            resetDataset(wordButton)
-            wordButton.dataset.allLower = 'true'
+            wordButton.dataset.capitalised = 'false'
+            wordButton.dataset.capitalisation = 'lower'
         })
     })
     document.querySelectorAll('.firstCapsButton').forEach(firstCapsButton => {
@@ -136,16 +114,16 @@ function addEventListenersToEditButtons()
             const wordButton = document.querySelector('#wordButton' + firstCapsButton.dataset.id)
             wordButton.textContent = wordButton.textContent.toLowerCase()
             wordButton.textContent = wordButton.textContent.charAt(0).toUpperCase() + wordButton.textContent.slice(1)
-            resetDataset(wordButton)
-            wordButton.dataset.firstCaps = 'true'
+            wordButton.dataset.capitalised = 'true'
+            wordButton.dataset.capitalisation = 'firstCaps'
         })
     })
     document.querySelectorAll('.allCapsButton').forEach(allCapsButton => {
         allCapsButton.addEventListener('click', ext => {
             const wordButton = document.querySelector('#wordButton' + allCapsButton.dataset.id)
             wordButton.textContent = wordButton.textContent.toUpperCase()
-            resetDataset(wordButton)
-            wordButton.dataset.allCaps = 'true'
+            wordButton.dataset.capitalised = 'true'
+            wordButton.dataset.capitalisation = 'allCaps'
         })
     })
     document.querySelectorAll('.deleteButton').forEach(deleteButton => {

@@ -96,14 +96,15 @@ class MimicSpeakerModel
 		}
 	}
 
-	public function insertMimic(int $userID, string $wordArrayJSON): bool
+	public function insertMimic(int $userID, int $processedTextID, string $mimicString): bool
 	{
 		$sqlQuery =
-			'INSERT INTO `mimics` (`user_id`, `word_array_json`) 
-			VALUES (:user_id, :word_array_json);';
+			'INSERT INTO `mimics` (`user_id`, `processed_text_id`, `mimic_string`) 
+			VALUES (:user_id, :processed_text_id, :mimic_string);';
 		$query = $this->db->prepare($sqlQuery);
 		$query->bindParam(':user_id', $userID);
-		$query->bindParam(':word_array_json', $wordArrayJSON);
+		$query->bindParam(':processed_text_id', $processedTextID);
+		$query->bindParam(':mimic_string', $mimicString);
 		try {
 			$query->execute();
 			return true;

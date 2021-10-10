@@ -28,7 +28,7 @@ class BuildMimicSpeakerController
 		} else {
 			$textData = $mimicSpeakerModel->getRandomProcessedText()[0];
 		}
-		$mimicSpeaker->buildFromJSON($textData['file_path'], $textData['short_title'], $textData['full_title'],$textData['author'], $textData['genre']);
+		$mimicSpeaker->buildFromJSON($textData);
 		$_SESSION['mimicSpeaker'] = $mimicSpeaker;
 		$mimicSpeakerData = [
 			'shortTitle' => $mimicSpeaker->getBuiltFromShortTitles()[0],

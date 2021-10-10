@@ -15,6 +15,7 @@ return function (App $app) {
 
     $app->post('/buildMimicSpeaker', 'buildMimicSpeakerController');
     $app->post('/mimic', 'mimicController');
+    $app->post('/publishMimic', 'publishMimicController');
 
 
     $app->post('/add', 'insertNewTaskController');

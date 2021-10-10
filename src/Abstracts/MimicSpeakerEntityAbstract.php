@@ -5,10 +5,16 @@ namespace App\Abstracts;
 abstract class MimicSpeakerEntityAbstract
 {
 	protected array $wordDictionary;
+	protected array $builtFromIDs = [];
 	protected array $builtFromShortTitles = [];
 	protected array $builtFromLongTitles = [];
 	protected array $builtFromAuthors = [];
 	protected array $builtFromGenres = [];
+
+	public function getBuiltFromIDs(): array
+	{
+		return $this->builtFromIDs;
+	}
 
 	public function getWordDictionary(): array
 	{
@@ -35,25 +41,27 @@ abstract class MimicSpeakerEntityAbstract
 		return $this->builtFromGenres;
 	}
 
-	public function buildFromTextFile(string $textFilePath, string $shortTitle, string $longTitle, string $author, string $genre): void
-	{
-		$rawText = file_get_contents($textFilePath);
-		$allWords = $this::processTextIntoArray($rawText);
-		$this->wordDictionary = $this::buildWordDictionary($allWords);
-		$this->builtFromShortTitles[] = $shortTitle;
-		$this->builtFromLongTitles[] = $longTitle;
-		$this->builtFromAuthors[] = $author;
-		$this->builtFromGenres[] = $genre;
+	private function setBuildVariables(array $textData){
+		$this->builtFromIDs[] = $textData['id'];
+		$this->builtFromShortTitles[] = $textData['short_title'];
+		$this->builtFromLongTitles[] = $textData['full_title'];
+		$this->builtFromAuthors[] = $textData['author'];
+		$this->builtFromGenres[] = $textData['genre'];
 	}
 
-	public function buildFromJSON(string $jsonFilePath, string $shortTitle, string $longTitle, string $author, string $genre): void
+	public function buildFromTextFile(array $textData): void
 	{
-		$textFile = file_get_contents($jsonFilePath);
+		$rawText = file_get_contents($textData['file_path']);
+		$allWords = $this::processTextIntoArray($rawText);
+		$this->wordDictionary = $this::buildWordDictionary($allWords);
+		$this->setBuildVariables($textData);
+	}
+
+	public function buildFromJSON(array $textData): void
+	{
+		$textFile = file_get_contents($textData['file_path']);
 		$this->wordDictionary  = json_decode($textFile, true);
-		$this->builtFromShortTitles[] = $shortTitle;
-		$this->builtFromLongTitles[] = $longTitle;
-		$this->builtFromAuthors[] = $author;
-		$this->builtFromGenres[] = $genre;
+		$this->setBuildVariables($textData);
 	}
 
 	public function mimic(int $sentenceLength): array
