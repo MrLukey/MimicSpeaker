@@ -38,9 +38,9 @@ class MimicViewHelper
 			'<div class="vh-100 d-flex align-items-start justify-content-center mt-5">
 				<div class="container h-75">
 					<div class="card rounded-3 h-100 align-middle position-relative">
-						<div class="card-header d-flex flex-row flex-wrap justify-content-between align-items-baseline">
-							<div class="row m-2 col-12"></div>
-							<button type="button" class="btn-close position-absolute top-1 start-1" aria-label="Close" id="closeCreatorButton"></button>
+						<div class="card-header d-flex flex-row flex-nowrap justify-content-between align-items-baseline">
+							<div class="m-2"></div>
+							<button type="button" class="btn-close position-absolute top-0 start-0" aria-label="Close" id="closeCreatorButton"></button>
 							<div class="d-flex flex-row row-nowrap w-75">
 								<h4 class="' . $buildDisplay . '" id="mimicSpeakerBuild" data-title="' . $mimicTitle . '">' . $mimicTitle . '</h4>' .
 								MimicViewHelper::createHTMLForMimicSpeakerBuilder(

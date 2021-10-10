@@ -22,7 +22,6 @@ if ($_SESSION['user'] !== null){
 //$_SESSION['user'] = null;
 //$_SESSION['loggedIn'] = false;
 //session_destroy()
-
 ?>
 <!DOCTYPE html>
 <html lang="en-gb">
