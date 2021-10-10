@@ -96,11 +96,9 @@ function addEventListenersToMimicSpeakerBuilder(mimicEditor, titleSelector, genr
         toggleButtonsClasses([buildMimicSpeakerButton], ['btn-outline-primary', 'btn-primary'])
         toggleButtonsClasses([titleSelector, genreSelector, mimicSpeakerBuild], ['d-none'])
         if (titleSelector.classList.contains('d-none')){
+            mimicPreview.innerHTML = ''
             document.querySelector('#wordsContainer').innerHTML = ''
-            //wordsContainer.classList.remove('d-none')
-            //mimicPreview.innerHTML = ''
-            //mimicPreview.classList.add('d-none')
-            mimicSpeakerBuild.innerHTML = ''
+            document.querySelector('#wordEditor').classList.remove('d-none')
             const buildData = {
                 shortTitle: titleSelector.options[titleSelector.selectedIndex].value,
                 genre: genreSelector.options[genreSelector.selectedIndex].value
@@ -128,7 +126,6 @@ function addEventListenersToMimicSpeakerBuilder(mimicEditor, titleSelector, genr
             previewButton.classList.remove('btn-primary')
             previewButton.textContent = 'Preview'
             buildMimicSpeakerButton.textContent = 'Change Mimic Speaker'
-            wordsContainer.classList.remove('d-none')
             mimicPreview.classList.add('d-none')
         } else {
             buildMimicSpeakerButton.textContent = 'Build Mimic Speaker'
