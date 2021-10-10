@@ -37,7 +37,7 @@ $_SESSION['user'] = $_SESSION['user'] ?? null;
 $_SESSION['error'] =  $_SESSION['error'] ?? false;
 $_SESSION['errorMessage'] = $_SESSION['errorMessage'] ?? '';
 $_SESSION['mimicSpeaker'] = $_SESSION['mimicSpeaker'] ?? null;
-$_SESSION['mimicSpeech'] = $_SESSION['mimicSpeech'] ?? '';
+$_SESSION['mimicSpeech'] = $_SESSION['mimicSpeech'] ?? [];
 
 // Instantiate the app
 AppFactory::setContainer($container);

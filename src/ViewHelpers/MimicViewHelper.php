@@ -35,7 +35,7 @@ class MimicViewHelper
 			$previewButtonStyle = ' btn-primary';
 		}
 		$mimicEditorHTML =
-			'<div class="vh-100 d-flex align-items-center justify-content-center">
+			'<div class="vh-100 d-flex align-items-start justify-content-center mt-5">
 				<div class="container h-75">
 					<div class="card rounded-3 h-100 align-middle position-relative">
 						<div class="card-header d-flex flex-row flex-wrap justify-content-between align-items-baseline">

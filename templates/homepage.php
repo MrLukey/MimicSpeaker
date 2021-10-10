@@ -19,6 +19,10 @@ if ($_SESSION['user'] !== null){
 //$_SESSION['mimicSpeech'] = [];
 //$_SESSION['user'] = null;
 //print_r($_SESSION['user']);
+//$_SESSION['user'] = null;
+//$_SESSION['loggedIn'] = false;
+//session_destroy()
+
 ?>
 <!DOCTYPE html>
 <html lang="en-gb">
@@ -32,7 +36,7 @@ if ($_SESSION['user'] !== null){
     </header>
     <main class="">
         <div class="">
-            <div class="mimicEditor d-flex flex-column" data-username="<?php echo $username ?>" id="mimicEditor">
+            <div class="mimicEditor d-flex flex-column d-none" data-username="<?php echo $username ?>" id="mimicEditor">
 			    <?php echo MimicViewHelper::createHTMLForMimicEditor($_SESSION['mimicSpeech'], $processedTexts, $_SESSION['mimicSpeaker']); ?>
             </div>
         </div>
