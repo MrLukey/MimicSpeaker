@@ -9,21 +9,28 @@ if (!$_SESSION['error'] && $data === []){
     $mimics = $data['mimics'];
     $processedTexts = $data['processedTexts'];
 }
+
+if ($_SESSION['user'] !== null){
+	$username = $_SESSION['user']->getUserName();
+} else {
+	$username = 'Guest';
+}
+//$_SESSION['mimicSpeaker'] = null;
+//$_SESSION['mimicSpeech'] = [];
 ?>
 <!DOCTYPE html>
 <html lang="en-gb">
 <head>
     <?php echo PageViewHelper::createHTMLForPageHead() ?>
-    <title>Slim ToDo App</title>
+    <title>Mimic Speaker</title>
 </head>
 <body>
-    <section class="vh-100 d-flex align-items-center justify-content-center">
+    <button class="btn btn-lg btn-success" id="openCreatorButton">Create Mimic</button>
+    <div class="mimicEditor d-flex flex-column" data-username="<?php echo $username ?>" id="mimicEditor">
         <?php
-            echo $_SESSION['errorMessage'];
-//            echo MimicViewHelper::createHTMLForMimicSpeakerBuilder($processedTexts);
             echo MimicViewHelper::createHTMLForMimicEditor($_SESSION['mimicSpeech'], $processedTexts, $_SESSION['mimicSpeaker']);
         ?>
-    </section>
+    </div>
 </body>
 </html>
 
