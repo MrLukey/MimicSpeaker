@@ -20,7 +20,10 @@ use App\ViewHelpers\PageViewHelper;
         </div>
         <?php //echo PageViewHelper::(); ?>
     </section>
-    <?php echo MimicViewHelper::createHTMLForMimicAlbum($data['mimics']) ?>
+    <?php
+    echo MimicViewHelper::createHTMLForMimicAlbum($data['mimics'])
+    //echo MimicViewHelper::createHTMLForPublishConfirmation();
+    ?>
 </body>
 </html>
 
