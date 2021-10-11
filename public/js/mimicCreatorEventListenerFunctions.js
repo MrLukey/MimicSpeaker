@@ -15,7 +15,7 @@ function toggleButtonsClasses(buttons, toggleClasses)
 }
 
 // helper function to populate the preview div with edited mimic string
-async function populatePreview(mimicEditor, mimicPreview, mimicAuthor, mimicSpeakerBuild, mimicPreviewTemplate)
+function populatePreview(mimicEditor, mimicPreview, mimicAuthor, mimicSpeakerBuild, mimicPreviewTemplate)
 {
     let allWordButtons = document.querySelectorAll('.wordButton')
     let editedMimicString = ''
@@ -41,9 +41,9 @@ async function populatePreview(mimicEditor, mimicPreview, mimicAuthor, mimicSpea
 // main function, runs entire file
 async function addEventListenersForMimicCreator()
 {
-    const openButton = document.querySelector('#openCreatorButton') // the button to open the mimic creator
+    const openButton = document.querySelector('#openCreatorButton') // the button to open/close the mimic creator
     const closeButton = document.querySelector('#closeCreatorButton') // the button to close the mimic creator
-    const mimicEditor = document.querySelector('#mimicEditor') // the div that holds the entire editor
+    const mimicEditor = document.querySelector('#mimicEditor') // the div that holds the editor
     const titleSelector = document.querySelector('#titleSelector') // the selector input for titles
     const genreSelector = document.querySelector('#genreSelector') // the selector input for genre
     const buildMimicSpeakerButton = document.querySelector('#buildMimicSpeaker') // the button to build a mimic speaker
@@ -60,38 +60,59 @@ async function addEventListenersForMimicCreator()
     const previewHBTemplate = await getTextViaAJAX('templates/mimicPreviewTemplate.hbs').catch()
     const mimicPreviewTemplate = Handlebars.compile(previewHBTemplate)
 
-    addEventListenersToOpenAndCloseButtons(openButton, closeButton, mimicEditor)
-    addEventListenersToMimicSpeakerBuilder(mimicEditor, titleSelector, genreSelector, buildMimicSpeakerButton,
+    const editWordButtonHBTemplate = await getTextViaAJAX('templates/editWordButtonsTemplate.hbs')
+    const editWordButtonTemplate = Handlebars.compile(editWordButtonHBTemplate)
+
+    addEventListenersToOpenButton(openButton, mimicEditor)
+    addEventListenersToCloseButton(closeButton, mimicEditor)
+    addEventListenersToTitleSelector(titleSelector, genreSelector)
+    addEventListenersToGenreSelector(genreSelector, titleSelector)
+
+    addEventListenersToBuildMimicSpeakerButton(mimicEditor, titleSelector, genreSelector, buildMimicSpeakerButton,
         mimicSpeakerBuild, mimicButton, mimicAuthor, confirmPublishButton, previewButton)
-    addEventListenersToMimicButton(titleSelector, genreSelector, buildMimicSpeakerButton, mimicSpeakerBuild,
-        lengthSelector, mimicButton, confirmPublishButton, previewButton, mimicEditor, mimicPreview, mimicAuthor, mimicPreviewTemplate).catch()
-    addEventListenerToPreviewToggle(previewButton, mimicPreview, wordEditor, mimicAuthor, mimicEditor, mimicSpeakerBuild, mimicPreviewTemplate).catch()
-    addEventListenersToPublishButton().catch()
+
+    addEventListenersToMimicButton(titleSelector, genreSelector, buildMimicSpeakerButton, mimicSpeakerBuild, lengthSelector,
+        mimicButton, confirmPublishButton, previewButton, mimicEditor, mimicPreview, mimicAuthor, mimicPreviewTemplate, editWordButtonTemplate)
+
+    addEventListenerToPreviewToggle(previewButton, mimicPreview, wordEditor,
+        mimicAuthor, mimicEditor, mimicSpeakerBuild, mimicPreviewTemplate).catch()
+
+    addEventListenersToPublishButton(publishButton).catch()
 }
 
-function addEventListenersToOpenAndCloseButtons(openButton, closeButton, mimicEditor)
+function addEventListenersToOpenButton(openButton, mimicEditor)
 {
-    [openButton, closeButton].forEach(button => {
-        button.addEventListener('click', evt => {
-            mimicEditor.classList.toggle('d-none')
-        })
+    openButton.addEventListener('click', evt => {
+        mimicEditor.classList.toggle('d-none')
     })
 }
 
-// add event listeners to title and genre select inputs, and build button
-function addEventListenersToMimicSpeakerBuilder(mimicEditor, titleSelector, genreSelector, buildMimicSpeakerButton, mimicSpeakerBuild,
-                                                mimicButton, mimicAuthor, confirmPublishButton, previewButton)
+function addEventListenersToCloseButton(closeButton, mimicEditor)
+{
+    closeButton.addEventListener('click', evt => {
+        mimicEditor.classList.toggle('d-none')
+    })
+}
+
+function addEventListenersToTitleSelector(titleSelector, genreSelector)
 {
     titleSelector.addEventListener('change', evt => {
         genreSelector.disabled = titleSelector.options.selectedIndex !== 0;
         genreSelector.value = titleSelector.options[titleSelector.options.selectedIndex].dataset.genre
     })
+}
 
+function addEventListenersToGenreSelector(genreSelector, titleSelector)
+{
     genreSelector.addEventListener('change', evt => {
         titleSelector.disabled = genreSelector.options.selectedIndex !== 0;
         titleSelector.value = ''
     })
+}
 
+function addEventListenersToBuildMimicSpeakerButton(mimicEditor, titleSelector, genreSelector, buildMimicSpeakerButton,
+                                                    mimicSpeakerBuild, mimicButton, mimicAuthor, confirmPublishButton, previewButton)
+{
     buildMimicSpeakerButton.addEventListener('click', evt => {
         let mimicPreview = document.querySelector('#mimicPreview')
         toggleButtonsClasses([buildMimicSpeakerButton], ['btn-outline-primary', 'btn-primary'])
@@ -137,11 +158,10 @@ function addEventListenersToMimicSpeakerBuilder(mimicEditor, titleSelector, genr
 }
 
 
-async function addEventListenersToMimicButton(titleSelector, genreSelector, buildMimicSpeakerButton, mimicSpeakerBuild, lengthSelector,
-                                              mimicButton, confirmPublishButton, previewButton, mimicEditor, mimicPreview, mimicAuthor, mimicPreviewTemplate)
+function addEventListenersToMimicButton(
+    titleSelector, genreSelector, buildMimicSpeakerButton, mimicSpeakerBuild, lengthSelector, mimicButton, confirmPublishButton,
+    previewButton, mimicEditor, mimicPreview, mimicAuthor, mimicPreviewTemplate, editWordButtonTemplate)
 {
-    const editWordButtonHBTemplate = await getTextViaAJAX('templates/editWordButtonsTemplate.hbs')
-    const editWordButtonTemplate = Handlebars.compile(editWordButtonHBTemplate)
     mimicButton.addEventListener('click', evt => {
         const mimicData = {
             sentenceLength: lengthSelector.value,
@@ -191,9 +211,8 @@ async function addEventListenerToPreviewToggle(previewButton, mimicPreview, word
     })
 }
 
-async function addEventListenersToPublishButton()
+async function addEventListenersToPublishButton(publishButton)
 {
-    const publishButton = document.querySelector('#publishButton')
     publishButton.addEventListener('click', evt => {
         const allWords = document.querySelectorAll('.wordButton')
         let mimicData = []
