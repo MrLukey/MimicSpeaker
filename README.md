@@ -1,47 +1,31 @@
-# Slim ToDo App Exercise
+# Mimic Speaker
 
-## Requirements: 
-- show a form to add a new task
-- display a list of all the uncompleted tasks underneath
-- functionality to mark uncompleted tasks as completed
-- a list of completed tasks is available on another page
-- completed tasks have a delete button that deletes the task from the db
+## Overview: 
+Mimic Speaker is a small app for generating random text that sounds similar to, but very different from, well known works of literature.
 
-## Customisations:
-- handle errors and log them
-- recover deleted tasks
-- all tasks and functionality on one page
-- format tasks by state
-- Bootstrap styling
-- Login & signup
+## History:
+Originally built as a ToDoList to experiement with the Slim framework, the project evolved into something a bit more fun. It has seen two overhauls; one to condense a multi-page design into a single page, and the other to convert the ToDoList into the MimicSpeaker. Now that it does something more interesting than list text on a page, core functionality will not change.
+
+## Technical Description:
+Mimic speaker is a PHP heavy app that processes well known works of literature to produce a simple associative data structure, allowing the creation of psuedo-random arrays of words on demand. Because it records which word follows which, the output looks very similar to real speech, and makes sense... sometimes. 
+
 
 ## Install the Application
-This app was built for Composer. This makes setting up the Slim Framework quick and easy.
+This app was built for Composer, making setup of the Slim Framework quick and easy.
 
-Create a new directory with your project name, e.g:
-
+Clone the repo:
 ```bash
-mkdir SlimToDoApp
+git clone git@github.com:MrLukey/MimicSpeaker.git OR https://github.com/MrLukey/MimicSpeaker.git
 ```
 
-Once inside the new directory, clone this repo:
-
-```bash
-git clone git@github.com:MrLukey/SlimToDoList.git .
-```
-
-Once cloned, you must install the slim components by running:
-
+Once cloned, you can install the slim components by running:
 ```bash
 composer install
 ```
 
-Run this command in the application directory to run the test suite:
-```bash
-composer test
-```
+Create a MySQL database called mimic_speaker_database and run the code found in db/mimic_speaker_database.sql 
 
-To run the application locally run:
+Once the database is setup, you can run the application locally with:
 ```bash
 composer start
 ```
