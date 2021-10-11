@@ -13,6 +13,13 @@ Mimic speaker is a PHP heavy app that processes well known works of literature t
 ## Install the Application
 This app was built for Composer, making setup of the Slim Framework quick and easy.
 
+Check to see if Composer is installed by running:
+```bash
+composer -V
+```
+
+If you get an error message, go and [get Composer](https://getcomposer.org/download/)
+
 Clone the repo:
 ```bash
 git clone git@github.com:MrLukey/MimicSpeaker.git OR https://github.com/MrLukey/MimicSpeaker.git
@@ -23,11 +30,13 @@ Once cloned, you can install the slim components by running:
 composer install
 ```
 
-Create a MySQL database called mimic_speaker_database and run the code found in db/mimic_speaker_database.sql 
+Create a MySQL database called ```mimic_speaker_database``` and run the code found in ```db/mimic_speaker_database.sql```
+
+Some further config may be required. The PDO settings can be found in ```src/factories/builtInClassFactories/PDOFactory.php```
 
 Once the database is setup, you can run the application locally with:
 ```bash
 composer start
 ```
 
-Navigate to localhost:8080 in a browser to see the app running.
+Navigate to ```localhost:8080``` in a browser to start spamming people!
