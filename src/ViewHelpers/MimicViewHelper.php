@@ -12,13 +12,17 @@ class MimicViewHelper
 			'<main>
 				<section class="py-5 text-center container">
 					<div class="row py-lg-5">
-						<div class="col-lg-6 col-md-8 mx-auto">
+						<div class="col-8 mx-auto">
 							<h1 class="fw-light">Mimic Speaker</h1>
-							<p class="lead text-muted">The best place to satisfy all your spamming needs</p>
-							<p>
-								<button class="btn btn-primary" id="openCreatorButton">Create Mimic</button>
-								<a class="btn btn-secondary" href="/signup">Sign Up</a>
+							<p class="lead text-muted">
+								A one stop shop to satisfy all your spamming needs. Just create a Mimic Speaker from 
+								a text of your choosing and you\'re away! Refine your Mimics in the Editor to create
+								bullshit of exceptional quality, the best will be published for all to see!
 							</p>
+							<div class="btn-group">
+								<button class="btn btn-primary" id="openCreatorButton">Create Mimic Speaker</button>
+								
+							</div>
 						</div>
 					</div>
 				</section>
