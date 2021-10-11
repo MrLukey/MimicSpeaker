@@ -40,10 +40,8 @@ class PageViewHelper
 
 	public static function createHTMLForNavbar(string $page): string
 	{
-		$mimicButton = '';
 		switch ($page){
 			case 'homepage':
-				$mimicButton = '<button class="btn btn-md btn-outline-light" id="openCreatorButton">Create Mimic</button>';
 				if ($_SESSION['loggedIn']){
 					$loginLogoutSignupButton = '<a class="nav-link" href="/logout">Logout</a>';;
 				} else {
@@ -59,15 +57,15 @@ class PageViewHelper
 			default:
 				$loginLogoutSignupButton = '';
 		}
-		if ($_SESSION['user'] === null){
-			$username = 'Guest';
+		if ($_SESSION['user']->getUserName() === 'Guest'){
+			$username = '';
 		} else {
-			$username = $_SESSION['user']->getUserName();
+			$username = $_SESSION['user']->getUserName() . '\'s ';
 		}
 		return
 			'<nav class="navbar navbar-expand-sm navbar-dark bg-dark" aria-label="Mimic Speaker Navbar">
 				<div class="container-fluid">
-					<a class="navbar-brand" href="/">' . $username. '\'s Mimic Speaker</a>
+					<a class="navbar-brand" href="/">' . $username. 'Mimic Speaker</a>
 					<button class="navbar-toggler" 
 						type="button" 
 						data-bs-toggle="collapse" 
@@ -91,7 +89,6 @@ class PageViewHelper
 						</ul>
 						<div class="navbar-nav">' .
 							$loginLogoutSignupButton .
-							$mimicButton .
 						'</div>
 					</div>
 				</div>

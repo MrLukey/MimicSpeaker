@@ -17,7 +17,7 @@ class HomePageController
 
 	public function __invoke(Request $request, Response $response, array $args)
 	{
-		if (!$_SESSION['loggedIn']){
+		if (!$_SESSION['loggedIn'] || $_SESSION['user'] === null){
 			$userModel = $this->container->get('userModel');
 			$_SESSION['user'] = $userModel->getUserByName('Guest');
 		}

@@ -6,187 +6,55 @@ use App\Abstracts\MimicSpeakerEntityAbstract;
 
 class MimicViewHelper
 {
-	public static function createHTMLForMimicAlbum(): string
+	public static function createHTMLForMimicAlbum(array $mimics): string
 	{
-		return
+		$mimicAlbumHTML =
 			'<main>
 				<section class="py-5 text-center container">
 					<div class="row py-lg-5">
 						<div class="col-lg-6 col-md-8 mx-auto">
 							<h1 class="fw-light">Mimic Speaker</h1>
-							<p class="lead text-muted">We aim to provide a one stop shop for all your spamming needs, whether they be professional, personal, or both.</p>
+							<p class="lead text-muted">The best place to satisfy all your spamming needs</p>
 							<p>
-								<a href="#" class="btn btn-primary my-2">Main call to action</a>
-								<a href="#" class="btn btn-secondary my-2">Secondary action</a>
+								<button class="btn btn-primary" id="openCreatorButton">Create Mimic</button>
+								<a class="btn btn-secondary" href="/signup">Sign Up</a>
 							</p>
 						</div>
 					</div>
 				</section>
 				<div class="album py-5 bg-light">
 					<div class="container">
-						<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-							<div class="col">
-								<div class="card shadow-sm">
-									<svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
-										<title>Placeholder</title>
-										<rect width="100%" height="100%" fill="#55595c"></rect>
-										<text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
-									</svg>
-									<div class="card-body">
-										<p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-										<div class="d-flex justify-content-between align-items-center">
-											<div class="btn-group">
-												<button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-												<button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-											</div>
-											<small class="text-muted">9 mins</small>
-										</div>
-									</div>
-								</div>
+						<div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3">';
+						foreach ($mimics as $mimic){
+							$mimicAlbumHTML .= self::createHTMLForMimic($mimic);
+						}
+		$mimicAlbumHTML .=
+						'</div>
+					</div>
+				</div>	
+		</main>';
+		return $mimicAlbumHTML;
+	}
+
+	private static function createHTMLForMimic(array $mimic): string
+	{
+		return
+			'<div class="col">
+				<div class="card shadow-sm">
+					<img src="' . $mimic['image_path'] . '">
+					<div class="card-body">
+						<h4 class="card-title">' . $mimic['full_title'] . '</h4>
+						<p class="card-text">' . $mimic['mimic_string'] . '</p>
+						<div class="d-flex justify-content-between align-items-center">
+							<div class="">
+								<button type="button" class="btn btn-sm btn-success">Like</button>
+								<small class="text-muted">' . $mimic['likes'] . ' likes</small>
 							</div>
-							<div class="col">
-								<div class="card shadow-sm">
-									<svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
-										<title>Placeholder</title>
-										<rect width="100%" height="100%" fill="#55595c"></rect>
-										<text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
-									</svg>
-									<div class="card-body">
-										<p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-										<div class="d-flex justify-content-between align-items-center">
-											<div class="btn-group">
-												<button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-												<button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-											</div>
-											<small class="text-muted">9 mins</small>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col">
-								<div class="card shadow-sm">
-									<svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
-										<title>Placeholder</title>
-										<rect width="100%" height="100%" fill="#55595c"></rect>
-										<text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
-									</svg>
-								<div class="card-body">
-									<p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-									<div class="d-flex justify-content-between align-items-center">
-										<div class="btn-group">
-											<button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-											<button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-										</div>
-										<small class="text-muted">9 mins</small>
-									</div>
-								</div>
-							</div>
+							<a class="link-primary text-muted" href="#">by ' . $mimic['username'] . '</a>
 						</div>
-						<div class="col">
-							<div class="card shadow-sm">
-								<svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
-									<title>Placeholder</title>
-									<rect width="100%" height="100%" fill="#55595c"></rect>
-									<text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
-								</svg>
-								<div class="card-body">
-									<p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-									<div class="d-flex justify-content-between align-items-center">
-										<div class="btn-group">
-											<button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-											<button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-										</div>
-										<small class="text-muted">9 mins</small>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col">
-				<div class="card shadow-sm">
-				<svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-				
-				<div class="card-body">
-				<p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-				<div class="d-flex justify-content-between align-items-center">
-				<div class="btn-group">
-				<button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-				<button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+					</div>
 				</div>
-				<small class="text-muted">9 mins</small>
-				</div>
-				</div>
-				</div>
-				</div>
-				<div class="col">
-				<div class="card shadow-sm">
-				<svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-				
-				<div class="card-body">
-				<p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-				<div class="d-flex justify-content-between align-items-center">
-				<div class="btn-group">
-				<button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-				<button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-				</div>
-				<small class="text-muted">9 mins</small>
-				</div>
-				</div>
-				</div>
-				</div>
-				
-				<div class="col">
-				<div class="card shadow-sm">
-				<svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-				
-				<div class="card-body">
-				<p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-				<div class="d-flex justify-content-between align-items-center">
-				<div class="btn-group">
-				<button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-				<button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-				</div>
-				<small class="text-muted">9 mins</small>
-				</div>
-				</div>
-				</div>
-				</div>
-				<div class="col">
-				<div class="card shadow-sm">
-				<svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-				
-				<div class="card-body">
-				<p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-				<div class="d-flex justify-content-between align-items-center">
-				<div class="btn-group">
-				<button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-				<button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-				</div>
-				<small class="text-muted">9 mins</small>
-				</div>
-				</div>
-				</div>
-				</div>
-				<div class="col">
-				<div class="card shadow-sm">
-				<svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-				
-				<div class="card-body">
-				<p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-				<div class="d-flex justify-content-between align-items-center">
-				<div class="btn-group">
-				<button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-				<button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-				</div>
-				<small class="text-muted">9 mins</small>
-				</div>
-				</div>
-				</div>
-				</div>
-				</div>
-				</div>
-				</div>
-				
-				</main>';
+			</div>';
 	}
 
 	public static function createHTMLForMimicEditor(array $mimic, array $processedTexts, ?MimicSpeakerEntityAbstract $mimicSpeaker): string
@@ -222,8 +90,7 @@ class MimicViewHelper
 				<div class="container h-75">
 					<div class="card rounded-3 h-100 align-middle position-relative">
 						<div class="card-header d-flex flex-row flex-nowrap justify-content-between align-items-baseline">
-							<div class="m-2"></div>
-							<button type="button" class="btn-close position-absolute top-0 start-0" aria-label="Close" id="closeCreatorButton"></button>
+							<button type="button" class="btn-close p-2" aria-label="Close" id="closeCreatorButton"></button>
 							<div class="d-flex flex-row row-nowrap w-75">
 								<h4 class="' . $buildDisplay . '" id="mimicSpeakerBuild" data-title="' . $mimicTitle . '">' . $mimicTitle . '</h4>' .
 								MimicViewHelper::createHTMLForMimicSpeakerBuilder(
@@ -313,3 +180,41 @@ class MimicViewHelper
 			</div>';
 	}
 }
+
+// HTML for modal trigger
+//'<!-- Button trigger modal -->
+//<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+//	Launch demo modal
+//</button>
+//
+//<!-- Modal -->
+//<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+//  <div class="modal-dialog">
+//    <div class="modal-content">
+//      <div class="modal-header">
+//        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+//        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+//      </div>
+//      <div class="modal-body">
+//        ...
+//      </div>
+//      <div class="modal-footer">
+//        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+//        <button type="button" class="btn btn-primary">Save changes</button>
+//      </div>
+//    </div>
+//  </div>
+//</div>';
+
+
+
+// Vertically centeres stuff
+//<!-- Vertically centered modal -->
+//<div class="modal-dialog modal-dialog-centered">
+//  ...
+//</div>
+//
+//<!-- Vertically centered scrollable modal -->
+//<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+//  ...
+//</div>

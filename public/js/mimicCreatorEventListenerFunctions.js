@@ -21,7 +21,7 @@ async function populatePreview(mimicEditor, mimicPreview, mimicAuthor, mimicSpea
     let editedMimicString = ''
     let wordsAdded = 0;
     if (allWordButtons.length > 0){
-        editedMimicString += '"'
+        editedMimicString += ''
         allWordButtons.forEach(wordButton => {
             if (wordButton.dataset.deleted !== 'true'){
                 editedMimicString += wordButton.textContent + ' '
@@ -29,9 +29,6 @@ async function populatePreview(mimicEditor, mimicPreview, mimicAuthor, mimicSpea
             }
         })
         editedMimicString = editedMimicString.substr(0, editedMimicString.length - 1)
-        if (wordsAdded > 0){
-            editedMimicString += '"'
-        }
     }
     const data = {
         title: 'Mimic of ' + mimicSpeakerBuild.dataset.title + ' by ' + mimicAuthor.dataset.author,

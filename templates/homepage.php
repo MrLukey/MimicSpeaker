@@ -1,14 +1,6 @@
 <?php
 use App\ViewHelpers\MimicViewHelper;
 use App\ViewHelpers\PageViewHelper;
-if (!$_SESSION['error'] && $data === []){
-	$_SESSION['errorMessage'] = 'There are no mimics in the database.';
-	$mimics = [];
-	$processedTexts = [];
-} else {
-    $mimics = $data['mimics'];
-    $processedTexts = $data['processedTexts'];
-}
 ?>
 <!DOCTYPE html>
 <html lang="en-gb">
@@ -23,12 +15,12 @@ if (!$_SESSION['error'] && $data === []){
     <section class="">
         <div class="">
             <div class="mimicEditor d-flex flex-column d-none" data-username="<?php echo $_SESSION['user']->getUserName() ?>" id="mimicEditor">
-			    <?php echo MimicViewHelper::createHTMLForMimicEditor($_SESSION['mimicSpeech'], $processedTexts, $_SESSION['mimicSpeaker']); ?>
+			    <?php echo MimicViewHelper::createHTMLForMimicEditor($_SESSION['mimicSpeech'], $data['processedTexts'], $_SESSION['mimicSpeaker']); ?>
             </div>
         </div>
         <?php //echo PageViewHelper::(); ?>
     </section>
-    <?php echo MimicViewHelper::createHTMLForMimicAlbum() ?>
+    <?php echo MimicViewHelper::createHTMLForMimicAlbum($data['mimics']) ?>
 </body>
 </html>
 

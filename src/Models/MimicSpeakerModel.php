@@ -16,8 +16,11 @@ class MimicSpeakerModel
 	public function getProcessedTextByShortTitle(string $shortTitle): ?array
 	{
 		$sqlQuery =
-			'SELECT `id`, `full_title`, `short_title`, `author`, `genre`, `year_first_published`, `file_path` 
-			FROM `processed_texts` 
+			'SELECT `processed_texts`.`id`, `processed_texts`.`full_title`, `processed_texts`.`short_title`,
+       				`processed_texts`.`author`, `genres`.`name` AS `genre`, `processed_texts`.`year_first_published`,
+       				`processed_texts`.`file_path`, `genres`.`image_path`
+			FROM `processed_texts`
+			INNER JOIN `genres` ON `processed_texts`.`genre_id`=`genres`.`id`
 			WHERE  `short_title` = :short_title;';
 		$query = $this->db->prepare($sqlQuery);
 		$query->bindParam(':short_title', $shortTitle);
@@ -25,7 +28,7 @@ class MimicSpeakerModel
 			$query->execute();
 			return $query->fetchAll();
 		} catch (\PDOException $exception){
-			$this->errorLogger->logDatabaseError('MimicSpeakerModel->getTextByShortTitle()', $exception);
+			$this->errorLogger->logDatabaseError('MimicSpeakerModel->getProcessedTextByShortTitle()', $exception);
 			return null;
 		}
 	}
@@ -33,9 +36,12 @@ class MimicSpeakerModel
 	public function getRandomProcessedTextByGenre(string $genre): ?array
 	{
 		$sqlQuery =
-			'SELECT `id`, `full_title`, `short_title`, `author`, `genre`, `year_first_published`, `file_path` 
+			'SELECT `processed_texts`.`id`, `processed_texts`.`full_title`, `processed_texts`.`short_title`,
+       				`processed_texts`.`author`, `genres`.`name` AS `genre`, `processed_texts`.`year_first_published`,
+       				`processed_texts`.`file_path`, `genres`.`image_path`
 			FROM `processed_texts`
-			WHERE `genre` = :genre
+			INNER JOIN `genres` ON `processed_texts`.`genre_id`=`genres`.`id`
+			WHERE `genres`.`name` = :genre
 			ORDER BY RAND() 
 			LIMIT 1;';
 		$query = $this->db->prepare($sqlQuery);
@@ -52,8 +58,11 @@ class MimicSpeakerModel
 	public function getRandomProcessedText(): ?array
 	{
 		$sqlQuery =
-			'SELECT `id`, `full_title`, `short_title`, `author`, `genre`, `year_first_published`, `file_path` 
-			FROM `processed_texts` 
+			'SELECT `processed_texts`.`id`, `processed_texts`.`full_title`, `processed_texts`.`short_title`,
+       				`processed_texts`.`author`, `genres`.`name` AS `genre`, `processed_texts`.`year_first_published`,
+       				`processed_texts`.`file_path`, `genres`.`image_path`
+			FROM `processed_texts`
+			INNER JOIN `genres` ON `processed_texts`.`genre_id`=`genres`.`id` 
 			ORDER BY RAND() 
 			LIMIT 1;';
 		$query = $this->db->prepare($sqlQuery);
@@ -69,8 +78,11 @@ class MimicSpeakerModel
 	public function getAllProcessedTexts(): ?array
 	{
 		$sqlQuery =
-			'SELECT `id`, `full_title`, `short_title`, `author`, `genre`, `year_first_published`, `file_path`
-			FROM `processed_texts`;';
+			'SELECT `processed_texts`.`id`, `processed_texts`.`full_title`, `processed_texts`.`short_title`,
+       				`processed_texts`.`author`, `genres`.`name` AS `genre`, `processed_texts`.`year_first_published`,
+       				`processed_texts`.`file_path`, `genres`.`image_path`
+			FROM `processed_texts`
+			INNER JOIN `genres` ON `processed_texts`.`genre_id`=`genres`.`id`';
 		$query = $this->db->prepare($sqlQuery);
 		try {
 			$query->execute();
@@ -84,8 +96,15 @@ class MimicSpeakerModel
 	public function getMimics(): ?array
 	{
 		$sqlQuery =
-			'SELECT `id`, `user_id`, `word_array_json`
-			FROM  `mimics`;';
+			'SELECT `users`.`username`, `mimics`.`mimic_string`, `mimics`.`created`, `mimics`.`likes`, 
+       				`processed_texts`.`full_title`, `processed_texts`.`author`, `genres`.`name` AS `genre`, 
+       				`genres`.`image_path`
+			FROM  `mimics`
+			INNER JOIN processed_texts ON `mimics`.`processed_text_id`=`processed_texts`.`id`
+			INNER JOIN users ON `mimics`.`user_id`=`users`.`id`
+			INNER JOIN genres ON `processed_texts`.`genre_id`=`genres`.`id`
+			WHERE `deleted` = 0
+			ORDER BY `likes`DESC, `created` DESC;';
 		$query = $this->db->prepare($sqlQuery);
 		try {
 			$query->execute();
