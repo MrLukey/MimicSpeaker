@@ -55,15 +55,5 @@ return function (ContainerBuilder $containerBuilder) {
 
 	$container['adminPageController'] = DI\factory('App\Factories\PageFactories\AdminPageControllerFactory');
 
-	$container['taskModel'] = DI\factory('App\Factories\ModelFactories\TaskModelFactory');
-	$container['toDoListPageController'] = DI\factory('App\Factories\PageFactories\ToDoListPageControllerFactory');
-	$container['insertNewTaskController'] = DI\factory('App\Factories\DatabaseFactories\InsertNewTaskControllerFactory');
-	$container['editAllTasksController'] = DI\factory('App\Factories\DatabaseFactories\EditAllTasksControllerFactory');
-	$container['markTasksCompleteController'] = DI\factory('App\Factories\DatabaseFactories\MarkTasksCompleteControllerFactory');
-	$container['markTasksIncompleteController'] = DI\factory('App\Factories\DatabaseFactories\MarkTasksIncompleteControllerFactory');
-	$container['markTasksArchivedController'] = DI\factory('App\Factories\DatabaseFactories\MarkTasksArchivedControllerFactory');
-	$container['markTasksNotArchivedController'] = DI\factory('App\Factories\DatabaseFactories\MarkTasksNotArchivedControllerFactory');
-	$container['deleteTasksController'] = DI\factory('App\Factories\DatabaseFactories\deleteTasksControllerFactory');
-
     $containerBuilder->addDefinitions($container);
 };

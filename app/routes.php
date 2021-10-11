@@ -17,14 +17,5 @@ return function (App $app) {
     $app->post('/mimic', 'mimicController');
     $app->post('/publishMimic', 'publishMimicController');
 
-
-    $app->post('/add', 'insertNewTaskController');
-    $app->post('/complete', 'markTasksCompleteController');
-    $app->post('/incomplete', 'markTasksIncompleteController');
-    $app->post('/archive', 'markTasksArchivedController');
-    $app->post('/recover', 'markTasksNotArchivedController');
-    $app->post('/delete', 'deleteTasksController');
-	$app->post('/editAll', 'editAllTasksController');
-
 	$app->any('/{path:.*}', 'loginPageController');
 };
