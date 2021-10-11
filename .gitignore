@@ -5,3 +5,5 @@
 /logs/*
 !/logs/README.md
 /templates/test.php
+/db/textJSONs
+/db/scripts/target.txt

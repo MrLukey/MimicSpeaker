@@ -1,0 +1,30 @@
+<div class="w-75 m-auto" id="wordsContainer">
+{{#each words}}
+    <div class="wordWrapper m-1">
+        <button class="wordButton btn btn-outline-dark btn-lg"
+                id="wordButton{{@index}}"
+                data-deleted="false"
+                data-capitalised="false"
+                data-punctuated="false"
+                data-id="{{@index}}">{{this}}</button>
+        <div class="editButtons bg-secondary rounded-3 d-none p-1" id="editButtons{{@index}}" data-id="{{@index}}">
+            <div class="btn-group" role="group">
+                <button class="clearButton btn btn-md btn-secondary" data-id={{@index}}> </button>
+                <button class="commaButton btn btn-md btn-secondary" data-id="{{@index}}">,</button>
+                <button class="fullStopButton btn btn-md btn-secondary" data-id="{{@index}}">.</button>
+                <button class="semicolonButton btn btn-md btn-secondary" data-id="{{@index}}">;</button>
+                <button class="colonButton btn btn-md btn-secondary" data-id="{{@index}}">:</button>
+                <button class="exclamationButton btn btn-md btn-secondary" data-id="{{@index}}">!</button>
+                <button class="questionButton btn btn-md btn-secondary" data-id="{{@index}}">?</button>
+            </div>
+            <div class="btn-group" role="group">
+                <button class="allLowerButton btn btn-md btn-secondary" data-id="{{@index}}">aaa</button>
+                <button class="firstCapsButton btn btn-md btn-secondary" data-id="{{@index}}">Aaa</button>
+                <button class="allCapsButton btn btn-md btn-secondary" data-id="{{@index}}">AAA</button>
+                <button class="deleteButton btn btn-md btn-secondary" data-id="{{@index}}">Delete</button>
+            </div>
+        </div>
+    </div>
+{{/each}}
+</div>
+

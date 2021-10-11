@@ -34,27 +34,26 @@ return function (ContainerBuilder $containerBuilder) {
 
     $container['pdo'] = DI\factory('App\Factories\BuiltInClassFactories\PDOFactory');
     $container['dateTime'] = DI\factory('App\Factories\BuiltInClassFactories\DateTimeFactory');
+    $container['mimicSpeakerEntity'] = DI\factory('App\Factories\EntityFactories\MimicSpeakerEntityFactory');
 
-	$container['taskModel'] = DI\factory('App\Factories\ModelFactories\TaskModelFactory');
 	$container['userModel'] = DI\factory('App\Factories\ModelFactories\UserModelFactory');
 	$container['errorLoggerModel'] = DI\factory('App\Factories\ModelFactories\ErrorLoggerModelFactory');
 	$container['activityLoggerModel'] = DI\factory('App\Factories\ModelFactories\ActivityLoggerModelFactory');
+	$container['mimicSpeakerModel'] = DI\factory('App\Factories\ModelFactories\MimicSpeakerModelFactory');
 
     $container['loginPageController'] = DI\factory('App\Factories\PageFactories\LoginPageControllerFactory');
     $container['signUpPageController'] = DI\factory('App\Factories\PageFactories\SignUpPageControllerFactory');
-	$container['toDoListPageController'] = DI\factory('App\Factories\PageFactories\ToDoListPageControllerFactory');
+	$container['homePageController'] = DI\factory('App\Factories\PageFactories\HomePageControllerFactory');
 
 	$container['signUpNewUserController'] = DI\factory('App\Factories\DatabaseFactories\SignUpNewUserControllerFactory');
 	$container['loginUserController'] = DI\factory('App\Factories\DatabaseFactories\LoginUserControllerFactory');
 	$container['logoutUserController'] = DI\factory('App\Factories\DatabaseFactories\LogoutUserControllerFactory');
 
-	$container['insertNewTaskController'] = DI\factory('App\Factories\DatabaseFactories\InsertNewTaskControllerFactory');
-	$container['editAllTasksController'] = DI\factory('App\Factories\DatabaseFactories\EditAllTasksControllerFactory');
-	$container['markTasksCompleteController'] = DI\factory('App\Factories\DatabaseFactories\MarkTasksCompleteControllerFactory');
-	$container['markTasksIncompleteController'] = DI\factory('App\Factories\DatabaseFactories\MarkTasksIncompleteControllerFactory');
-	$container['markTasksArchivedController'] = DI\factory('App\Factories\DatabaseFactories\MarkTasksArchivedControllerFactory');
-	$container['markTasksNotArchivedController'] = DI\factory('App\Factories\DatabaseFactories\MarkTasksNotArchivedControllerFactory');
-	$container['deleteTasksController'] = DI\factory('App\Factories\DatabaseFactories\deleteTasksControllerFactory');
+	$container['buildMimicSpeakerController'] = DI\factory('App\Factories\MimicSpeakerFactories\BuildMimicSpeakerControllerFactory');
+	$container['mimicController'] = DI\factory('App\Factories\MimicSpeakerFactories\MimicControllerFactory');
+	$container['publishMimicController'] = DI\factory('App\Factories\MimicSpeakerFactories\PublishMimicControllerFactory');
+
+	$container['adminPageController'] = DI\factory('App\Factories\PageFactories\AdminPageControllerFactory');
 
     $containerBuilder->addDefinitions($container);
 };

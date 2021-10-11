@@ -1,0 +1,12 @@
+.wordWrapper {
+    display: inline-block;
+    position: relative;
+}
+
+.editButtons {
+    display: flex;
+    flex-flow: column nowrap;
+    position: absolute;
+    z-index: 2000;
+    transform: translateX(-55px);
+}
