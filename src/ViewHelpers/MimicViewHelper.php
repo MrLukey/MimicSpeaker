@@ -120,6 +120,7 @@ class MimicViewHelper
 			$mimicEditorHTML .=
 							'</div>
 						</div>
+						<div class="card-body d-none d-flex mx-auto my-auto" id="reportMessage"></div>
 						<div class="card-footer d-flex flex-row flex-wrap justify-content-between">
 							<div class="d-flex row-wrap align-items-baseline">
 								<button class="btn btn-lg' . $mimicButtonStyle . ' m-2" id="mimicButton">Mimic</button>
@@ -202,7 +203,7 @@ class MimicViewHelper
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Back to Editor</button>
-						<button type="button" class="btn btn-success" id="publishButton">Confirm</button>
+						<button type="button" class="btn btn-success" data-bs-dismiss="modal" id="publishButton">Confirm</button>
 					</div>
 				</div>
 			</div>

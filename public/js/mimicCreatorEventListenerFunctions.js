@@ -56,6 +56,7 @@ async function addEventListenersForMimicCreator()
     const previewButton = document.querySelector('#previewButton') // the button that toggles preview / editor mode
     const mimicPreview = document.querySelector('#mimicPreview') // the div that contains the preview
     const wordEditor = document.querySelector('#wordEditor') // the div that contains the interactive words
+    const reportMessage = document.querySelector('#reportMessage') // div that is used to report results to user
 
     const previewHBTemplate = await getTextViaAJAX('templates/mimicPreviewTemplate.hbs').catch()
     const mimicPreviewTemplate = Handlebars.compile(previewHBTemplate)
@@ -71,13 +72,13 @@ async function addEventListenersForMimicCreator()
     addEventListenersToBuildMimicSpeakerButton(mimicEditor, titleSelector, genreSelector, buildMimicSpeakerButton,
         mimicSpeakerBuild, mimicButton, mimicAuthor, confirmPublishButton, previewButton)
 
-    addEventListenersToMimicButton(titleSelector, genreSelector, buildMimicSpeakerButton, mimicSpeakerBuild, lengthSelector,
-        mimicButton, confirmPublishButton, previewButton, mimicEditor, mimicPreview, mimicAuthor, mimicPreviewTemplate, editWordButtonTemplate)
+    addEventListenersToMimicButton(titleSelector, genreSelector, buildMimicSpeakerButton, mimicSpeakerBuild, lengthSelector, mimicButton,
+        confirmPublishButton, previewButton, mimicEditor, mimicPreview, mimicAuthor, mimicPreviewTemplate, editWordButtonTemplate, reportMessage)
 
-    addEventListenerToPreviewToggle(previewButton, mimicPreview, wordEditor,
-        mimicAuthor, mimicEditor, mimicSpeakerBuild, mimicPreviewTemplate).catch()
+    addEventListenerToPreviewToggle(previewButton, mimicPreview, wordEditor, mimicAuthor,
+        mimicEditor, mimicSpeakerBuild, mimicPreviewTemplate, reportMessage)
 
-    addEventListenersToPublishButton(publishButton).catch()
+    await addEventListenersToPublishButton(publishButton, wordEditor, mimicPreview, reportMessage).catch()
 }
 
 function addEventListenersToOpenButton(openButton, mimicEditor)
@@ -160,9 +161,13 @@ function addEventListenersToBuildMimicSpeakerButton(mimicEditor, titleSelector, 
 
 function addEventListenersToMimicButton(
     titleSelector, genreSelector, buildMimicSpeakerButton, mimicSpeakerBuild, lengthSelector, mimicButton, confirmPublishButton,
-    previewButton, mimicEditor, mimicPreview, mimicAuthor, mimicPreviewTemplate, editWordButtonTemplate)
+    previewButton, mimicEditor, mimicPreview, mimicAuthor, mimicPreviewTemplate, editWordButtonTemplate, reportMessage)
 {
+    //let wordEditor = document.querySelector('#wordEditor')
     mimicButton.addEventListener('click', evt => {
+        //mimicPreview.classList.add('d-none')
+        reportMessage.classList.add('d-none')
+        //wordEditor.classList.remove('d-none')
         const mimicData = {
             sentenceLength: lengthSelector.value,
         }
@@ -197,24 +202,29 @@ function addEventListenersToMimicButton(
     })
 }
 
-async function addEventListenerToPreviewToggle(previewButton, mimicPreview, wordEditor, mimicAuthor, mimicEditor, mimicSpeakerBuild, mimicPreviewTemplate)
+function addEventListenerToPreviewToggle(previewButton, mimicPreview, wordEditor, mimicAuthor,
+                                               mimicEditor, mimicSpeakerBuild, mimicPreviewTemplate, reportMessage)
 {
     previewButton.addEventListener('click', evt => {
         populatePreview(mimicEditor, mimicPreview, mimicAuthor, mimicSpeakerBuild, mimicPreviewTemplate)
-        wordEditor.classList.toggle('d-none')
-        mimicPreview.classList.toggle('d-none')
         if (mimicPreview.classList.contains('d-none')){
-            previewButton.textContent = 'Preview'
-        } else {
+            mimicPreview.classList.remove('d-none')
+            wordEditor.classList.add('d-none')
+            reportMessage.classList.add('d-none')
             previewButton.textContent = 'Editor'
+        } else {
+            mimicPreview.classList.add('d-none')
+            wordEditor.classList.remove('d-none')
+            reportMessage.classList.add('d-none')
+            previewButton.textContent = 'Preview'
         }
     })
 }
 
-async function addEventListenersToPublishButton(publishButton)
+async function addEventListenersToPublishButton(publishButton, wordEditor, mimicPreview, reportMessage)
 {
     publishButton.addEventListener('click', evt => {
-        const allWords = document.querySelectorAll('.wordButton')
+        let allWords = document.querySelectorAll('.wordButton')
         let mimicData = []
         allWords.forEach(word => {
             let wordData = {
@@ -234,10 +244,16 @@ async function addEventListenersToPublishButton(publishButton)
             },
             body: JSON.stringify(mimicData),
         }).then(response => response.json()
-        ).then(data => console.log(data)
-        ).catch(error => {
-            console.error('Error:', error)
-        })
+        ).then(data => {
+            if (data.success){
+                reportMessage.innerHTML = '<h4 class="">' + data.success + '</h4>'
+            } else {
+                reportMessage.innerHTML = '<h4 class="">' + data.error + '</h4>'
+            }
+            reportMessage.classList.remove('d-none')
+            wordEditor.innerHTML = ''
+            mimicPreview.innerHTML = ''
+        }).catch()
     })
 }
 
