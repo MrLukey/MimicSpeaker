@@ -93,8 +93,13 @@ class MimicSpeakerModel
 		}
 	}
 
-	public function getMimics(): ?array
+	public function getMimics(int $limit = 18): ?array
 	{
+		if ($limit > 1){
+			$limitSQL = ' LIMIT ' . $limit;
+		} else {
+			$limitSQL = '';
+		}
 		$sqlQuery =
 			'SELECT `users`.`username`, `mimics`.`mimic_string`, `mimics`.`created`, `mimics`.`likes`, 
        				`processed_texts`.`full_title`, `processed_texts`.`author`, `genres`.`name` AS `genre`, 
@@ -104,7 +109,7 @@ class MimicSpeakerModel
 			INNER JOIN users ON `mimics`.`user_id`=`users`.`id`
 			INNER JOIN genres ON `processed_texts`.`genre_id`=`genres`.`id`
 			WHERE `deleted` = 0
-			ORDER BY `likes`DESC, `created` DESC;';
+			ORDER BY `likes`DESC, `created` DESC' . $limitSQL .';';
 		$query = $this->db->prepare($sqlQuery);
 		try {
 			$query->execute();
