@@ -36,10 +36,10 @@ class UserModel
 	public function linkActivityTableToUser(int $userID): bool
 	{
 		$sqlQuery =
-			'INSERT INTO `activity` (`userID`) 
-			VALUES (:userID);';
+			'INSERT INTO `activity` (`user_id`) 
+			VALUES (:user_id);';
 		$query = $this->db->prepare($sqlQuery);
-		$query->bindParam(':userID', $userID);
+		$query->bindParam(':user_id', $userID);
 		try {
 			$query->execute();
 			return true;
@@ -71,9 +71,9 @@ class UserModel
 	{
 		$sqlQuery =
 			'SELECT `password`
-  			FROM `users` WHERE `id` = :userID;';
+  			FROM `users` WHERE `id` = :user_id;';
 		$query = $this->db->prepare($sqlQuery);
-		$query->bindParam(':userID', $userID);
+		$query->bindParam(':user_id', $userID);
 		try {
 			$query->execute();
 			return $query->fetchAll()[0]['password'];

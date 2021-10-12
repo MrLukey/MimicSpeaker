@@ -28,6 +28,8 @@ class MimicController
 			$mimicSpeech[0] = ucfirst($mimicSpeech[0]);
 			$mimicSpeech[array_key_last($mimicSpeech)] = $mimicSpeech[array_key_last($mimicSpeech)] . '.';
 			$_SESSION['mimicSpeech'] = $mimicSpeech;
+			$activityLogger = $this->container->get('activityLoggerModel');
+			$activityLogger->logMimicGenerated($_SESSION['user']->getID());
 			$response->getBody()->write(json_encode($mimicSpeech));
 			return $response->withStatus(200);
 		}

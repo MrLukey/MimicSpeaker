@@ -76,6 +76,8 @@ class PublishMimicController
 				return $response->withStatus(500);
 			} else {
 				$_SESSION['mimicSpeech'] = [];
+				$activityLogger = $this->container->get('activityLoggerModel');
+				$activityLogger->logMimicPublished($_SESSION['user']->getID());
 				$response->getBody()->write(json_encode(['success'=> 'Mimic was published successfully.']));
 				return $response->withStatus(200);
 			}
