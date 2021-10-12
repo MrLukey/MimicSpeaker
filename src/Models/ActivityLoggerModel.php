@@ -47,6 +47,23 @@ class ActivityLoggerModel
 		}
 	}
 
+	public function logMimicSpeakerBuilt(int $userID): bool
+	{
+		$sqlQuery =
+			'UPDATE `activity` 
+			SET `mimic_speakers_built` = `mimic_speakers_built` + 1 
+			WHERE `user_id` = :user_id;';
+		$query = $this->db->prepare($sqlQuery);
+		$query->bindParam(':user_id', $userID);
+		try {
+			$query->execute();
+			return true;
+		} catch (\PDOException $exception){
+			$this->errorLogger->logDatabaseError('ActivityLoggerModel->logTaskCreated()', $exception);
+			return false;
+		}
+	}
+
 	public function logMimicGenerated(int $userID): bool
 	{
 		$sqlQuery =

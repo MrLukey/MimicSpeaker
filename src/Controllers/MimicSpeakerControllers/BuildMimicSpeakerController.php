@@ -36,6 +36,8 @@ class BuildMimicSpeakerController
 			'author' => $mimicSpeaker->getBuiltFromAuthors()[0],
 			'genre' => $mimicSpeaker->getBuiltFromGenres()[0]
 		];
+		$activityLogger = $this->container->get('activityLoggerModel');
+		$activityLogger->logMimicSpeakerBuilt($_SESSION['user']->getID());
 		$response->getBody()->write(json_encode($mimicSpeakerData));
 		return $response->withStatus(200);
 	}
