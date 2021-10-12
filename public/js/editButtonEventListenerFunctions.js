@@ -17,6 +17,25 @@ function punctuateWord(wordButton, punctuation)
     wordButton.textContent = word + punctuation
 }
 
+// helper function to delete a word in the editor
+function deleteWord(wordButton)
+{
+    wordButton.style.color = 'white'
+    wordButton.dataset.deleted = 'true'
+    wordButton.classList.remove('btn-outline-dark')
+    wordButton.classList.add('btn-outline-danger')
+
+}
+
+// helper function to restore a word in the editor
+function restoreWord(wordButton)
+{
+    wordButton.style.color = 'black'
+    wordButton.dataset.deleted = 'false'
+    wordButton.classList.remove('btn-outline-danger')
+    wordButton.classList.add('btn-outline-dark')
+}
+
 function addEventListenersToWordButtons()
 {
     const allWordButtons = document.querySelectorAll('.wordButton')
@@ -24,8 +43,7 @@ function addEventListenersToWordButtons()
     allWordButtons.forEach(wordButton => {
         wordButton.addEventListener('click', evt => {
             if (wordButton.dataset.deleted === 'true') {
-                wordButton.style.color = 'black'
-                wordButton.dataset.deleted = 'false'
+                restoreWord(wordButton)
             } else {
                 editButtonsDivs.forEach(editButtonDiv => {
                     if (editButtonDiv.dataset.id !== wordButton.dataset.id) {
@@ -41,8 +59,7 @@ function addEventListenersToWordButtons()
         wordButton.addEventListener('dblclick', evt => {
             if (wordButton.dataset.deleted !== 'true') {
                 document.querySelector('#editButtons' + wordButton.dataset.id).classList.add('d-none')
-                wordButton.style.color = 'white'
-                wordButton.dataset.deleted = 'true'
+                deleteWord(wordButton)
             }
         })
     })
@@ -128,8 +145,7 @@ function addEventListenersToEditButtons()
     document.querySelectorAll('.deleteButton').forEach(deleteButton => {
         deleteButton.addEventListener('click', ext => {
             const wordButton = document.querySelector('#wordButton' + deleteButton.dataset.id)
-            wordButton.style.color = 'white'
-            wordButton.dataset.deleted = 'true';
+            deleteWord(wordButton)
         })
     })
 }
