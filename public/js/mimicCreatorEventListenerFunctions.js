@@ -30,7 +30,7 @@ async function addAllMimicCreatorEventListeners()
     addEventListenersToGenreSelector(genreSelector, titleSelector)
 
     addEventListenersToBuildMimicSpeakerButton(mimicEditor, titleSelector, genreSelector, buildMimicSpeakerButton,
-        mimicSpeakerBuild, mimicButton, mimicAuthor, confirmPublishButton, previewButton)
+        mimicSpeakerBuild, wordEditor, mimicButton, mimicAuthor, confirmPublishButton, previewButton, mimicPreview, reportMessage)
 
     addEventListenersToMimicButton(titleSelector, genreSelector, buildMimicSpeakerButton, mimicSpeakerBuild, lengthSelector, mimicButton,
         confirmPublishButton, previewButton, mimicEditor, mimicPreview, mimicAuthor, mimicPreviewTemplate, editWordButtonTemplate, reportMessage)
@@ -112,17 +112,18 @@ function addEventListenersToGenreSelector(genreSelector, titleSelector)
     })
 }
 
-function addEventListenersToBuildMimicSpeakerButton(mimicEditor, titleSelector, genreSelector, buildMimicSpeakerButton,
-                                                    mimicSpeakerBuild, mimicButton, mimicAuthor, confirmPublishButton, previewButton)
+function addEventListenersToBuildMimicSpeakerButton(
+    mimicEditor, titleSelector, genreSelector, buildMimicSpeakerButton, mimicSpeakerBuild, wordEditor, mimicButton,
+    mimicAuthor, confirmPublishButton, previewButton, mimicPreview, reportMessage)
 {
     buildMimicSpeakerButton.addEventListener('click', evt => {
-        let mimicPreview = document.querySelector('#mimicPreview')
         toggleButtonsClasses([buildMimicSpeakerButton], ['btn-outline-primary', 'btn-primary'])
         toggleButtonsClasses([titleSelector, genreSelector, mimicSpeakerBuild], ['d-none'])
         if (titleSelector.classList.contains('d-none')){
             mimicPreview.innerHTML = ''
-            document.querySelector('#wordsContainer').innerHTML = ''
-            document.querySelector('#wordEditor').classList.remove('d-none')
+            reportMessage.innerHTML = ''
+            wordEditor.innerHTML = ''
+            wordEditor.classList.remove('d-none')
             const buildData = {
                 shortTitle: titleSelector.options[titleSelector.selectedIndex].value,
                 genre: genreSelector.options[genreSelector.selectedIndex].value
