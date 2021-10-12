@@ -57,7 +57,7 @@ class PageViewHelper
 			default:
 				$loginLogoutSignupButton = '';
 		}
-		if ($_SESSION['user']->getUserName() === 'Guest'){
+		if ($_SESSION['user'] === null || $_SESSION['user']->getUserName() === 'Guest'){
 			$username = '';
 		} else {
 			$username = $_SESSION['user']->getUserName() . '\'s ';

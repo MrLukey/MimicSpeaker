@@ -17,10 +17,10 @@ class ActivityLoggerModel
 	{
 		$sqlQuery =
 			'UPDATE `activity` 
-			SET `loginAttempts` = `loginAttempts` + 1 
-			WHERE `userID` = :userID;';
+			SET `login_attempts` = `login_attempts` + 1 
+			WHERE `user_id` = :user_id;';
 		$query = $this->db->prepare($sqlQuery);
-		$query->bindParam(':userID', $userID);
+		$query->bindParam(':user_id', $userID);
 		try {
 			$query->execute();
 			return true;
@@ -35,9 +35,9 @@ class ActivityLoggerModel
 		$sqlQuery =
 			'UPDATE `activity` 
 			SET `logins` = `logins` + 1 
-			WHERE `userID` = :userID;';
+			WHERE `user_id` = :user_id;';
 		$query = $this->db->prepare($sqlQuery);
-		$query->bindParam(':userID', $userID);
+		$query->bindParam(':user_id', $userID);
 		try {
 			$query->execute();
 			return true;
@@ -47,14 +47,14 @@ class ActivityLoggerModel
 		}
 	}
 
-	public function logTaskCreated(int $userID): bool
+	public function logMimicGenerated(int $userID): bool
 	{
 		$sqlQuery =
 			'UPDATE `activity` 
-			SET `tasksCreated` = `tasksCreated` + 1 
-			WHERE `userID` = :userID;';
+			SET `mimics_generated` = `mimics_generated` + 1 
+			WHERE `user_id` = :user_id;';
 		$query = $this->db->prepare($sqlQuery);
-		$query->bindParam(':userID', $userID);
+		$query->bindParam(':user_id', $userID);
 		try {
 			$query->execute();
 			return true;
@@ -64,14 +64,14 @@ class ActivityLoggerModel
 		}
 	}
 
-	public function logTaskCompleted(int $userID): bool
+	public function logMimicPublished(int $userID): bool
 	{
 		$sqlQuery =
 			'UPDATE `activity` 
-			SET `tasksCompleted` = `tasksCompleted` + 1 
-			WHERE `userID` = :userID;';
+			SET `mimics_published` = `mimics_published` + 1 
+			WHERE `user_id` = :user_id;';
 		$query = $this->db->prepare($sqlQuery);
-		$query->bindParam(':userID', $userID);
+		$query->bindParam(':user_id', $userID);
 		try {
 			$query->execute();
 			return true;
@@ -81,14 +81,14 @@ class ActivityLoggerModel
 		}
 	}
 
-	public function logTaskReset(int $userID): bool
+	public function logMimicDeleted(int $userID): bool
 	{
 		$sqlQuery =
 			'UPDATE `activity` 
-			SET `tasksReset` = `tasksReset` + 1 
-			WHERE `userID` = :userID;';
+			SET `mimics_deleted` = `mimics_deleted` + 1 
+			WHERE `user_id` = :user_id;';
 		$query = $this->db->prepare($sqlQuery);
-		$query->bindParam(':userID', $userID);
+		$query->bindParam(':user_id', $userID);
 		try {
 			$query->execute();
 			return true;
@@ -98,53 +98,19 @@ class ActivityLoggerModel
 		}
 	}
 
-	public function logTaskArchived(int $userID): bool
+	public function logMimicRecovered(int $userID): bool
 	{
 		$sqlQuery =
 			'UPDATE `activity` 
-			SET `tasksArchived` = `tasksArchived` + 1 
-			WHERE `userID` = :userID;';
+			SET `mimics_recovered` = `mimics_recovered` + 1 
+			WHERE `user_id` = :user_id;';
 		$query = $this->db->prepare($sqlQuery);
-		$query->bindParam(':userID', $userID);
+		$query->bindParam(':user_id', $userID);
 		try {
 			$query->execute();
 			return true;
 		} catch (\PDOException $exception){
 			$this->errorLogger->logDatabaseError('ActivityLoggerModel->logTaskArchived()', $exception);
-			return false;
-		}
-	}
-
-	public function logTaskRecovered(int $userID): bool
-	{
-		$sqlQuery =
-			'UPDATE `activity` 
-			SET `tasksRecovered` = `tasksRecovered` + 1 
-			WHERE `userID` = :userID;';
-		$query = $this->db->prepare($sqlQuery);
-		$query->bindParam(':userID', $userID);
-		try {
-			$query->execute();
-			return true;
-		} catch (\PDOException $exception){
-			$this->errorLogger->logDatabaseError('ActivityLoggerModel->logTaskRecovered()', $exception);
-			return false;
-		}
-	}
-
-	public function logTaskDeleted(int $userID): bool
-	{
-		$sqlQuery =
-			'UPDATE `activity` 
-			SET `tasksDeleted` = `tasksDeleted` + 1 
-			WHERE `userID` = :userID;';
-		$query = $this->db->prepare($sqlQuery);
-		$query->bindParam(':userID', $userID);
-		try {
-			$query->execute();
-			return true;
-		} catch (\PDOException $exception){
-			$this->errorLogger->logDatabaseError('ActivityLoggerModel->logTaskDeleted()', $exception);
 			return false;
 		}
 	}
