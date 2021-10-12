@@ -121,7 +121,8 @@ function addEventListenersToBuildMimicSpeakerButton(mimicEditor, titleSelector, 
         toggleButtonsClasses([titleSelector, genreSelector, mimicSpeakerBuild], ['d-none'])
         if (titleSelector.classList.contains('d-none')){
             mimicPreview.innerHTML = ''
-            document.querySelector('#wordsContainer').innerHTML = ''
+            document.querySelector('#reportMessage').innerHTML = ''
+            document.querySelector('#wordEditor').innerHTML = ''
             document.querySelector('#wordEditor').classList.remove('d-none')
             const buildData = {
                 shortTitle: titleSelector.options[titleSelector.selectedIndex].value,
