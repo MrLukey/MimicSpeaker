@@ -1,3 +1,10 @@
+// main function, runs entire file
+function addAllEditButtonEventListeners()
+{
+    addEventListenersToWordButtons()
+    addEventListenersToEditButtons()
+}
+
 // helper function to punctuate a wordButton
 function punctuateWord(wordButton, punctuation)
 {
@@ -8,6 +15,54 @@ function punctuateWord(wordButton, punctuation)
         wordButton.dataset.punctuated = 'true'
     }
     wordButton.textContent = word + punctuation
+}
+
+// helper function to delete a word in the editor
+function deleteWord(wordButton)
+{
+    wordButton.style.color = 'white'
+    wordButton.dataset.deleted = 'true'
+    wordButton.classList.remove('btn-outline-dark')
+    wordButton.classList.add('btn-outline-danger')
+
+}
+
+// helper function to restore a word in the editor
+function restoreWord(wordButton)
+{
+    wordButton.style.color = 'black'
+    wordButton.dataset.deleted = 'false'
+    wordButton.classList.remove('btn-outline-danger')
+    wordButton.classList.add('btn-outline-dark')
+}
+
+function addEventListenersToWordButtons()
+{
+    const allWordButtons = document.querySelectorAll('.wordButton')
+    const editButtonsDivs = document.querySelectorAll('.editButtons')
+    allWordButtons.forEach(wordButton => {
+        wordButton.addEventListener('click', evt => {
+            if (wordButton.dataset.deleted === 'true') {
+                restoreWord(wordButton)
+            } else {
+                editButtonsDivs.forEach(editButtonDiv => {
+                    if (editButtonDiv.dataset.id !== wordButton.dataset.id) {
+                        if (!editButtonDiv.classList.contains('d-none')) {
+                            editButtonDiv.classList.toggle('d-none')
+                        }
+                    } else {
+                        editButtonDiv.classList.toggle('d-none')
+                    }
+                })
+            }
+        })
+        wordButton.addEventListener('dblclick', evt => {
+            if (wordButton.dataset.deleted !== 'true') {
+                document.querySelector('#editButtons' + wordButton.dataset.id).classList.add('d-none')
+                deleteWord(wordButton)
+            }
+        })
+    })
 }
 
 // add event listeners to allowing editing of each word
@@ -90,8 +145,7 @@ function addEventListenersToEditButtons()
     document.querySelectorAll('.deleteButton').forEach(deleteButton => {
         deleteButton.addEventListener('click', ext => {
             const wordButton = document.querySelector('#wordButton' + deleteButton.dataset.id)
-            wordButton.style.color = 'white'
-            wordButton.dataset.deleted = 'true';
+            deleteWord(wordButton)
         })
     })
 }
