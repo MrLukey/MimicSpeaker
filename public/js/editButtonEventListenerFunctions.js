@@ -1,3 +1,10 @@
+// main function, runs entire file
+function addAllEditButtonEventListeners()
+{
+    addEventListenersToWordButtons()
+    addEventListenersToEditButtons()
+}
+
 // helper function to punctuate a wordButton
 function punctuateWord(wordButton, punctuation)
 {
@@ -8,6 +15,30 @@ function punctuateWord(wordButton, punctuation)
         wordButton.dataset.punctuated = 'true'
     }
     wordButton.textContent = word + punctuation
+}
+
+function addEventListenersToWordButtons()
+{
+    const allWordButtons = document.querySelectorAll('.wordButton')
+    const editButtonsDivs = document.querySelectorAll('.editButtons')
+    allWordButtons.forEach(wordButton => {
+        wordButton.addEventListener('click', evt => {
+            if (wordButton.dataset.deleted === 'true') {
+                wordButton.style.color = 'black'
+                wordButton.dataset.deleted = 'false'
+            } else {
+                editButtonsDivs.forEach(editButtonDiv => {
+                    if (editButtonDiv.dataset.id !== wordButton.dataset.id) {
+                        if (!editButtonDiv.classList.contains('d-none')) {
+                            editButtonDiv.classList.toggle('d-none')
+                        }
+                    } else {
+                        editButtonDiv.classList.toggle('d-none')
+                    }
+                })
+            }
+        })
+    })
 }
 
 // add event listeners to allowing editing of each word

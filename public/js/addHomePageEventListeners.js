@@ -1,5 +1,5 @@
-// call the main functions for each event listener file
-addEventListenersForMimicCreator().catch()
-addEventListenersToEditButtons()
-addValidationEventListeners()
-addAutoCloseEventListeners()
+// call the main functions for each xEventListenerFunctions file
+addAllMimicCreatorEventListeners().catch()
+addAllEditButtonEventListeners()
+addAllValidationEventListeners()
+addAllPageEventListeners()

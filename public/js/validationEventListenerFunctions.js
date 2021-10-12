@@ -1,5 +1,5 @@
 // main function, runs entire file
-function addValidationEventListeners(){
+function addAllValidationEventListeners(){
     addValidationEventListenerToSentenceLengthInput()
 }
 
