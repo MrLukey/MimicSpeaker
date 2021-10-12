@@ -106,14 +106,33 @@ class MimicViewHelper
 						<div class="card-body d-flex overflow-auto" id="wordEditor">
 							<div class="w-75 m-auto" id="wordsContainer">';
 							foreach ($mimic as $index => $word){
+								switch ($index){
+									case 0:
+										$punctuated = 'false';
+										$punctuation = '';
+										$capitalised = 'true';
+										$capitalisation = ' data-capitalisation="firstCaps"';
+										break;
+									case array_key_last($mimic):
+										$punctuated = 'true';
+										$punctuation = ' data-punctuation="fullStop"';
+										$capitalised = 'false';
+										$capitalisation = '';
+										break;
+									default:
+										$punctuated = 'false';
+										$punctuation = '';
+										$capitalised = 'false';
+										$capitalisation = '';
+								}
 								$mimicEditorHTML .=
 								'<div class="wordWrapper m-1">
 									<button class="wordButton btn btn-outline-dark"
 											id="wordButton' . $index . '"
 											data-deleted="false"
-											data-punctuated="false"
-											data-capitalised="false"
-											data-id="' . $index . '">' . $word . '</button>' .
+											data-punctuated="' . $punctuated . '"' . $punctuation .
+											' data-capitalised="' . $capitalised . '"' . $capitalisation .
+											' data-id="' . $index . '">' . $word . '</button>' .
 									MimicViewHelper::createHTMLForEditingButtons($index) .
 								'</div>';
 								}
