@@ -72,12 +72,15 @@ class PublishMimicController
 			$mimicSpeakerModel = $this->container->get('mimicSpeakerModel');
 			$success = $mimicSpeakerModel->insertMimic($_SESSION['user']->getID(), $_SESSION['mimicSpeaker']->getBuiltFromIDs()[0], $mimicString);
 			if (!$success){
-				$response->getBody()->write(json_encode(['Error'=> 'Unexpected database error.']));
+				$response->getBody()->write(json_encode(['error'=> 'Unexpected database error.']));
 				return $response->withStatus(500);
+			} else {
+				$_SESSION['mimicSpeech'] = [];
+				$response->getBody()->write(json_encode(['success'=> 'Mimic was published successfully.']));
+				return $response->withStatus(200);
 			}
-			return $response->withStatus(200);
 		} else {
-			$response->getBody()->write(json_encode(['Error'=> 'String must be 5 words or more']));
+			$response->getBody()->write(json_encode(['error'=> 'String must be 5 words or more']));
 			return $response->withStatus(418);
 		}
 	}
