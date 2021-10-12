@@ -38,6 +38,13 @@ function addEventListenersToWordButtons()
                 })
             }
         })
+        wordButton.addEventListener('dblclick', evt => {
+            if (wordButton.dataset.deleted !== 'true') {
+                document.querySelector('#editButtons' + wordButton.dataset.id).classList.add('d-none')
+                wordButton.style.color = 'white'
+                wordButton.dataset.deleted = 'true'
+            }
+        })
     })
 }
 
