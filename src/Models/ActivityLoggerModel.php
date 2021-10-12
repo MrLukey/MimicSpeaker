@@ -47,6 +47,40 @@ class ActivityLoggerModel
 		}
 	}
 
+	public function logMimicLiked(int $userID): bool
+	{
+		$sqlQuery =
+			'UPDATE `activity` 
+			SET `mimics_liked` = `mimics_liked` + 1 
+			WHERE `user_id` = :user_id;';
+		$query = $this->db->prepare($sqlQuery);
+		$query->bindParam(':user_id', $userID);
+		try {
+			$query->execute();
+			return true;
+		} catch (\PDOException $exception){
+			$this->errorLogger->logDatabaseError('ActivityLoggerModel->logTaskCreated()', $exception);
+			return false;
+		}
+	}
+
+	public function logMimicUnliked(int $userID): bool
+	{
+		$sqlQuery =
+			'UPDATE `activity` 
+			SET `mimics_unliked` = `mimics_unliked` + 1 
+			WHERE `user_id` = :user_id;';
+		$query = $this->db->prepare($sqlQuery);
+		$query->bindParam(':user_id', $userID);
+		try {
+			$query->execute();
+			return true;
+		} catch (\PDOException $exception){
+			$this->errorLogger->logDatabaseError('ActivityLoggerModel->logTaskCreated()', $exception);
+			return false;
+		}
+	}
+
 	public function logMimicSpeakerBuilt(int $userID): bool
 	{
 		$sqlQuery =
