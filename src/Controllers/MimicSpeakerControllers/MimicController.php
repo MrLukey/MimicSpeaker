@@ -25,6 +25,8 @@ class MimicController
 			$mimicArgs = $request->getParsedBody();
 			$sentenceLength = $mimicArgs['sentenceLength'] > 1000 ? 1000: $mimicArgs['sentenceLength'];
 			$mimicSpeech = $_SESSION['mimicSpeaker']->mimic($sentenceLength);
+			$mimicSpeech[0] = ucfirst($mimicSpeech[0]);
+			$mimicSpeech[array_key_last($mimicSpeech)] = $mimicSpeech[array_key_last($mimicSpeech)] . '.';
 			$_SESSION['mimicSpeech'] = $mimicSpeech;
 			$response->getBody()->write(json_encode($mimicSpeech));
 			return $response->withStatus(200);
