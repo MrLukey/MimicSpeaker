@@ -17,6 +17,6 @@ use App\ViewHelpers\AdminViewHelper;
     <title>Slim ToDo App</title>
 </head>
 <body>
-    <?php echo AdminViewHelper::createHTMLForTextFileProcessing() ?>
+    <?php echo AdminViewHelper::createHTMLForTextProcessorForm() ?>
 </body>
 </html>

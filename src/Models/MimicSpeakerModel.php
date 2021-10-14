@@ -13,6 +13,27 @@ class MimicSpeakerModel
 		$this->errorLogger = $errorLogger;
 	}
 
+	public function insertProcessedText(array $textData): bool
+	{
+		$sqlQuery =
+			'INSERT INTO `processed_texts` 
+    			(`short_title`, `full_title`, `author`, `year_first_published`, `genre_id`, `file_path`)
+            VALUES (:short_title, :full_title, :author, :year_first_published, :genre_id, :file_path);';
+		$query = $this->db->prepare($sqlQuery);
+		$query->bindParam('short_title', $textData['shortTitle']);
+		$query->bindParam('full_title', $textData['fullTitle']);
+		$query->bindParam('year_first_published', $textData['yearFirstPublished']);
+		$query->bindParam('genre_id', $textData['genreID']);
+		$query->bindParam('file_path', $textData['filePath']);
+		try {
+			$query->execute();
+			return true;
+		} catch (\PDOException $exception){
+			$this->errorLogger->logDatabaseError('MimicSpeakerModel->insertProcessedText()', $exception);
+			return false;
+		}
+	}
+
 	public function getProcessedTextByShortTitle(string $shortTitle): ?array
 	{
 		$sqlQuery =
